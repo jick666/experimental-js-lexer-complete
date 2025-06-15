@@ -48,7 +48,8 @@
     "@semantic-release/commit-analyzer": "^9.0.0",
     "@semantic-release/github": "^9.0.0",
     "@semantic-release/npm": "^9.0.0",
-    "@semantic-release/release-notes-generator": "^10.0.0"
+    "@semantic-release/release-notes-generator": "^10.0.0",
+    "@octokit/rest": "^19.0.0"
   },
   "release": {
     "branches": [

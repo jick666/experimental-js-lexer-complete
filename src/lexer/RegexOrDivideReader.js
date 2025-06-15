@@ -1,38 +1,74 @@
-/**
- * Minimal reader to demonstrate regex mode handling. It does not handle
- * escapes or flags and is intended purely for testing mode transitions.
- */
-export function RegexOrDivideReader(stream, factory, engine) {
-  const mode = engine.currentMode();
+// §4.5 RegexOrDivideReader
+// Context‐sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
+export function RegexOrDivideReader(stream, factory) {
   const startPos = stream.getPosition();
-  const ch = stream.current();
+  if (stream.current() !== '/') return null;
 
-  if (mode === 'default') {
-    if (ch !== '/') return null;
+  // Look backwards for the last non-whitespace character to guess context.
+  let i = stream.getPosition().index - 1;
+  let prev = null;
+  while (i >= 0) {
+    const ch = stream.input[i];
+    if (/\s/.test(ch)) {
+      i--;
+      continue;
+    }
+    prev = ch;
+    break;
+  }
+
+  // Tokens that typically allow a regex literal to follow:
+  const regexStarters = new Set([
+    '(', '{', '[', '=', ':', ',', ';', '!', '?', '+', '-', '*', '%', '&', '|',
+    '^', '~', '<', '>'
+  ]);
+  const isRegexContext = prev === null || regexStarters.has(prev);
+
+  if (!isRegexContext) {
+    // It's a divide operator (or '/=')
     stream.advance();
-    engine.pushMode('regex');
-    const endPos = stream.getPosition();
-    return factory('REGEX_START', '/', startPos, endPos);
+    if (stream.current() === '=') {
+      stream.advance();
+      return factory('OPERATOR', '/=', startPos, stream.getPosition());
+    }
+    return factory('OPERATOR', '/', startPos, stream.getPosition());
   }
 
-  if (mode === 'regex') {
-    if (ch === '/') {
+  // Parse a regex literal `/pattern/flags`
+  stream.advance(); // consume opening `/`
+
+  let body = '';
+  let escaped = false;
+  while (!stream.eof()) {
+    const ch = stream.current();
+    if (!escaped && ch === '/') break;
+    if (!escaped && ch === '\\') {
+      escaped = true;
+      body += ch;
       stream.advance();
-      engine.popMode();
-      const endPos = stream.getPosition();
-      return factory('REGEX_END', '/', startPos, endPos);
+      continue;
     }
-    let value = '';
-    while (!stream.eof()) {
-      const c = stream.current();
-      if (c === '/') break;
-      value += c;
-      stream.advance();
-      if (engine.currentMode() !== 'regex') break;
-    }
-    const endPos = stream.getPosition();
-    return factory('REGEX_BODY', value, startPos, endPos);
+    escaped = false;
+    body += ch;
+    stream.advance();
   }
 
-  return null;
+  if (stream.current() !== '/') {
+    // Unterminated regex — back out and let another reader handle it
+    stream.setPosition(startPos);
+    return null;
+  }
+
+  stream.advance(); // consume closing `/`
+
+  // Collect flags
+  let flags = '';
+  while (!stream.eof() && /[a-z]/i.test(stream.current())) {
+    flags += stream.current();
+    stream.advance();
+  }
+
+  const endPos = stream.getPosition();
+  const value = `/${body}/${flags}`;
+  return factory('REGEX', value, startPos, endPos);
 }
