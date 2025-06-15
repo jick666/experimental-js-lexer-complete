@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { fileURLToPath } from 'url';
 import { CharStream } from "./src/lexer/CharStream.js";
 import { LexerEngine } from "./src/lexer/LexerEngine.js";
 
@@ -14,8 +15,9 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
-if (process.argv[1] === import.meta.url) {
-  const input = process.argv[2] || "";
+// reliably detect CLI invocation:
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const input   = process.argv[2] || "";
   const verbose = process.argv.includes("--verbose");
   try {
     console.log(tokenize(input, { verbose }));
