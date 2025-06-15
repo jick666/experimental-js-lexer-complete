@@ -1,6 +1,4 @@
 // §4.1 IdentifierReader
-// Patterns are defined in JavaScriptGrammar, but not currently used here
-// so we omit the import to avoid missing export errors.
 
 export function IdentifierReader(stream, factory) {
   const startPos = stream.getPosition();
