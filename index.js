@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { CharStream } from "./src/lexer/CharStream.js";
 import { LexerEngine } from "./src/lexer/LexerEngine.js";
+import { fileURLToPath } from "url";
 
 export function tokenize(code, { verbose = false } = {}) {
   const stream = new CharStream(code);
@@ -14,7 +15,7 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
-if (process.argv[1] === import.meta.url) {
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const input = process.argv[2] || "";
   const verbose = process.argv.includes("--verbose");
   try {
