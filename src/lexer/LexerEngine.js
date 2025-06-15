@@ -14,15 +14,36 @@ import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
 export class LexerEngine {
   constructor(stream) {
     this.stream = stream;
-    // The order here determines matching priority:
-    this.readers = [
-      IdentifierReader,
-      NumberReader,
-      OperatorReader,
-      PunctuationReader,
-      RegexOrDivideReader,
-      TemplateStringReader
-    ];
+    this.stateStack = ['default'];
+    // Mapping of mode -> reader list. Order determines priority.
+    this.modes = {
+      default: [
+        IdentifierReader,
+        NumberReader,
+        OperatorReader,
+        PunctuationReader,
+        RegexOrDivideReader,
+        TemplateStringReader
+      ],
+      template_string: [TemplateStringReader],
+      regex: [RegexOrDivideReader]
+    };
+    // Track last returned token for contextual readers
+    this.lastToken = null;
+  }
+
+  currentMode() {
+    return this.stateStack[this.stateStack.length - 1];
+  }
+
+  pushMode(mode) {
+    this.stateStack.push(mode);
+  }
+
+  popMode() {
+    if (this.stateStack.length > 1) {
+      this.stateStack.pop();
+    }
   }
 
   /**
@@ -34,12 +55,15 @@ export class LexerEngine {
 
     while (!stream.eof()) {
       // 1. Skip whitespace (and collect as trivia internally, if desired)
-      WhitespaceReader(stream, factory);
+      WhitespaceReader(stream, factory, this);
       if (stream.eof()) break;
 
-      // 2. Try each reader in sequence
-      for (const Reader of this.readers) {
-        const token = Reader(stream, factory);
+      const mode = this.currentMode();
+      const readers = this.modes[mode] || this.modes.default;
+
+      // 2. Try each reader in sequence for the current mode
+      for (const Reader of readers) {
+        const token = Reader(stream, factory, this);
         if (token) {
           // 3. Promote identifiers that match keywords
           if (
@@ -48,6 +72,7 @@ export class LexerEngine {
           ) {
             token.type = 'KEYWORD';
           }
+          this.lastToken = token;
           return token;
         }
       }

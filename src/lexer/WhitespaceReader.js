@@ -1,15 +1,14 @@
 /**
- * TODO(codex): Skip WHITESPACE and attach trivia.
+ * §4.7 WhitespaceReader
+ * Consumes consecutive whitespace characters.
+ * Does not emit a token; callers may attach trivia if needed.
  */
 export function WhitespaceReader(stream, factory) {
-  let ch = stream.current();
   let consumed = false;
-  while (ch !== null && /\s/.test(ch)) {
+  while (!stream.eof() && /\s/.test(stream.current())) {
     consumed = true;
     stream.advance();
-    ch = stream.current();
   }
-  // This reader does not produce a token itself. If whitespace was consumed,
-  // callers may attach trivia to the next token via `factory` if desired.
+  // No token is returned for whitespace.
   return null;
 }
