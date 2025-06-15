@@ -23,6 +23,12 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `TemplateStringReader` (§4.6)
 - `WhitespaceReader` (§4.7)
 
+### 4.7 WhitespaceReader
+- Consumes spaces, tabs and newline characters.
+- Advances the `CharStream` for each character so line/column are updated.
+- Returns `null`, but may call `factory('WHITESPACE', text, start, end)` if
+  consumers want to capture trivia.
+
 ## 5. Modes <a name="modes"></a>
 - `default`, `template_string`, `regex`, `jsx`, etc.
 
