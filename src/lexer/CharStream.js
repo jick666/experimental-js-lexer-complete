@@ -1,6 +1,7 @@
 /**
- * TODO(codex): Implement CharStream for high-performance JS lexer.
- * - methods: current(), peek(offset), advance(), eof(), getPosition().
+ * A simple utility class for iterating over a string character by
+ * character. Provides helpers to peek ahead, advance the cursor,
+ * check for EOF and retrieve the current position.
  */
 export class CharStream {
   constructor(input) {

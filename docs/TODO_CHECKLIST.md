@@ -1,13 +1,13 @@
 ### 1. CharStream (§1)
-- [ ] `current()`  
-- [ ] `peek(offset)`  
-- [ ] `advance()`  
-- [ ] `eof()`  
-- [ ] `getPosition()`
+- [x] `current()`
+- [x] `peek(offset)`
+- [x] `advance()`
+- [x] `eof()`
+- [x] `getPosition()`
 
 ### 2. Token (§2)
-- [ ] constructor stores `type`,`value`,`start`,`end`  
-- [ ] `toJSON()`
+- [x] constructor stores `type`,`value`,`start`,`end`
+- [x] `toJSON()`
 
 ### 3. LexerEngine (§3)
 - [ ] initialize `stateStack`  
