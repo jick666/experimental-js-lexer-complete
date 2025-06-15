@@ -1,0 +1,22 @@
+name: “Mark Stale Issues and PRs”
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # daily at midnight UTC
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/stale@v5
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          days-before-stale: 30
+          days-before-close: 7
+          stale-issue-message: 'This issue has been automatically marked as stale due to inactivity. Please update if still relevant.'
+          stale-pr-message: 'This pull request has been automatically marked as stale due to inactivity. Please update if still relevant.'
+          stale-issue-label: 'stale'
+          close-issue-label: 'stale'
+          exempt-issue-labels: 'reader,token,ci'
+          operations-per-run: 30
