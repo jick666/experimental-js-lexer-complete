@@ -6,6 +6,27 @@ A modular, adaptive, experimental JavaScript lexer designed for autonomous devel
 
 See `QUICK_START.md` for setup and development guidelines.
 
+## Example Commands
+
+Run the lexer on a snippet:
+
+```bash
+node index.js "let x = 42;"
+```
+
+Enable verbose logging:
+
+```bash
+node index.js --verbose "let x = 42;"
+```
+
+Run tests and lint checks:
+
+```bash
+npm test
+npm run lint
+```
+
 ## Project Board
 
 Track progress and self-assign tasks on the [GitHub Project Board](https://github.com/your-org/experimental-js-lexer/projects/1).
