@@ -7,8 +7,9 @@ export function tokenize(code, { verbose = false } = {}) {
   const stream = new CharStream(code);
   const lexer = new LexerEngine(stream);
   const tokens = [];
-  while (!stream.eof()) {
+  while (true) {
     const tok = lexer.nextToken();
+    if (tok === null) break;
     tokens.push(tok);
     if (verbose) console.log(tok);
   }
