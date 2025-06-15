@@ -1,5 +1,6 @@
 // §4.1 IdentifierReader
-import { patterns } from '../grammar/JavaScriptGrammar.js';
+// Patterns are defined in JavaScriptGrammar, but not currently used here
+// so we omit the import to avoid missing export errors.
 
 export function IdentifierReader(stream, factory) {
   const startPos = stream.getPosition();
