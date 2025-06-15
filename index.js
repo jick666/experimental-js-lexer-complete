@@ -14,13 +14,5 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
-if (process.argv[1] === import.meta.url) {
-  const input = process.argv[2] || "";
-  const verbose = process.argv.includes("--verbose");
-  try {
-    console.log(tokenize(input, { verbose }));
-  } catch (e) {
-    console.error(e);
-    process.exit(1);
-  }
-}
+// NOTE: removed CLI guard here. If you want `node index.js` to work,
+// you can add a separate `bin.js` that imports `tokenize` and prints.
