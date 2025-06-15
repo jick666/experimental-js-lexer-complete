@@ -1,5 +1,4 @@
 // §4.1 IdentifierReader
-import { patterns } from '../grammar/JavaScriptGrammar.js';
 
 export function IdentifierReader(stream, factory) {
   const startPos = stream.getPosition();
