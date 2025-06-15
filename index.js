@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { CharStream } from "./src/lexer/CharStream.js";
 import { LexerEngine } from "./src/lexer/LexerEngine.js";
+import { fileURLToPath } from "url";
 
 export function tokenize(code, { verbose = false } = {}) {
   const stream = new CharStream(code);
@@ -14,5 +15,14 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
-// NOTE: removed CLI guard here. If you want `node index.js` to work,
-// you can add a separate `bin.js` that imports `tokenize` and prints.
+// Only run CLI when invoked directly
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const input = process.argv[2] || "";
+  const verbose = process.argv.includes("--verbose");
+  try {
+    console.log(tokenize(input, { verbose }));
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
