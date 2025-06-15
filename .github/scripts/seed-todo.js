@@ -1,82 +1,69 @@
+#!/usr/bin/env node
+
 const fs = require('fs');
-const https = require('https');
+const { Octokit } = require('@octokit/rest');
+const token = process.env.GITHUB_TOKEN;
+const repoFull = process.env.GITHUB_REPOSITORY;
 
-const TOKEN = process.env.GITHUB_TOKEN;
-const REPO = process.env.GITHUB_REPOSITORY;
-
-if (!TOKEN) {
-  console.error('GITHUB_TOKEN not provided');
+if (!token) {
+  console.error('GITHUB_TOKEN env var required');
   process.exit(1);
 }
 
-if (!REPO) {
-  console.error('GITHUB_REPOSITORY not provided');
+if (!repoFull) {
+  console.error('GITHUB_REPOSITORY env var required');
   process.exit(1);
 }
 
-const [owner, repo] = REPO.split('/');
-const checklistPath = 'docs/TODO_CHECKLIST.md';
+const [owner, repo] = repoFull.split('/');
+const octokit = new Octokit({ auth: token });
 
-function getTodoItems() {
-  if (!fs.existsSync(checklistPath)) {
-    console.error(`Checklist not found at ${checklistPath}`);
-    return [];
+async function getExistingTitles() {
+  const issues = await octokit.paginate(octokit.rest.issues.listForRepo, {
+    owner,
+    repo,
+    state: 'open',
+    per_page: 100,
+  });
+  return new Set(issues.map(i => i.title));
+}
+
+function parseTodos(filePath) {
+  if (!fs.existsSync(filePath)) {
+    console.error(`Checklist not found at ${filePath}`);
+    process.exit(1);
   }
-  const content = fs.readFileSync(checklistPath, 'utf8');
+  const content = fs.readFileSync(filePath, 'utf8');
   return content
     .split('\n')
     .filter(line => line.startsWith('- [ ] '))
-    .map(line => line.replace('- [ ] ', '').trim());
-}
-
-function createIssue(title, body) {
-  const data = JSON.stringify({ title, body });
-  const options = {
-    hostname: 'api.github.com',
-    path: `/repos/${owner}/${repo}/issues`,
-    method: 'POST',
-    headers: {
-      'Authorization': `token ${TOKEN}`,
-      'User-Agent': 'seed-todo-script',
-      'Accept': 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(data)
-    }
-  };
-
-  return new Promise((resolve, reject) => {
-    const req = https.request(options, res => {
-      let body = '';
-      res.on('data', chunk => (body += chunk));
-      res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          try {
-            resolve(JSON.parse(body));
-          } catch (err) {
-            resolve({});
-          }
-        } else {
-          reject(new Error(`Failed: ${res.statusCode} ${body}`));
-        }
-      });
-    });
-
-    req.on('error', reject);
-    req.write(data);
-    req.end();
-  });
+    .map(line => line.replace(/^- \[ \] /, '').trim().replace(/`/g, ''));
 }
 
 async function main() {
-  const items = getTodoItems();
-  for (const item of items) {
+  const existing = await getExistingTitles();
+  const todos = parseTodos('docs/TODO_CHECKLIST.md');
+
+  for (const task of todos) {
+    const title = `TODO: ${task}`;
+    if (existing.has(title)) continue;
+
     try {
-      const issue = await createIssue(item, item);
-      console.log(`Created issue #${issue.number || '?'}: ${item}`);
+      const issue = await octokit.rest.issues.create({
+        owner,
+        repo,
+        title,
+        body: 'Auto-generated task from TODO_CHECKLIST.md',
+        labels: ['todo'],
+      });
+      console.log(`Created issue: ${title} (#${issue.data.number})`);
     } catch (err) {
-      console.error(`Error creating issue for "${item}": ${err.message}`);
+      console.error(`Failed to create issue for "${task}":`, err);
     }
   }
 }
 
-main();
+main().catch(err => {
+  console.error(err);
+  process.exit(1);
+});
