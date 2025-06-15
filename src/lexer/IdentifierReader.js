@@ -1,4 +1,5 @@
 // §4.1 IdentifierReader
+
 export function IdentifierReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
