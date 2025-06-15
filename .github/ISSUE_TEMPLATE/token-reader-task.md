@@ -3,7 +3,7 @@ name: 'Reader Task'
 about: 'Implement a specific token reader'
 title: '[Reader] {{TOKEN_TYPE}}'
 labels: reader, token
-projects: Experimental Lexer – To do
+projects: Experimental Lexer - To do
 ---
 
 **Task**: Implement `{{TOKEN_TYPE}}` reader per spec.  
