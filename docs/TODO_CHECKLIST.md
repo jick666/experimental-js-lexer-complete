@@ -37,5 +37,5 @@
 
 ### 11. Integration & Tooling
 - [ ] `index.js` CLI  
-- [ ] `.eslintrc.json` (§8)  
+- [ ] `eslint.config.js` (§8)  
 - [ ] CI workflow (`.github/workflows/ci.yml`)
