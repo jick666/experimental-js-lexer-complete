@@ -6,7 +6,7 @@
 - [x] `getPosition()`
 
 ### 2. Token (§2)
-- [x] constructor stores `type`,`value`,`start`,`end`
+- [x] constructor stores `type`, `value`, `start`, `end`
 - [x] `toJSON()`
 
 ### 3. LexerEngine (§3)
@@ -36,6 +36,6 @@
 - [ ] skip whitespace, attach trivia
 
 ### 11. Integration & Tooling
-- [x] `index.js` CLI
-- [x] `.eslintrc.json` (§8)
+- [x] `index.js` CLI  
+- [x] `.eslintrc.json` (§8)  
 - [x] CI workflow (`.github/workflows/ci.yml`)
