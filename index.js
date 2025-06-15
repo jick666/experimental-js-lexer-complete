@@ -15,6 +15,7 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
+// Only run CLI when invoked directly
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const input = process.argv[2] || "";
   const verbose = process.argv.includes("--verbose");
