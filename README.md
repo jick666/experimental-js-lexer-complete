@@ -26,6 +26,26 @@ Measure lexing throughput on the sample files in `tests/fixtures`:
 node tests/benchmarks/lexer.bench.js
 ```
 
+## Integration Hooks
+
+For editor integrations or other tooling that requires incremental lexing,
+use the `IncrementalLexer` exported from `index.js`. Tokens will be emitted
+as new source text is fed into the lexer, enabling real-time syntax
+highlighting or analysis.
+
+```javascript
+import { IncrementalLexer } from 'experimental-js-lexer';
+
+const collected = [];
+const lexer = new IncrementalLexer({ onToken: t => collected.push(t.type) });
+
+lexer.feed('let x');
+lexer.feed(' = 1;');
+
+console.log(collected);
+// ['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'NUMBER', 'PUNCTUATION']
+```
+
 ## Auto-Merge Workflow
 
 Pull requests labeled `reader` are automatically merged once all CI checks
