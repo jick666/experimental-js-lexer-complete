@@ -7,10 +7,9 @@ const ops = JavaScriptGrammar.operators
 
 export function OperatorReader(stream, factory) {
   const startPos = stream.getPosition();
-  const rest = stream.input.slice(stream.index);
   for (const op of ops) {
-    if (rest.startsWith(op)) {
-      // consume
+    if (stream.input.startsWith(op, stream.index)) {
+      // consume without creating intermediate substrings
       for (let i = 0; i < op.length; i++) stream.advance();
       const endPos = stream.getPosition();
       return factory('OPERATOR', op, startPos, endPos);

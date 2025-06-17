@@ -16,9 +16,10 @@ export function RegexOrDivideReader(stream, factory) {
   // Look backwards for the last non-whitespace character to guess context
   let i = startPos.index - 1;
   let prev = null;
+  const WS = new Set([' ', '\n', '\t', '\r', '\v', '\f']);
   while (i >= 0) {
     const ch = stream.input[i];
-    if (/\s/.test(ch)) { i--; continue; }
+    if (WS.has(ch)) { i--; continue; }
     prev = ch;
     break;
   }
@@ -68,8 +69,11 @@ export function RegexOrDivideReader(stream, factory) {
 
   // Collect flags
   let flags = '';
-  while (!stream.eof() && /[a-z]/i.test(stream.current())) {
-    flags += stream.current();
+  while (!stream.eof()) {
+    const ch = stream.current();
+    const code = ch.charCodeAt(0);
+    if (!((code >= 65 && code <= 90) || (code >= 97 && code <= 122))) break;
+    flags += ch;
     stream.advance();
   }
 

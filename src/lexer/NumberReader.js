@@ -1,12 +1,16 @@
 // §4.2 NumberReader
+function isDigit(ch) {
+  return ch !== null && ch >= '0' && ch <= '9';
+}
+
 export function NumberReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
-  if (!/\d/.test(ch)) return null;
+  if (!isDigit(ch)) return null;
 
   let value = '';
   // integer part
-  while (ch !== null && /\d/.test(ch)) {
+  while (ch !== null && isDigit(ch)) {
     value += ch;
     stream.advance();
     ch = stream.current();
@@ -16,7 +20,7 @@ export function NumberReader(stream, factory) {
     value += '.';
     stream.advance();
     ch = stream.current();
-    while (ch !== null && /\d/.test(ch)) {
+    while (ch !== null && isDigit(ch)) {
       value += ch;
       stream.advance();
       ch = stream.current();
