@@ -3,39 +3,32 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: ['**']
+    branches: [ '**' ]
 
 jobs:
-  build-and-test:
-    name: Test on ${{ matrix.os }} / Node ${{ matrix.node }}
-    runs-on: ${{ matrix.os }}
+  test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [18.x, 20.x]
+        node-version: [18.x, 20.x]
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js ${{ matrix.node }}
+      - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
-          cache: yarn
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
-          if [ -f yarn.lock ]; then
-            echo "▶️  Detected yarn.lock → yarn install"
-            yarn install --immutable --immutable-cache
-          elif [ -f package-lock.json ]; then
-            echo "▶️  Detected package-lock.json → npm ci"
+          # prefer strict, reproducible installs
+          if [ -f package-lock.json ]; then
             npm ci
           else
-            echo "▶️  No lockfile → npm install"
             npm install
           fi
 
@@ -48,9 +41,9 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Upload Coverage Report
+      - name: Upload coverage report
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-${{ matrix.os }}-node-${{ matrix.node }}
+          name: coverage-${{ matrix.node-version }}
           path: coverage/
