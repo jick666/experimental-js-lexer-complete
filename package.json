@@ -4,7 +4,9 @@
   "description": "A modular, adaptive JavaScript lexer designed for autonomous Codex agents.",
   "type": "module",
   "main": "dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=18"
   },
@@ -28,20 +30,21 @@
     "@babel/cli": "^7.27.4",
     "@babel/core": "^7.27.4",
     "@babel/preset-env": "^7.27.2",
-    "babel-jest": "^30.0.0",
-    "eslint": "^8.0.0",
-    "husky": "^8.0.0",
-    "jest": "^29.0.0",
-    "lint-staged": "^14.0.0",
-    "rimraf": "^5.0.0",
     "@commitlint/cli": "^17.6.0",
     "@commitlint/config-conventional": "^17.6.0",
-    "semantic-release": "^21.0.0",
     "@semantic-release/changelog": "^6.0.0",
     "@semantic-release/commit-analyzer": "^9.0.0",
     "@semantic-release/github": "^9.0.0",
     "@semantic-release/npm": "^9.0.0",
-    "@semantic-release/release-notes-generator": "^10.0.0"
+    "@semantic-release/release-notes-generator": "^10.0.0",
+    "babel-jest": "^30.0.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-jsdoc": "^51.0.1",
+    "husky": "^8.0.0",
+    "jest": "^29.0.0",
+    "lint-staged": "^14.0.0",
+    "rimraf": "^5.0.0",
+    "semantic-release": "^21.0.0"
   },
   "husky": {
     "hooks": {
@@ -50,13 +53,23 @@
     }
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"],
-    "src/**/*.js": ["npm test -- --findRelatedTests", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "src/**/*.js": [
+      "npm test -- --findRelatedTests",
+      "git add"
+    ]
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "release": {
-    "branches": ["main"]
+    "branches": [
+      "main"
+    ]
   }
 }
