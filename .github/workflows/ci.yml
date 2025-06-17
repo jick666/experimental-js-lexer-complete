@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 name: CI
 
+=======
+# .github/workflows/ci.yml
+>>>>>>> 023e009cfa1427204152aa29cd4c704e209147e0
 on:
   push:
     branches: [ main ]
   pull_request:
+<<<<<<< HEAD
     branches: [ main ]
 
 permissions:
@@ -44,3 +49,48 @@ jobs:
         with:
           name: coverage-report
           path: coverage/
+=======
+    branches: [ '**' ]    # run CI on every PR
+
+# .github/workflows/ci.yml
+on:
+  push:    { branches: [main] }
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # force devDependencies to be installed even if NODE_ENV is "production"
+      NPM_CONFIG_PRODUCTION: false
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Lint
+        run: npm run lint
+  release:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: npm ci
+      - run: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+>>>>>>> 023e009cfa1427204152aa29cd4c704e209147e0
