@@ -1,7 +1,7 @@
 // §4.6 TemplateStringReader
-// Reads JavaScript template literals enclosed by backticks including
-// embedded `${}` expressions. Returns a `TEMPLATE_STRING` token with the
-// full raw value or `null` if the stream is not positioned at a backtick.
+// Reads JavaScript template literals enclosed by backticks, including
+// embedded `${}` expressions. Returns a TEMPLATE_STRING token with the
+// full raw value or null if the stream isn’t at a backtick.
 export function TemplateStringReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '`') return null;
@@ -27,7 +27,7 @@ export function TemplateStringReader(stream, factory) {
 
     // end of template literal
     if (ch === '`') {
-      value += ch;
+      value += '`';
       stream.advance();
       const endPos = stream.getPosition();
       return factory('TEMPLATE_STRING', value, startPos, endPos);
@@ -36,14 +36,15 @@ export function TemplateStringReader(stream, factory) {
     // embedded expression `${ ... }`
     if (ch === '$' && stream.peek() === '{') {
       value += '${';
-      stream.advance();
-      stream.advance();
+      stream.advance(); // consume '$'
+      stream.advance(); // consume '{'
 
-      // simple brace matching for the expression body
+      // match braces within the expression
       let depth = 1;
       while (!stream.eof() && depth > 0) {
         const c = stream.current();
         if (c === '\\') {
+          // preserve escaped char inside expression
           value += c;
           stream.advance();
           if (!stream.eof()) {
@@ -53,25 +54,25 @@ export function TemplateStringReader(stream, factory) {
           continue;
         }
         if (c === '{') depth++;
-        if (c === '}') depth--;
+        else if (c === '}') depth--;
         value += c;
         stream.advance();
-        if (depth === 0) break;
       }
       continue;
     }
 
-    // regular character within template
+    // regular template content
     value += ch;
     stream.advance();
   }
 
-  // Unterminated template literal – reset position and return null
+  // Unterminated literal — reset and bail out
   if (typeof stream.setPosition === 'function') {
     stream.setPosition(startPos);
   } else {
-    stream.index = startPos.index;
-    stream.line = startPos.line;
+    // fallback if no setPosition API
+    stream.index  = startPos.index;
+    stream.line   = startPos.line;
     stream.column = startPos.column;
   }
   return null;
