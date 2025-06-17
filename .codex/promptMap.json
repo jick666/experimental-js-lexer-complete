@@ -1,0 +1,12 @@
+{
+  "src/lexer/CharStream.js": "Implement CharStream per docs/LEXER_SPEC.md#charstream: current(), peek(offset), advance(), eof(), getPosition().",
+  "src/lexer/Token.js": "Implement Token per docs/LEXER_SPEC.md#token: constructor(type,value,start,end) and toJSON().",
+  "src/lexer/LexerEngine.js": "Implement LexerEngine per docs/LEXER_SPEC.md#lexerengine: stateStack, dispatch readers by mode, nextToken().",
+  "src/lexer/IdentifierReader.js": "Implement IdentifierReader per docs/LEXER_SPEC.md#readers: letters & underscores into IDENTIFIER.",
+  "src/lexer/NumberReader.js": "Implement NumberReader per docs/LEXER_SPEC.md#readers: digits and optional decimal into NUMBER.",
+  "src/lexer/OperatorReader.js": "Implement OperatorReader per docs/LEXER_SPEC.md#readers: single & multi-char operators into OPERATOR.",
+  "src/lexer/PunctuationReader.js": "Implement PunctuationReader per docs/LEXER_SPEC.md#readers: punctuation into PUNCTUATION.",
+  "src/lexer/RegexOrDivideReader.js": "Implement RegexOrDivideReader per docs/LEXER_SPEC.md#readers: context-sensitive regex vs DIVIDE.",
+  "src/lexer/TemplateStringReader.js": "Implement TemplateStringReader per docs/LEXER_SPEC.md#readers: backticks and embedded expressions.",
+  "src/lexer/WhitespaceReader.js": "Implement WhitespaceReader per docs/LEXER_SPEC.md#readers: skip whitespace and attach trivia."
+}

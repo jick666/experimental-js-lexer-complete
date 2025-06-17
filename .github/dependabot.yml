@@ -1,0 +1,13 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+      - "auto-approve"
+    reviewers:
+      - jick666          # your GitHub username
+    assignees:
+      - jick666

@@ -1,0 +1,93 @@
+{
+  "name": "experimental-js-lexer",
+  "version": "0.1.0-semantically-released",
+  "description": "A modular, adaptive, experimental JavaScript lexer designed for autonomous development by OpenAI Codex agents.",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+	"prepare": "node scripts/prepare-husky.cjs",
+    "setup": "bash ./.github/scripts/setup.sh",
+    "clean": "rimraf dist coverage",
+    "build": "npm run clean && babel src --out-dir dist",
+    "lint": "eslint . --fix",
+    "test": "jest --config jest.config.cjs --coverage",
+    "commit": "cz",
+    "release": "semantic-release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jick666/experimental-js-lexer-complete.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jick666/experimental-js-lexer-complete/issues"
+  },
+  "homepage": "https://github.com/jick666/experimental-js-lexer-complete#readme",
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  },
+  "dependencies": {
+    "@octokit/rest": "^19.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.27.4",
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
+    "babel-jest": "^30.0.0",
+    "commitizen": "^4.2.4",
+    "eslint": "^8.0.0",
+    "husky": "^8.0.0",
+    "jest": "^29.0.0",
+    "lint-staged": "^14.0.0",
+    "rimraf": "^5.0.0",
+    "semantic-release": "^21.0.0",
+    "@commitlint/cli": "^17.6.0",
+    "@commitlint/config-conventional": "^17.6.0",
+    "@semantic-release/changelog": "^6.0.0",
+    "@semantic-release/commit-analyzer": "^9.0.0",
+    "@semantic-release/github": "^9.0.0",
+    "@semantic-release/npm": "^9.0.0",
+    "@semantic-release/release-notes-generator": "^10.0.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "src/**/*.js": [
+      "npm test -- --findRelatedTests",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged",
+      "commit-msg": "npx --no -- commitlint --edit $1"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  }
+}
