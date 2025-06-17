@@ -1,74 +1,56 @@
-// §4.5 RegexOrDivideReader
-// Context‐sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
-export function RegexOrDivideReader(stream, factory) {
+// §4.6 TemplateStringReader
+// Parses template string literals delimited by backticks, including
+// interpolated expressions in `${}`. Returns a TEMPLATE_STRING token
+// containing the full template literal text.
+
+export function TemplateStringReader(stream, factory) {
   const startPos = stream.getPosition();
-  if (stream.current() !== '/') return null;
+  if (stream.current() !== '`') return null;
 
-  // Look backwards for the last non-whitespace character to guess context.
-  let i = stream.getPosition().index - 1;
-  let prev = null;
-  while (i >= 0) {
-    const ch = stream.input[i];
-    if (/\s/.test(ch)) {
-      i--;
-      continue;
-    }
-    prev = ch;
-    break;
-  }
+  let value = '';
+  let inExpr = false;
+  let braceDepth = 0;
 
-  // Tokens that typically allow a regex literal to follow:
-  const regexStarters = new Set([
-    '(', '{', '[', '=', ':', ',', ';', '!', '?', '+', '-', '*', '%', '&', '|',
-    '^', '~', '<', '>'
-  ]);
-  const isRegexContext = prev === null || regexStarters.has(prev);
+  // consume opening backtick
+  value += stream.current();
+  stream.advance();
 
-  if (!isRegexContext) {
-    // It's a divide operator (or '/=')
-    stream.advance();
-    if (stream.current() === '=') {
-      stream.advance();
-      return factory('OPERATOR', '/=', startPos, stream.getPosition());
-    }
-    return factory('OPERATOR', '/', startPos, stream.getPosition());
-  }
-
-  // Parse a regex literal `/pattern/flags`
-  stream.advance(); // consume opening `/`
-
-  let body = '';
-  let escaped = false;
   while (!stream.eof()) {
     const ch = stream.current();
-    if (!escaped && ch === '/') break;
-    if (!escaped && ch === '\\') {
-      escaped = true;
-      body += ch;
-      stream.advance();
-      continue;
+    value += ch;
+
+    if (inExpr) {
+      if (ch === '{') {
+        braceDepth++;
+      } else if (ch === '}') {
+        if (braceDepth === 0) {
+          inExpr = false;
+        } else {
+          braceDepth--;
+        }
+      }
+    } else {
+      if (ch === '\\') {
+        // escape next character
+        stream.advance();
+        if (!stream.eof()) {
+          value += stream.current();
+        }
+      } else if (ch === '$' && stream.peek() === '{') {
+        inExpr = true;
+        braceDepth = 0;
+        stream.advance();
+        value += stream.current(); // include '{'
+      } else if (ch === '`') {
+        stream.advance();
+        const endPos = stream.getPosition();
+        return factory('TEMPLATE_STRING', value, startPos, endPos);
+      }
     }
-    escaped = false;
-    body += ch;
     stream.advance();
   }
 
-  if (stream.current() !== '/') {
-    // Unterminated regex — back out and let another reader handle it
-    stream.setPosition(startPos);
-    return null;
-  }
-
-  stream.advance(); // consume closing `/`
-
-  // Collect flags
-  let flags = '';
-  while (!stream.eof() && /[a-z]/i.test(stream.current())) {
-    flags += stream.current();
-    stream.advance();
-  }
-
-  const endPos = stream.getPosition();
-  const value = `/${body}/${flags}`;
-  return factory('REGEX', value, startPos, endPos);
+  // Unterminated template string
+  stream.setPosition(startPos);
+  return null;
 }

@@ -18,4 +18,9 @@ export class CharStream {
   }
   eof() { return this.index >= this.input.length; }
   getPosition() { return { line: this.line, column: this.column, index: this.index }; }
+  setPosition(pos) {
+    this.index = pos.index;
+    this.line = pos.line;
+    this.column = pos.column;
+  }
 }
