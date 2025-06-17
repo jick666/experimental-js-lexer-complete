@@ -8,7 +8,6 @@
   },
   "workspaceFolder": "/workspace",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-  "postCreateCommand": ".github/scripts/setup.sh",
   "remoteUser": "node",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash"
