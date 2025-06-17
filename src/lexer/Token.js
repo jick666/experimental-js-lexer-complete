@@ -1,7 +1,5 @@
 /**
- * TODO(codex): Implement Token class.
- * - constructor: type, value, start, end
- * - toJSON(): serialize token
+ * Represents a single lexical token produced by the lexer.
  */
 export class Token {
   constructor(type, value, start, end) {

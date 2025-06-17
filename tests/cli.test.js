@@ -1,0 +1,43 @@
+import { jest } from '@jest/globals';
+import { fileURLToPath } from 'url';
+
+/**
+ * Helper to execute the CLI entry with mocked process args.
+ * @param {string[]} args
+ */
+async function runCli(args) {
+  jest.resetModules();
+  const cliPath = fileURLToPath(new URL('../index.js', import.meta.url));
+  const originalArgv = process.argv.slice();
+  process.argv = [process.execPath, cliPath, ...args];
+  const logs = [];
+  const errors = [];
+  const originalLog = console.log;
+  const originalError = console.error;
+  console.log = (msg) => logs.push(msg);
+  console.error = (msg) => errors.push(msg);
+  let exitCode;
+  const originalExit = process.exit;
+  process.exit = (code) => { exitCode = code; };
+  await import('../index.js');
+  console.log = originalLog;
+  console.error = originalError;
+  process.exit = originalExit;
+  process.argv = originalArgv;
+  return { logs, errors, exitCode };
+}
+
+test('CLI prints tokens array for valid input', async () => {
+  const result = await runCli(['let x=1;']);
+  expect(Array.isArray(result.logs[0])).toBe(true);
+  expect(result.logs[0].map(t => t.type)).toEqual([
+    'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'NUMBER', 'PUNCTUATION'
+  ]);
+  expect(result.exitCode).toBeUndefined();
+});
+
+test('CLI exits with code 1 on lexer error', async () => {
+  const result = await runCli(['/abc']);
+  expect(result.exitCode).toBe(1);
+  expect(result.errors.length).toBeGreaterThan(0);
+});

@@ -1,6 +1,5 @@
 /**
- * TODO(codex): Implement CharStream for high-performance JS lexer.
- * - methods: current(), peek(offset), advance(), eof(), getPosition().
+ * Provides character level access with position tracking for the lexer.
  */
 export class CharStream {
   constructor(input) {
