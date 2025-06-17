@@ -22,3 +22,11 @@ test("integration: trailing whitespace does not produce null token", () => {
     "PUNCTUATION"
   ]);
 });
+
+test("integration: tokenize throws on unterminated regex", () => {
+  expect(() => tokenize("/abc")).toThrow();
+});
+
+test("integration: tokenize throws on unterminated template", () => {
+  expect(() => tokenize("`oops")).toThrow();
+});

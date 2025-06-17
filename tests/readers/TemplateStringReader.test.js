@@ -1,6 +1,7 @@
 import { CharStream } from "../../src/lexer/CharStream.js";
 import { Token } from "../../src/lexer/Token.js";
 import { TemplateStringReader } from "../../src/lexer/TemplateStringReader.js";
+import { LexerError } from "../../src/lexer/LexerError.js";
 
 test("TemplateStringReader reads template with interpolation", () => {
   const src = "`template ${expr}`";
@@ -23,4 +24,24 @@ test("TemplateStringReader returns null for non-backtick start", () => {
   );
 
   expect(result).toBeNull();
+});
+
+test("TemplateStringReader returns LexerError on unterminated template", () => {
+  const stream = new CharStream('`unterminated');
+  const result = TemplateStringReader(
+    stream,
+    (type, value, start, end) => new Token(type, value, start, end)
+  );
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe('UnterminatedTemplate');
+});
+
+test("TemplateStringReader returns LexerError on bad escape", () => {
+  const stream = new CharStream('`bad \\');
+  const result = TemplateStringReader(
+    stream,
+    (type, value, start, end) => new Token(type, value, start, end)
+  );
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe('BadEscape');
 });
