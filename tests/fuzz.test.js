@@ -6,14 +6,43 @@
 
 import { CharStream } from "../src/lexer/CharStream.js";
 import { IdentifierReader } from "../src/lexer/IdentifierReader.js";
-// ... import other readers as needed
+import { NumberReader } from "../src/lexer/NumberReader.js";
+import { OperatorReader } from "../src/lexer/OperatorReader.js";
+import { PunctuationReader } from "../src/lexer/PunctuationReader.js";
+import { RegexOrDivideReader } from "../src/lexer/RegexOrDivideReader.js";
+import { TemplateStringReader } from "../src/lexer/TemplateStringReader.js";
+import { WhitespaceReader } from "../src/lexer/WhitespaceReader.js";
 
-test("fuzz: IdentifierReader handles random input without throwing", () => {
-  const randomInputs = ["", "#$%", "123abc", "foo_bar", "\u2603"]; // sample fuzz
-  randomInputs.forEach(input => {
-    const stream = new CharStream(input);
-    expect(() => IdentifierReader(stream, () => {})).not.toThrow();
+function randomAsciiString(maxLen = 20) {
+  const len = Math.floor(Math.random() * (maxLen + 1));
+  let out = "";
+  for (let i = 0; i < len; i++) {
+    const code = 32 + Math.floor(Math.random() * 95); // printable ASCII
+    out += String.fromCharCode(code);
+  }
+  return out;
+}
+
+// generate a pool of random inputs once so each test uses the same set
+const FUZZ_INPUTS = Array.from({ length: 20 }, () => randomAsciiString());
+const READERS = [
+  ["IdentifierReader", IdentifierReader],
+  ["NumberReader", NumberReader],
+  ["OperatorReader", OperatorReader],
+  ["PunctuationReader", PunctuationReader],
+  ["RegexOrDivideReader", RegexOrDivideReader],
+  ["TemplateStringReader", TemplateStringReader],
+  ["WhitespaceReader", WhitespaceReader],
+];
+
+READERS.forEach(([name, reader]) => {
+  describe(`${name} fuzz`, () => {
+    test.each(FUZZ_INPUTS)(
+      `%s handles random input without throwing`,
+      (input) => {
+        const stream = new CharStream(input);
+        expect(() => reader(stream, () => {})).not.toThrow();
+      },
+    );
   });
 });
-
-// Additional fuzz tests for NumberReader, OperatorReader, etc. can be added similarly.
