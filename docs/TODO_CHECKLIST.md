@@ -36,6 +36,25 @@
  - [x] skip whitespace, attach trivia
 
 ### 11. Integration & Tooling
-- [x] `index.js` CLI  
-- [x] `.eslintrc.json` (§8)  
+- [x] `index.js` CLI
+- [x] `.eslintrc.json` (§8)
 - [x] CI workflow (`.github/workflows/ci.yml`)
+
+### 12. Extended Reader Support
+- [ ] JSX mode and advanced string literals
+- [ ] additional readers for full ECMAScript
+
+### 13. Performance Optimizations
+- [ ] benchmark large files
+- [ ] optimize tokenization speed
+
+### 14. Documentation Expansion
+- [ ] cover more edge cases in `docs/LEXER_SPEC.md`
+- [ ] add usage examples
+
+### 15. Integration Hooks
+- [ ] incremental lexing for editors
+- [ ] syntax highlighting integration
+
+### 16. Error Reporting Improvements
+- [ ] clearer `LexerError` messages with context
