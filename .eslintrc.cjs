@@ -4,8 +4,8 @@ module.exports = {
     node: true,
     jest: true,
   },
-  extends: ["eslint:recommended", "plugin:jsdoc/recommended"],
-  plugins: ["jsdoc"],
+  extends: ["eslint:recommended"],
+  plugins: [],
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
