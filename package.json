@@ -1,7 +1,7 @@
 {
   "name": "experimental-js-lexer",
   "version": "0.1.0",
-  "description": "A modular, adaptive JavaScript lexer for autonomous Codex agents.",
+  "description": "A modular, adaptive JavaScript lexer designed for autonomous Codex agents.",
   "type": "module",
   "main": "dist/index.js",
   "files": ["dist"],
@@ -10,6 +10,7 @@
   },
   "scripts": {
     "prepare": "husky install",
+    "setup": "bash ./.github/scripts/setup.sh",
     "clean": "rimraf dist coverage",
     "build": "npm run clean && babel src --out-dir dist",
     "lint": "eslint . --fix",
