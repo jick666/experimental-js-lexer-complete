@@ -17,3 +17,13 @@ Please read `CODE_OF_CONDUCT.md` to understand expectations for participation.
 ## Changelog
 
 All notable changes are tracked in `CHANGELOG.md`.
+
+## Example
+
+Tokenizing a quoted string emits a `STRING` token:
+
+```js
+import { tokenize } from './index.js';
+console.log(tokenize("'hello'").map(t => t.type));
+// => ['STRING']
+```

@@ -20,6 +20,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `OperatorReader` (§4.3)
 - `PunctuationReader` (§4.4)
 - `RegexOrDivideReader` (§4.5)
+- `StringReader` (§4.6a)
 - `TemplateStringReader` (§4.6)
 - `WhitespaceReader` (§4.7)
 
@@ -27,7 +28,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `default`, `template_string`, `regex`, `jsx`, etc.
 
 ## 6. Token Format <a name="format"></a>
-- `type`: `IDENTIFIER`, `NUMBER`, …  
+- `type`: `IDENTIFIER`, `NUMBER`, `STRING`, …
 - `value`: lexeme  
 - `start`/`end`: `{ line, column, index }`  
 - `raw`: original text (optional)  

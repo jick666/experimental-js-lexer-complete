@@ -3,6 +3,7 @@ import { NumberReader } from './NumberReader.js';
 import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
+import { StringReader } from './StringReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { Token } from './Token.js';
@@ -23,6 +24,7 @@ export class LexerEngine {
         OperatorReader,
         PunctuationReader,
         RegexOrDivideReader,
+        StringReader,
         TemplateStringReader
       ],
       template_string: [TemplateStringReader],
