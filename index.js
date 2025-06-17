@@ -3,10 +3,17 @@ import { CharStream } from "./src/lexer/CharStream.js";
 import { LexerEngine } from "./src/lexer/LexerEngine.js";
 import { fileURLToPath } from "url";
 
+/**
+ *
+ * @param code
+ * @param root0
+ * @param root0.verbose
+ */
 export function tokenize(code, { verbose = false } = {}) {
   const stream = new CharStream(code);
   const lexer = new LexerEngine(stream);
   const tokens = [];
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const tok = lexer.nextToken();
     if (tok === null) break;
