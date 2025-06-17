@@ -25,3 +25,10 @@ Measure lexing throughput on the sample files in `tests/fixtures`:
 ```bash
 node tests/benchmarks/lexer.bench.js
 ```
+
+## Auto-Merge Workflow
+
+Pull requests labeled `reader` are automatically merged once all CI checks
+are successful and at least one approving review has been submitted. The
+`Auto-Merge Reader PRs` GitHub action performs the squash merge when these
+conditions are met.
