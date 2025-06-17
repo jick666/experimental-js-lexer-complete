@@ -1,33 +1,25 @@
 {
   "name": "experimental-js-lexer",
   "version": "0.1.0",
-  "description": "A modular, adaptive, experimental JavaScript lexer designed for autonomous development by OpenAI Codex agents.",
+  "description": "A modular, adaptive JavaScript lexer for autonomous Codex agents.",
   "type": "module",
   "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "engines": {
     "node": ">=18"
   },
   "scripts": {
     "prepare": "husky install",
-    "setup": "bash ./.github/scripts/setup.sh",
     "clean": "rimraf dist coverage",
     "build": "npm run clean && babel src --out-dir dist",
     "lint": "eslint . --fix",
     "test": "jest --config jest.config.cjs --coverage",
-    "commit": "cz",
     "release": "semantic-release"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/jick666/experimental-js-lexer-complete.git"
   },
-  "bugs": {
-    "url": "https://github.com/jick666/experimental-js-lexer-complete/issues"
-  },
-  "homepage": "https://github.com/jick666/experimental-js-lexer-complete#readme",
   "license": "MIT",
   "dependencies": {
     "@octokit/rest": "^19.0.0"
@@ -37,7 +29,6 @@
     "@babel/core": "^7.27.4",
     "@babel/preset-env": "^7.27.2",
     "babel-jest": "^30.0.0",
-    "commitizen": "^4.2.4",
     "eslint": "^8.0.0",
     "husky": "^8.0.0",
     "jest": "^29.0.0",
@@ -59,23 +50,13 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "src/**/*.js": [
-      "npm test -- --findRelatedTests",
-      "git add"
-    ]
+    "*.js": ["eslint --fix", "git add"],
+    "src/**/*.js": ["npm test -- --findRelatedTests", "git add"]
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   },
   "release": {
-    "branches": [
-      "main"
-    ]
+    "branches": ["main"]
   }
 }
