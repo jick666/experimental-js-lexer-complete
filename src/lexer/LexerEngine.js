@@ -4,6 +4,7 @@ import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
+import { CommentReader } from './CommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { Token } from './Token.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -18,6 +19,8 @@ export class LexerEngine {
     // Mapping of mode -> reader list. Order determines priority.
     this.modes = {
       default: [
+        CommentReader,
+        WhitespaceReader,
         IdentifierReader,
         NumberReader,
         OperatorReader,
@@ -53,10 +56,15 @@ export class LexerEngine {
     const { stream } = this;
     const factory = (type, value, start, end) => new Token(type, value, start, end);
 
-    while (!stream.eof()) {
-      // 1. Skip whitespace (and collect as trivia internally, if desired)
-      WhitespaceReader(stream, factory, this);
-      if (stream.eof()) break;
+      while (!stream.eof()) {
+        // 0. Emit comments as tokens
+        const comment = CommentReader(stream, factory, this);
+        if (comment) {
+          this.lastToken = comment;
+          return comment;
+        }
+
+        // 1. Skip whitespace (handled by WhitespaceReader in default mode)
 
       const mode = this.currentMode();
       const readers = this.modes[mode] || this.modes.default;
