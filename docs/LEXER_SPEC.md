@@ -47,5 +47,30 @@ Each is a pure function `(stream, factory) => Token|null`:
 - GitHub Actions CI  
 
 ## 9. Extensibility <a name="ext"></a>
-- Grammar definitions: `src/grammar/JavaScriptGrammar.js`  
+- Grammar definitions: `src/grammar/JavaScriptGrammar.js`
 - Agent prompts: `.codex/promptMap.json`
+
+## 10. Edge Cases & Error Handling <a name="edge"></a>
+- Unterminated regex literals yield a `LexerError` of type `UnterminatedRegex`.
+- Unterminated template literals yield a `LexerError` of type `UnterminatedTemplate`.
+- Bad escape sequences inside template strings produce a `LexerError` of type `BadEscape`.
+- Multi-line comments reaching EOF are returned as `COMMENT` tokens without error.
+- `/=` is always tokenized as the divide-assign operator before regex detection.
+- Regex or divide context is inferred from the last non-whitespace character.
+- Template strings track nested `${ ... }` braces and handle escapes.
+- `NumberReader` only parses base‑10 integers and decimals.
+
+## 11. Usage Examples <a name="examples"></a>
+Run the CLI directly:
+```bash
+node index.js "let x = 5;" --verbose
+```
+This prints each token and returns an array like:
+`[KEYWORD, IDENTIFIER, OPERATOR, NUMBER, PUNCTUATION]`.
+
+Programmatic usage via the exported `tokenize` function:
+```javascript
+import { tokenize } from "./index.js";
+const tokens = tokenize("const a = /re/g;");
+```
+`tokens` is an array of `Token` objects. Setting `{ verbose: true }` logs tokens as they are produced. Custom readers may be added by pushing to `LexerEngine.modes.default` before tokenization.
