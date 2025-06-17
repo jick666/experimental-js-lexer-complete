@@ -1,5 +1,7 @@
 // §4.5 RegexOrDivideReader
 // Context-sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
+import { LexerError } from './LexerError.js';
+
 export function RegexOrDivideReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '/') return null;
@@ -53,9 +55,13 @@ export function RegexOrDivideReader(stream, factory) {
   }
 
   if (stream.current() !== '/') {
-    // Unterminated regex — revert and bail
-    stream.setPosition(startPos);
-    return null;
+    // Unterminated regex
+    return new LexerError(
+      'UnterminatedRegex',
+      'Unterminated regular expression literal',
+      startPos,
+      stream.getPosition()
+    );
   }
 
   stream.advance(); // consume closing '/'

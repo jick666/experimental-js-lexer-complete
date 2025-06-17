@@ -7,6 +7,7 @@ import { TemplateStringReader } from './TemplateStringReader.js';
 import { CommentReader } from './CommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { Token } from './Token.js';
+import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
 
 /**
@@ -71,8 +72,12 @@ export class LexerEngine {
 
       // 2. Try each reader in sequence for the current mode
       for (const Reader of readers) {
-        const token = Reader(stream, factory, this);
-        if (token) {
+        const result = Reader(stream, factory, this);
+        if (result) {
+          if (result instanceof LexerError) {
+            throw result;
+          }
+          const token = result;
           // 3. Promote identifiers that match keywords
           if (
             token.type === 'IDENTIFIER' &&

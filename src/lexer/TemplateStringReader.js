@@ -2,6 +2,8 @@
 // Reads JavaScript template literals enclosed by backticks, including
 // embedded `${}` expressions. Returns a TEMPLATE_STRING token with the
 // full raw value or null if the stream isn’t at a backtick.
+import { LexerError } from './LexerError.js';
+
 export function TemplateStringReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '`') return null;
@@ -16,12 +18,19 @@ export function TemplateStringReader(stream, factory) {
 
     // handle escape sequences
     if (ch === '\\') {
+      const escStart = stream.getPosition();
       value += ch;
       stream.advance();
-      if (!stream.eof()) {
-        value += stream.current();
-        stream.advance();
+      if (stream.eof()) {
+        return new LexerError(
+          'BadEscape',
+          'Bad escape sequence in template literal',
+          escStart,
+          stream.getPosition()
+        );
       }
+      value += stream.current();
+      stream.advance();
       continue;
     }
 
@@ -66,14 +75,11 @@ export function TemplateStringReader(stream, factory) {
     stream.advance();
   }
 
-  // Unterminated literal — reset and bail out
-  if (typeof stream.setPosition === 'function') {
-    stream.setPosition(startPos);
-  } else {
-    // fallback if no setPosition API
-    stream.index  = startPos.index;
-    stream.line   = startPos.line;
-    stream.column = startPos.column;
-  }
-  return null;
+  // Unterminated literal
+  return new LexerError(
+    'UnterminatedTemplate',
+    'Unterminated template literal',
+    startPos,
+    stream.getPosition()
+  );
 }

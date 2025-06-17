@@ -1,6 +1,7 @@
 import { CharStream } from "../../src/lexer/CharStream.js";
 import { Token } from "../../src/lexer/Token.js";
 import { RegexOrDivideReader } from "../../src/lexer/RegexOrDivideReader.js";
+import { LexerError } from "../../src/lexer/LexerError.js";
 
 test("RegexOrDivideReader reads regex literal", () => {
   const stream = new CharStream("/abc/g");
@@ -26,4 +27,11 @@ test("RegexOrDivideReader reads '/=' operator", () => {
   expect(token.type).toBe("OPERATOR");
   expect(token.value).toBe("/=");
   expect(stream.getPosition().index).toBe(2);
+});
+
+test("RegexOrDivideReader returns LexerError on unterminated regex", () => {
+  const stream = new CharStream("/abc");
+  const result = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe("UnterminatedRegex");
 });
