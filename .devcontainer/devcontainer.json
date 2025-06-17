@@ -1,0 +1,21 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "experimental-js-lexer",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:18",
+  "features": {
+    // include Docker CLI, GitHub CLI, etc. if you need them
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "postCreateCommand": ".github/scripts/setup.sh",
+  "remoteUser": "node",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "forwardPorts": [],
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ]
+}
