@@ -21,3 +21,14 @@ test("CharStream advance updates line and column across newlines", () => {
   stream.advance();
   expect(stream.getPosition()).toEqual({ line: 3, column: 0, index: 4 });
 });
+
+test("CharStream setPosition restores previous position", () => {
+  const stream = new CharStream("abc");
+  stream.advance();
+  stream.advance();
+  const pos = stream.getPosition();
+  stream.advance();
+  expect(stream.getPosition().index).toBe(3);
+  stream.setPosition(pos);
+  expect(stream.getPosition()).toEqual(pos);
+});

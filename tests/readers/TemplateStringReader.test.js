@@ -45,3 +45,25 @@ test("TemplateStringReader returns LexerError on bad escape", () => {
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe('BadEscape');
 });
+
+test("TemplateStringReader handles escapes and nested braces", () => {
+  const src = "`a ${b\\} c}`";
+  const stream = new CharStream(src);
+  const token = TemplateStringReader(
+    stream,
+    (t, v, s, e) => new Token(t, v, s, e)
+  );
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
+test("TemplateStringReader tracks nested braces", () => {
+  const src = "`t ${ {a:{b}} } end`";
+  const stream = new CharStream(src);
+  const token = TemplateStringReader(
+    stream,
+    (t, v, s, e) => new Token(t, v, s, e)
+  );
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
