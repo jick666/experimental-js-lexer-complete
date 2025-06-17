@@ -24,8 +24,6 @@ jobs:
           node-version: 18.x
           cache: npm
 
-      - name: Bootstrap project
-        run: bash ./.github/scripts/setup.sh
 
       - name: Publish release
         env:
