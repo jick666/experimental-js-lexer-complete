@@ -14,6 +14,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/github-script@v6
+        env:
+          REQUIRE_APPROVAL: "true"
         with:
           github-token: ${{ secrets.AUTOMERGE_TOKEN }}
           script: |
@@ -22,12 +24,36 @@ jobs:
               core.info('No pull request associated with this workflow run.');
               return;
             }
-            const { data } = await github.rest.pulls.get({
+            const { data: prData } = await github.rest.pulls.get({
               owner: pr.base.repo.owner.login,
               repo: pr.base.repo.name,
               pull_number: pr.number,
             });
-            if (data.labels.some(l => l.name === 'reader') && data.mergeable_state === 'clean') {
+
+            const checks = await github.rest.checks.listForRef({
+              owner: pr.base.repo.owner.login,
+              repo: pr.base.repo.name,
+              ref: pr.head.sha,
+            });
+
+            const allChecksPassed = checks.data.check_runs.every(run => run.conclusion === 'success');
+
+            let approved = true;
+            if (process.env.REQUIRE_APPROVAL === 'true') {
+              const reviews = await github.rest.pulls.listReviews({
+                owner: pr.base.repo.owner.login,
+                repo: pr.base.repo.name,
+                pull_number: pr.number,
+              });
+              approved = reviews.data.some(r => r.state === 'APPROVED');
+            }
+
+            if (
+              prData.labels.some(l => l.name === 'reader') &&
+              prData.mergeable_state === 'clean' &&
+              allChecksPassed &&
+              approved
+            ) {
               await github.rest.pulls.merge({
                 owner: pr.base.repo.owner.login,
                 repo: pr.base.repo.name,
