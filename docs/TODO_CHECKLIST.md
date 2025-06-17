@@ -27,13 +27,13 @@
 - [x] punctuation chars → `PUNCTUATION`
 
 ### 8. RegexOrDivideReader (§4.5)
-- [ ] context-sensitive regex vs `/` → `REGEX` or `DIVIDE`
+ - [x] context-sensitive regex vs `/` → `REGEX` or `DIVIDE`
 
 ### 9. TemplateStringReader (§4.6)
-- [ ] backticks, `${}` embedded → `TEMPLATE_STRING`
+ - [x] backticks, `${}` embedded → `TEMPLATE_STRING`
 
 ### 10. WhitespaceReader (§4.7)
-- [ ] skip whitespace, attach trivia
+ - [x] skip whitespace, attach trivia
 
 ### 11. Integration & Tooling
 - [x] `index.js` CLI  
