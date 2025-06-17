@@ -1,30 +1,26 @@
 // §4.5 RegexOrDivideReader
-// Context‐sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
+// Context-sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
 export function RegexOrDivideReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '/') return null;
 
-  // Handle '/=' operator immediately
+  // Always treat '/=' as the divide-assign operator, not a regex literal
   if (stream.peek() === '=') {
-    stream.advance();
-    stream.advance();
+    stream.advance(); // consume '/'
+    stream.advance(); // consume '='
     return factory('OPERATOR', '/=', startPos, stream.getPosition());
   }
 
-  // Look backwards for the last non-whitespace character to guess context.
-  let i = stream.getPosition().index - 1;
+  // Look backwards for the last non-whitespace character to guess context
+  let i = startPos.index - 1;
   let prev = null;
   while (i >= 0) {
     const ch = stream.input[i];
-    if (/\s/.test(ch)) {
-      i--;
-      continue;
-    }
+    if (/\s/.test(ch)) { i--; continue; }
     prev = ch;
     break;
   }
 
-  // Tokens that typically allow a regex literal to follow:
   const regexStarters = new Set([
     '(', '{', '[', '=', ':', ',', ';', '!', '?', '+', '-', '*', '%', '&', '|',
     '^', '~', '<', '>'
@@ -32,17 +28,13 @@ export function RegexOrDivideReader(stream, factory) {
   const isRegexContext = prev === null || regexStarters.has(prev);
 
   if (!isRegexContext) {
-    // It's a divide operator (or '/=')
-    stream.advance();
-    if (stream.current() === '=') {
-      stream.advance();
-      return factory('OPERATOR', '/=', startPos, stream.getPosition());
-    }
+    // It's a plain divide operator
+    stream.advance(); // consume '/'
     return factory('OPERATOR', '/', startPos, stream.getPosition());
   }
 
   // Parse a regex literal `/pattern/flags`
-  stream.advance(); // consume opening `/`
+  stream.advance(); // consume opening '/'
 
   let body = '';
   let escaped = false;
@@ -61,12 +53,12 @@ export function RegexOrDivideReader(stream, factory) {
   }
 
   if (stream.current() !== '/') {
-    // Unterminated regex — back out and let another reader handle it
+    // Unterminated regex — revert and bail
     stream.setPosition(startPos);
     return null;
   }
 
-  stream.advance(); // consume closing `/`
+  stream.advance(); // consume closing '/'
 
   // Collect flags
   let flags = '';
@@ -76,6 +68,5 @@ export function RegexOrDivideReader(stream, factory) {
   }
 
   const endPos = stream.getPosition();
-  const value = `/${body}/${flags}`;
-  return factory('REGEX', value, startPos, endPos);
+  return factory('REGEX', `/${body}/${flags}`, startPos, endPos);
 }

@@ -10,11 +10,10 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "setup": "bash ./.github/scripts/setup.sh",
     "clean": "rimraf dist coverage",
     "build": "npm run clean && babel src --out-dir dist",
     "lint": "eslint . --fix",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.config.cjs --coverage",
+    "test": "jest --config jest.config.cjs --coverage",
     "release": "semantic-release"
   },
   "repository": {
@@ -26,7 +25,7 @@
     "@octokit/rest": "^19.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.27.0",
+    "@babel/cli": "^7.27.4",
     "@babel/core": "^7.27.4",
     "@babel/preset-env": "^7.27.2",
     "babel-jest": "^30.0.0",
