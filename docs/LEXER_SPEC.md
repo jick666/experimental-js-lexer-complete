@@ -22,12 +22,13 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `RegexOrDivideReader` (§4.5)
 - `TemplateStringReader` (§4.6)
 - `WhitespaceReader` (§4.7)
+- `CommentReader` (§4.8)
 
 ## 5. Modes <a name="modes"></a>
 - `default`, `template_string`, `regex`, `jsx`, etc.
 
 ## 6. Token Format <a name="format"></a>
-- `type`: `IDENTIFIER`, `NUMBER`, …  
+- `type`: `IDENTIFIER`, `NUMBER`, `COMMENT`, …  
 - `value`: lexeme  
 - `start`/`end`: `{ line, column, index }`  
 - `raw`: original text (optional)  
