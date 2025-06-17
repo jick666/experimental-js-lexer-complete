@@ -3,15 +3,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-
-permissions:
-  contents: read
+    branches: ['**']
 
 jobs:
-  verify:
-    name: Verify (OS: ${{ matrix.os }}, Node: ${{ matrix.node }})
+  build-and-test:
+    name: Test on ${{ matrix.os }} / Node ${{ matrix.node }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -19,62 +17,40 @@ jobs:
         node: [18.x, 20.x]
 
     steps:
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-          cache: npm
+          cache: yarn
 
-      - name: Bootstrap project
-        run: npm run setup
+      - name: Install dependencies
+        run: |
+          if [ -f yarn.lock ]; then
+            echo "▶️  Detected yarn.lock → yarn install"
+            yarn install --immutable --immutable-cache
+          elif [ -f package-lock.json ]; then
+            echo "▶️  Detected package-lock.json → npm ci"
+            npm ci
+          else
+            echo "▶️  No lockfile → npm install"
+            npm install
+          fi
 
-      - name: Lint & auto‐fix
-        run: npm run lint
-
-      - name: Run tests & collect coverage
-        run: npm test
-
-      - name: Build dist
+      - name: Build
         run: npm run build
 
-      - name: Upload coverage report
+      - name: Lint
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Upload Coverage Report
         if: success()
         uses: actions/upload-artifact@v3
         with:
-          name: coverage-${{ matrix.os }}-node${{ matrix.node }}
+          name: coverage-${{ matrix.os }}-node-${{ matrix.node }}
           path: coverage/
-
-  release:
-    name: Release
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: verify
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Check out full history
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: npm
-
-      - name: Bootstrap project
-        run: npm run setup
-
-      - name: Build for release
-        run: npm run build
-
-      - name: Publish via Semantic Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run release
