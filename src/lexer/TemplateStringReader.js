@@ -26,7 +26,8 @@ export function TemplateStringReader(stream, factory) {
           'BadEscape',
           'Bad escape sequence in template literal',
           escStart,
-          stream.getPosition()
+          stream.getPosition(),
+          stream.input
         );
       }
       value += stream.current();
@@ -80,6 +81,7 @@ export function TemplateStringReader(stream, factory) {
     'UnterminatedTemplate',
     'Unterminated template literal',
     startPos,
-    stream.getPosition()
+    stream.getPosition(),
+    stream.input
   );
 }
