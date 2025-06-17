@@ -4,6 +4,13 @@ export function RegexOrDivideReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '/') return null;
 
+  // '/=' is always an operator
+  if (stream.peek() === '=') {
+    stream.advance();
+    stream.advance();
+    return factory('OPERATOR', '/=', startPos, stream.getPosition());
+  }
+
   // Look backwards for the last non-whitespace character to guess context.
   let i = stream.getPosition().index - 1;
   let prev = null;
