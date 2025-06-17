@@ -23,6 +23,10 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `TemplateStringReader` (§4.6)
 - `WhitespaceReader` (§4.7)
 
+`NumberReader` supports decimal numbers with optional fractional and exponent
+parts as well as binary (`0b`), octal (`0o`), and hexadecimal (`0x`) literals.
+Numeric separators (`_`) are permitted between digits.
+
 ## 5. Modes <a name="modes"></a>
 - `default`, `template_string`, `regex`, `jsx`, etc.
 
