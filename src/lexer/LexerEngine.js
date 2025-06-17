@@ -24,9 +24,9 @@ export class LexerEngine {
         WhitespaceReader,
         IdentifierReader,
         NumberReader,
+        RegexOrDivideReader,
         OperatorReader,
         PunctuationReader,
-        RegexOrDivideReader,
         TemplateStringReader
       ],
       template_string: [TemplateStringReader],
