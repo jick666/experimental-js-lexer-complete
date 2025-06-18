@@ -40,3 +40,11 @@ test("UnicodeIdentifierReader handles ZWJ", () => {
   expect(tok.value).toBe(id);
   expect(stream.getPosition().index).toBe(3);
 });
+
+test("UnicodeIdentifierReader returns null for ASCII start", () => {
+  const stream = new CharStream("aπ");
+  const pos = stream.getPosition();
+  const tok = UnicodeIdentifierReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});
