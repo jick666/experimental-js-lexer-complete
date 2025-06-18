@@ -32,3 +32,21 @@ test("CharStream setPosition restores previous position", () => {
   stream.setPosition(pos);
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("CharStream current/peek/eof handling at bounds", () => {
+  const stream = new CharStream("ab");
+  // initial position
+  expect(stream.current()).toBe("a");
+  expect(stream.peek()).toBe("b");
+  expect(stream.eof()).toBe(false);
+
+  stream.advance();
+  expect(stream.current()).toBe("b");
+  expect(stream.peek()).toBeNull();
+  expect(stream.eof()).toBe(false);
+
+  stream.advance();
+  expect(stream.current()).toBeNull();
+  expect(stream.peek()).toBeNull();
+  expect(stream.eof()).toBe(true);
+});
