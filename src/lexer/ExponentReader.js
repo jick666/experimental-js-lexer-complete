@@ -10,9 +10,19 @@ export function ExponentReader(stream, factory) {
     ch = stream.current();
   }
 
+  if (ch === '.') {
+    value += ch;
+    stream.advance();
+    ch = stream.current();
+    while (ch !== null && ch >= '0' && ch <= '9') {
+      value += ch;
+      stream.advance();
+      ch = stream.current();
+    }
+  }
+
   if (ch !== 'e' && ch !== 'E') {
-    // rewind
-    stream.index = startPos.index;
+    stream.setPosition(startPos);
     return null;
   }
 
@@ -27,8 +37,7 @@ export function ExponentReader(stream, factory) {
   }
 
   if (ch === null || ch < '0' || ch > '9') {
-    // invalid exponent
-    stream.index = startPos.index;
+    stream.setPosition(startPos);
     return null;
   }
 
