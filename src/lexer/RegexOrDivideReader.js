@@ -41,21 +41,39 @@ export function RegexOrDivideReader(stream, factory) {
 
   let body = '';
   let escaped = false;
+  let charClassDepth = 0;
   while (!stream.eof()) {
     const ch = stream.current();
-    if (!escaped && ch === '/') break;
-    if (!escaped && ch === '\\') {
-      escaped = true;
-      body += ch;
-      stream.advance();
-      continue;
+
+    if (!escaped) {
+      if (ch === '/' && charClassDepth === 0) break;
+      if (ch === '[') {
+        charClassDepth++;
+        body += ch;
+        stream.advance();
+        continue;
+      }
+      if (ch === ']' && charClassDepth > 0) {
+        charClassDepth--;
+        body += ch;
+        stream.advance();
+        continue;
+      }
+      if (ch === '\\') {
+        escaped = true;
+        body += ch;
+        stream.advance();
+        continue;
+      }
+    } else {
+      escaped = false;
     }
-    escaped = false;
+
     body += ch;
     stream.advance();
   }
 
-  if (stream.current() !== '/') {
+  if (stream.current() !== '/' || charClassDepth > 0) {
     // Unterminated regex
     return new LexerError(
       'UnterminatedRegex',

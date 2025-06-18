@@ -36,3 +36,30 @@ test("RegexOrDivideReader returns LexerError on unterminated regex", () => {
   expect(result.type).toBe("UnterminatedRegex");
   expect(result.toString()).toContain("line 1, column 0");
 });
+
+test("RegexOrDivideReader handles character class", () => {
+  const src = "/[a-z]+/g";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
+test("RegexOrDivideReader handles nested brackets", () => {
+  const src = "/[a-z[0-9]]+/";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
+test("RegexOrDivideReader handles escapes inside character class", () => {
+  const src = "/[\\/\]]+/";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});

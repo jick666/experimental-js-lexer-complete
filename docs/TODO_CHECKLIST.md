@@ -9,4 +9,4 @@
 - [ ] Implement ShebangReader (#!… file headers)
 - [ ] Buffer tokens in BufferedIncrementalLexer
 - [x] Scaffold VS Code Extension under `extension/`
-- [ ] Enhance RegexOrDivideReader to handle character classes
+- [x] Enhance RegexOrDivideReader to handle character classes
