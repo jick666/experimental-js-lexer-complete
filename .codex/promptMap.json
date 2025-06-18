@@ -1,0 +1,66 @@
+{
+  "HexReader": {
+    "prompt": "Implement HexReader: parse 0x… hexadecimal literals per docs/LEXER_SPEC.md §4.2. Add src/lexer/HexReader.js and tests/readers/HexReader.test.js.",
+    "files": [
+      "src/lexer/HexReader.js",
+      "tests/readers/HexReader.test.js"
+    ]
+  },
+  "BinaryReader": {
+    "prompt": "Implement BinaryReader: parse 0b… binary literals per docs/LEXER_SPEC.md §4.2. Add src/lexer/BinaryReader.js and tests/readers/BinaryReader.test.js.",
+    "files": [
+      "src/lexer/BinaryReader.js",
+      "tests/readers/BinaryReader.test.js"
+    ]
+  },
+  "OctalReader": {
+    "prompt": "Implement OctalReader: parse 0o… octal literals per docs/LEXER_SPEC.md §4.2. Add src/lexer/OctalReader.js and tests/readers/OctalReader.test.js.",
+    "files": [
+      "src/lexer/OctalReader.js",
+      "tests/readers/OctalReader.test.js"
+    ]
+  },
+  "ExponentReader": {
+    "prompt": "Implement ExponentReader: parse 1e10-style exponentials per docs/LEXER_SPEC.md §4.2. Add src/lexer/ExponentReader.js and tests/readers/ExponentReader.test.js.",
+    "files": [
+      "src/lexer/ExponentReader.js",
+      "tests/readers/ExponentReader.test.js"
+    ]
+  },
+  "NumericSeparatorReader": {
+    "prompt": "Implement NumericSeparatorReader: parse numeric separators (1_000) per docs/LEXER_SPEC.md §4.2. Add src/lexer/NumericSeparatorReader.js and tests/readers/NumericSeparatorReader.test.js.",
+    "files": [
+      "src/lexer/NumericSeparatorReader.js",
+      "tests/readers/NumericSeparatorReader.test.js"
+    ]
+  },
+  "UnicodeIdentifierReader": {
+    "prompt": "Implement UnicodeIdentifierReader: accept full Unicode identifier start/part per docs/LEXER_SPEC.md §4.1. Add src/lexer/UnicodeIdentifierReader.js and tests/readers/UnicodeIdentifierReader.test.js.",
+    "files": [
+      "src/lexer/UnicodeIdentifierReader.js",
+      "tests/readers/UnicodeIdentifierReader.test.js"
+    ]
+  },
+  "ShebangReader": {
+    "prompt": "Implement ShebangReader: consume #!…\\n at file start as a COMMENT token per docs/LEXER_SPEC.md §4.8. Add src/lexer/ShebangReader.js and tests/readers/ShebangReader.test.js.",
+    "files": [
+      "src/lexer/ShebangReader.js",
+      "tests/readers/ShebangReader.test.js"
+    ]
+  },
+  "BufferedIncrementalLexer": {
+    "prompt": "Implement BufferedIncrementalLexer: buffer incomplete tokens in incremental feed mode. Add src/integration/BufferedIncrementalLexer.js and tests/integration/BufferedIncrementalLexer.test.js.",
+    "files": [
+      "src/integration/BufferedIncrementalLexer.js",
+      "tests/integration/BufferedIncrementalLexer.test.js"
+    ]
+  },
+  "VSCodeExtension": {
+    "prompt": "Scaffold a VS Code extension under extension/ wrapping createTokenStream, include package.json, extension.ts, vsce.yml, build & publish scripts.",
+    "files": [
+      "extension/package.json",
+      "extension/src/extension.ts",
+      "extension/vsce.yml"
+    ]
+  }
+}

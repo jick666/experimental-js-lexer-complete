@@ -1,0 +1,17 @@
+name: Generate Tests From Spec
+on:
+  push:
+    paths:
+      - 'docs/LEXER_SPEC.md'
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: node .github/scripts/generate-tests.js
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(tests): auto-generated from spec"

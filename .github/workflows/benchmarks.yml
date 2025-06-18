@@ -1,0 +1,19 @@
+name: Nightly Benchmarks
+on:
+  schedule:
+    - cron: '0 3 * * *'
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm install
+      - run: node tests/benchmarks/lexer.bench.js > bench-output.txt
+      - run: node .github/scripts/compare-benchmark.js bench-output.txt .benchmarks/baseline.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: bench-output
+          path: bench-output.txt
