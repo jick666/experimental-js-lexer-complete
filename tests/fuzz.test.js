@@ -12,6 +12,12 @@ import { PunctuationReader } from "../src/lexer/PunctuationReader.js";
 import { RegexOrDivideReader } from "../src/lexer/RegexOrDivideReader.js";
 import { TemplateStringReader } from "../src/lexer/TemplateStringReader.js";
 import { WhitespaceReader } from "../src/lexer/WhitespaceReader.js";
+import { BinaryReader } from "../src/lexer/BinaryReader.js";
+import { OctalReader } from "../src/lexer/OctalReader.js";
+import { ExponentReader } from "../src/lexer/ExponentReader.js";
+import { NumericSeparatorReader } from "../src/lexer/NumericSeparatorReader.js";
+import { UnicodeIdentifierReader } from "../src/lexer/UnicodeIdentifierReader.js";
+import { ShebangReader } from "../src/lexer/ShebangReader.js";
 
 function randomAsciiString(maxLen = 20) {
   const len = Math.floor(Math.random() * (maxLen + 1));
@@ -24,7 +30,7 @@ function randomAsciiString(maxLen = 20) {
 }
 
 // generate a pool of random inputs once so each test uses the same set
-const FUZZ_INPUTS = Array.from({ length: 20 }, () => randomAsciiString());
+const FUZZ_INPUTS = Array.from({ length: 50 }, () => randomAsciiString());
 const READERS = [
   ["IdentifierReader", IdentifierReader],
   ["NumberReader", NumberReader],
@@ -33,6 +39,12 @@ const READERS = [
   ["RegexOrDivideReader", RegexOrDivideReader],
   ["TemplateStringReader", TemplateStringReader],
   ["WhitespaceReader", WhitespaceReader],
+  ["BinaryReader", BinaryReader],
+  ["OctalReader", OctalReader],
+  ["ExponentReader", ExponentReader],
+  ["NumericSeparatorReader", NumericSeparatorReader],
+  ["UnicodeIdentifierReader", UnicodeIdentifierReader],
+  ["ShebangReader", ShebangReader],
 ];
 
 READERS.forEach(([name, reader]) => {
