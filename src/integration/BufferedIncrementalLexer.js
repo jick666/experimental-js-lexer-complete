@@ -1,0 +1,50 @@
+import { CharStream } from '../lexer/CharStream.js';
+import { LexerEngine } from '../lexer/LexerEngine.js';
+import { LexerError } from '../lexer/LexerError.js';
+
+/**
+ * BufferedIncrementalLexer buffers incomplete tokens across feed() calls.
+ * It avoids throwing when a chunk ends in the middle of a token.
+ */
+export class BufferedIncrementalLexer {
+  constructor({ onToken } = {}) {
+    this.onToken = onToken || (() => {});
+    this.tokens = [];
+    this.stream = new CharStream('');
+    this.engine = new LexerEngine(this.stream);
+  }
+
+  /**
+   * Feed additional source text to the lexer.
+   * Incomplete trailing tokens are buffered until completed.
+   * @param {string} chunk
+   */
+  feed(chunk) {
+    this.stream.input += chunk;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const pos = this.stream.getPosition();
+      let token = null;
+      try {
+        token = this.engine.nextToken();
+      } catch (err) {
+        if (err instanceof LexerError && err.end.index >= this.stream.input.length) {
+          // Incomplete token at end of input, rewind and wait for more data
+          this.stream.setPosition(pos);
+          break;
+        }
+        throw err;
+      }
+      if (token === null) break;
+      this.tokens.push(token);
+      this.onToken(token);
+    }
+  }
+
+  /**
+   * Return all tokens produced so far.
+   */
+  getTokens() {
+    return this.tokens.slice();
+  }
+}
