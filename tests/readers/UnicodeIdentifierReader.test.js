@@ -32,3 +32,11 @@ test("UnicodeIdentifierReader handles ZWNJ", () => {
   expect(tok.value).toBe(id);
   expect(stream.getPosition().index).toBe(3);
 });
+
+test("UnicodeIdentifierReader handles ZWJ", () => {
+  const id = "न\u200Dम";
+  const stream = new CharStream(id);
+  const tok = UnicodeIdentifierReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.value).toBe(id);
+  expect(stream.getPosition().index).toBe(3);
+});

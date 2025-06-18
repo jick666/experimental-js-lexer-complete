@@ -50,3 +50,15 @@ test("CharStream current/peek/eof handling at bounds", () => {
   expect(stream.peek()).toBeNull();
   expect(stream.eof()).toBe(true);
 });
+
+test("CharStream handles CRLF newlines", () => {
+  const stream = new CharStream("a\r\nb");
+  stream.advance(); // 'a'
+  expect(stream.getPosition()).toEqual({ line: 1, column: 1, index: 1 });
+  stream.advance(); // '\r'
+  expect(stream.getPosition()).toEqual({ line: 1, column: 2, index: 2 });
+  stream.advance(); // '\n'
+  expect(stream.getPosition()).toEqual({ line: 2, column: 0, index: 3 });
+  stream.advance(); // 'b'
+  expect(stream.getPosition()).toEqual({ line: 2, column: 1, index: 4 });
+});
