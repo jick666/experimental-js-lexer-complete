@@ -4,30 +4,31 @@ export function NumericSeparatorReader(stream, factory) {
   if (ch === null || ch < '0' || ch > '9') return null;
 
   let value = '';
+  let underscoreSeen = false;
   let lastUnderscore = false;
-  while (ch !== null) {
+
+  while (ch !== null && (ch >= '0' && ch <= '9' || ch === '_')) {
     if (ch === '_') {
       if (lastUnderscore) {
         stream.index = startPos.index;
         return null;
       }
+      underscoreSeen = true;
       lastUnderscore = true;
-      value += ch;
-    } else if (ch >= '0' && ch <= '9') {
-      lastUnderscore = false;
-      value += ch;
     } else {
-      break;
+      lastUnderscore = false;
     }
+
+    value += ch;
     stream.advance();
     ch = stream.current();
   }
 
-  if (value.includes('_')) {
-    const endPos = stream.getPosition();
-    return factory('NUMBER', value, startPos, endPos);
+  if (!underscoreSeen || lastUnderscore) {
+    stream.index = startPos.index;
+    return null;
   }
 
-  stream.index = startPos.index;
-  return null;
+  const endPos = stream.getPosition();
+  return factory('NUMBER', value, startPos, endPos);
 }
