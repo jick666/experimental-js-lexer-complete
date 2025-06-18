@@ -33,3 +33,10 @@ test("HexReader returns null without digits", () => {
   expect(tok).toBeNull();
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("HexReader stops before invalid digit", () => {
+  const stream = new CharStream("0x1fg");
+  const tok = HexReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(tok.value).toBe("0x1f");
+  expect(stream.current()).toBe("g");
+});

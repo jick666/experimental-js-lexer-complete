@@ -33,3 +33,10 @@ test("BinaryReader returns null without digits", () => {
   expect(tok).toBeNull();
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("BinaryReader stops before invalid digit", () => {
+  const stream = new CharStream("0b1012");
+  const tok = BinaryReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(tok.value).toBe("0b101");
+  expect(stream.current()).toBe("2");
+});
