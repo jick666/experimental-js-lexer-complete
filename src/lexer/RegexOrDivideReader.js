@@ -61,7 +61,8 @@ export function RegexOrDivideReader(stream, factory) {
       'UnterminatedRegex',
       'Unterminated regular expression literal',
       startPos,
-      stream.getPosition()
+      stream.getPosition(),
+      stream.input
     );
   }
 

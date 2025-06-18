@@ -34,4 +34,5 @@ test("RegexOrDivideReader returns LexerError on unterminated regex", () => {
   const result = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe("UnterminatedRegex");
+  expect(result.toString()).toContain("line 1, column 0");
 });

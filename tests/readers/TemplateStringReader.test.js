@@ -34,6 +34,7 @@ test("TemplateStringReader returns LexerError on unterminated template", () => {
   );
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe('UnterminatedTemplate');
+  expect(result.toString()).toContain('line 1, column 0');
 });
 
 test("TemplateStringReader returns LexerError on bad escape", () => {
@@ -44,6 +45,7 @@ test("TemplateStringReader returns LexerError on bad escape", () => {
   );
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe('BadEscape');
+  expect(result.toString()).toContain('line 1, column 5');
 });
 
 test("TemplateStringReader handles escapes and nested braces", () => {
