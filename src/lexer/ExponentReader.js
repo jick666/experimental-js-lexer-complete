@@ -10,6 +10,17 @@ export function ExponentReader(stream, factory) {
     ch = stream.current();
   }
 
+  if (ch === '.') {
+    value += ch;
+    stream.advance();
+    ch = stream.current();
+    while (ch !== null && ch >= '0' && ch <= '9') {
+      value += ch;
+      stream.advance();
+      ch = stream.current();
+    }
+  }
+
   if (ch !== 'e' && ch !== 'E') {
     // rewind
     stream.index = startPos.index;
