@@ -16,6 +16,15 @@ test("ShebangReader returns null when not at start", () => {
   expect(ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e))).toBeNull();
 });
 
+test("ShebangReader returns null when start does not include '!'", () => {
+  const src = "# just text";
+  const stream = new CharStream(src);
+  const pos = stream.getPosition();
+  const result = ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(result).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});
+
 test("ShebangReader handles EOF without newline", () => {
   const src = "#!/bin/bash";
   const stream = new CharStream(src);

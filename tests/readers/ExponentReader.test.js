@@ -18,6 +18,14 @@ test("ExponentReader reads decimal exponent with sign", () => {
   expect(stream.getPosition().index).toBe(6);
 });
 
+test("ExponentReader reads negative exponent", () => {
+  const stream = new CharStream("2e-3");
+  const tok = ExponentReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(tok.type).toBe("NUMBER");
+  expect(tok.value).toBe("2e-3");
+  expect(stream.getPosition().index).toBe(4);
+});
+
 test("ExponentReader returns null when missing digits", () => {
   const stream = new CharStream("2e+");
   const pos = stream.getPosition();
