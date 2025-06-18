@@ -4,6 +4,8 @@ import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
+import { StringReader } from './StringReader.js';
+import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { Token } from './Token.js';
@@ -24,13 +26,16 @@ export class LexerEngine {
         WhitespaceReader,
         IdentifierReader,
         NumberReader,
+        StringReader,
         RegexOrDivideReader,
         OperatorReader,
         PunctuationReader,
-        TemplateStringReader
+        TemplateStringReader,
+        JSXReader
       ],
       template_string: [TemplateStringReader],
-      regex: [RegexOrDivideReader]
+      regex: [RegexOrDivideReader],
+      jsx: [JSXReader]
     };
     // Track last returned token for contextual readers
     this.lastToken = null;
@@ -67,7 +72,11 @@ export class LexerEngine {
 
         // 1. Skip whitespace (handled by WhitespaceReader in default mode)
 
-      const mode = this.currentMode();
+      let mode = this.currentMode();
+      if (mode === 'default' && stream.current() === '<') {
+        this.pushMode('jsx');
+        mode = this.currentMode();
+      }
       const readers = this.modes[mode] || this.modes.default;
 
       // 2. Try each reader in sequence for the current mode

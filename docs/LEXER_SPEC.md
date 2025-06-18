@@ -23,6 +23,8 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `TemplateStringReader` (§4.6)
 - `WhitespaceReader` (§4.7)
 - `CommentReader` (§4.8)
+- `StringReader` (§4.9)
+- `JSXReader` (§4.10)
 
 ## 5. Modes <a name="modes"></a>
 - `default`, `template_string`, `regex`, `jsx`, etc.
@@ -59,6 +61,8 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Regex or divide context is inferred from the last non-whitespace character.
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `NumberReader` only parses base‑10 integers and decimals.
+- `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
+- `JSXReader` tokenizes raw JSX elements between `<` and `>`.
 
 ## 11. Usage Examples <a name="examples"></a>
 Run the CLI directly:

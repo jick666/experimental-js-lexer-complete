@@ -32,7 +32,7 @@
 - [x] Expose a CLI entrypoint in `index.js`, enforce code style with `.eslintrc.json`, and wire up the CI workflow in `.github/workflows/ci.yml`.
 
 ### 12. Extended Reader Support
-- [ ] Add JSX mode and handle advanced string-literal forms for Extended Reader Support.
+- [x] Add JSX mode and handle advanced string-literal forms for Extended Reader Support.
 
 ### 13. ECMAScript Coverage
 - [ ] Develop additional readers to cover full modern ECMAScript syntax.
