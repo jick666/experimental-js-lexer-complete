@@ -45,16 +45,23 @@
 - [ ] additional readers for full ECMAScript
 
 ### 13. Performance Optimizations
-- [ ] benchmark large files
-- [ ] optimize tokenization speed
+- [x] benchmark large files
+- [x] optimize tokenization speed
 
 ### 14. Documentation Expansion
-- [ ] cover more edge cases in `docs/LEXER_SPEC.md`
-- [ ] add usage examples
+- [x] cover more edge cases in `docs/LEXER_SPEC.md`
+- [x] add usage examples
 
 ### 15. Integration Hooks
-- [ ] incremental lexing for editors
+- [x] incremental lexing for editors
 - [ ] syntax highlighting integration
 
 ### 16. Error Reporting Improvements
-- [ ] clearer `LexerError` messages with context
+- [x] clearer `LexerError` messages with context
+
+### 17. TypeScript Support
+- [ ] distribute `.d.ts` files
+- [ ] migrate source to TypeScript
+
+### 18. Plugin API
+- [ ] allow registering custom readers at runtime
