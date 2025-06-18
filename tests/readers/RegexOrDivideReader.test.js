@@ -137,3 +137,21 @@ test("RegexOrDivideReader treats slash after line comment as divide", () => {
   expect(token.type).toBe("OPERATOR");
   expect(token.value).toBe("/");
 });
+
+test("RegexOrDivideReader handles quantifiers and groups", () => {
+  const src = "/a{2,3}(b[c]+)*/g";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
+test("RegexOrDivideReader handles escaped closing bracket", () => {
+  const src = "/[a-z\\]]+/";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});

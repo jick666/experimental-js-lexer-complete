@@ -144,3 +144,21 @@ test("TemplateStringReader handles escaped backtick in expression", () => {
   expect(tok.type).toBe("TEMPLATE_STRING");
   expect(tok.value).toBe(src);
 });
+
+test("TemplateStringReader allows extra closing brace", () => {
+  const src = "`a ${1}} b`";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
+test("TemplateStringReader handles deeply nested templates", () => {
+  const src = "`start ${`level1 ${`level2 ${3}`}`}`";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
