@@ -18,7 +18,8 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `IdentifierReader` (§4.1)
 - `NumberReader` (§4.2)
 - `HexReader` (§4.3)
-- `BigIntReader` (§4.4)
+- `OctalReader` (§4.4)
+- `BigIntReader` (§4.5)
 - `OperatorReader` (§4.5)
 - `PunctuationReader` (§4.6)
 - `RegexOrDivideReader` (§4.7)
@@ -65,6 +66,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `NumberReader` only parses base‑10 integers and decimals.
 - `BigIntReader` parses integer literals with a trailing `n`.
 - `HexReader` parses `0x` or `0X` prefixed hexadecimal integers.
+- `OctalReader` parses `0o` or `0O` prefixed octal integers.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
 
