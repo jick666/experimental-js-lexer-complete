@@ -8,5 +8,5 @@
 - [ ] Implement UnicodeIdentifierReader (full Unicode support)
 - [ ] Implement ShebangReader (#!… file headers)
 - [ ] Buffer tokens in BufferedIncrementalLexer
-- [ ] Scaffold VS Code Extension under `extension/`
+- [x] Scaffold VS Code Extension under `extension/`
 - [ ] Enhance RegexOrDivideReader to handle character classes

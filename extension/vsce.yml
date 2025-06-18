@@ -1,0 +1,2 @@
+$schema: https://aka.ms/vscepublish.schema.json
+token: ${{ secrets.VSCE_TOKEN }}
