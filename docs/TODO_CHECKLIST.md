@@ -3,7 +3,7 @@
 - [x] Implement HexReader (0x… literals)
 - [x] Implement BinaryReader (0b… literals)
 - [x] Implement OctalReader (0o… literals)
-- [ ] Implement ExponentReader (1e… literals)
+- [x] Implement ExponentReader (1e… literals)
 - [x] Implement NumericSeparatorReader (1_000 separators)
 - [x] Implement UnicodeIdentifierReader (full Unicode support)
 - [x] Implement ShebangReader (#!… file headers)
