@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest.config.cjs --coverage",
     "bench": "node tests/benchmarks/lexer.bench.js",
+    "build": "echo \"Nothing to build\"",
     "prepare": "npm run lint",
     "build:extension": "npm --prefix extension install && npm --prefix extension run build",
     "publish:extension": "npm --prefix extension install && npm --prefix extension run publish"

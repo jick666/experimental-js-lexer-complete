@@ -1,17 +1,28 @@
+# .github/workflows/auto-merge.yml
 name: Auto-Merge Reader PRs
+
 on:
-  pull_request:
+  pull_request_target:
     types: [labeled, synchronize, opened]
+
+permissions:
+  contents: write    # needed to merge
+  pull-requests: write
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: pascalgn/automerge-action@v0.14.3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          merge_method: squash
-      - run: node .github/scripts/close-todo.js
+
+      - name: Automerge
+        uses: pascalgn/automerge-action@v0.14.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close completed TODOs
+        run: node .github/scripts/close-todo.js
