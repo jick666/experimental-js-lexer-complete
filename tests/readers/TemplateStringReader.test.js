@@ -80,3 +80,14 @@ test("TemplateStringReader handles multi-line content", () => {
   expect(token.value).toBe(src);
   expect(stream.getPosition().index).toBe(src.length);
 });
+
+test("TemplateStringReader errors on unterminated expression", () => {
+  const src = "`a ${b"; // missing closing brace and backtick
+  const stream = new CharStream(src);
+  const result = TemplateStringReader(
+    stream,
+    (t, v, s, e) => new Token(t, v, s, e)
+  );
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe("UnterminatedTemplate");
+});

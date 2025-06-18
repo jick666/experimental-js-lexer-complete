@@ -33,3 +33,10 @@ test("OctalReader returns null without digits", () => {
   expect(tok).toBeNull();
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("OctalReader stops before non-octal digit", () => {
+  const stream = new CharStream("0o7559");
+  const tok = OctalReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(tok.value).toBe("0o755");
+  expect(stream.current()).toBe("9");
+});
