@@ -100,3 +100,13 @@ test("TemplateStringReader handles nested template expressions", () => {
   expect(tok.value).toBe(src);
   expect(stream.getPosition().index).toBe(src.length);
 });
+
+test("TemplateStringReader handles CRLF line endings", () => {
+  const src = "`line1\r\nline2`";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
