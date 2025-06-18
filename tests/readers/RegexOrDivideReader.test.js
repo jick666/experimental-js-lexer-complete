@@ -3,6 +3,7 @@ import { Token } from "../../src/lexer/Token.js";
 import { RegexOrDivideReader } from "../../src/lexer/RegexOrDivideReader.js";
 import { LexerError } from "../../src/lexer/LexerError.js";
 
+import { CommentReader } from "../../src/lexer/CommentReader.js";
 test("RegexOrDivideReader reads regex literal", () => {
   const stream = new CharStream("/abc/g");
   const token = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
@@ -92,4 +93,28 @@ test("RegexOrDivideReader allows newline inside regex literal", () => {
   const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
   expect(token.type).toBe("REGEX");
   expect(token.value).toBe(src);
+});
+
+
+test("RegexOrDivideReader treats slash after block comment as divide", () => {
+  const src = "a/*x*/ /b/";
+  const stream = new CharStream(src);
+  stream.advance(); // 'a'
+  CommentReader(stream, () => {}); // consume comment
+  stream.advance(); // space before slash
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("OPERATOR");
+  expect(token.value).toBe("/");
+});
+
+test("RegexOrDivideReader treats newline after closing paren as divide", () => {
+  const src = "(1)\n/abc/";
+  const stream = new CharStream(src);
+  stream.advance(); // (
+  stream.advance(); // '1'
+  stream.advance(); // )
+  stream.advance(); // \n
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("OPERATOR");
+  expect(token.value).toBe("/");
 });

@@ -42,3 +42,11 @@ test("ExponentReader returns null when no exponent", () => {
   expect(stream.getPosition()).toEqual(pos);
 });
 
+
+test("ExponentReader stops before second exponent", () => {
+  const stream = new CharStream("1e10e2");
+  const tok = ExponentReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("NUMBER");
+  expect(tok.value).toBe("1e10");
+  expect(stream.current()).toBe("e");
+});

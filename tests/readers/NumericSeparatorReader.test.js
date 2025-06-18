@@ -41,3 +41,11 @@ test("NumericSeparatorReader stops at non-digit", () => {
   expect(tok.value).toBe("1_2");
   expect(stream.getPosition().index).toBe(3);
 });
+
+test("NumericSeparatorReader rejects leading underscore", () => {
+  const stream = new CharStream("_1");
+  const pos = stream.getPosition();
+  const tok = NumericSeparatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});
