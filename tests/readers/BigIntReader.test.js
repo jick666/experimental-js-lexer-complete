@@ -49,3 +49,27 @@ test("BigIntReader stops before trailing digits", () => {
   expect(tok.value).toBe("1n");
   expect(stream.current()).toBe("2");
 });
+
+test("BigIntReader reads bigint with numeric separators", () => {
+  const stream = new CharStream("1_000n");
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("BIGINT");
+  expect(tok.value).toBe("1_000n");
+  expect(stream.getPosition().index).toBe(6);
+});
+
+test("BigIntReader rejects leading underscore", () => {
+  const stream = new CharStream("_1n");
+  const pos = stream.getPosition();
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});
+
+test("BigIntReader rejects trailing underscore", () => {
+  const stream = new CharStream("1_n");
+  const pos = stream.getPosition();
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});

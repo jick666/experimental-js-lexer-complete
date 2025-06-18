@@ -53,8 +53,8 @@ export function TemplateStringReader(stream, factory) {
       let depth = 1;
       while (!stream.eof() && depth > 0) {
         const c = stream.current();
+
         if (c === '\\') {
-          // preserve escaped char inside expression
           value += c;
           stream.advance();
           if (!stream.eof()) {
@@ -63,6 +63,34 @@ export function TemplateStringReader(stream, factory) {
           }
           continue;
         }
+
+        if (c === '"' || c === "'") {
+          const quote = c;
+          value += c;
+          stream.advance();
+          while (!stream.eof()) {
+            const qc = stream.current();
+            value += qc;
+            stream.advance();
+            if (qc === '\\') {
+              if (!stream.eof()) {
+                value += stream.current();
+                stream.advance();
+              }
+              continue;
+            }
+            if (qc === quote) break;
+          }
+          continue;
+        }
+
+        if (c === '`') {
+          const nested = TemplateStringReader(stream, factory);
+          if (nested instanceof LexerError) return nested;
+          value += nested.value;
+          continue;
+        }
+
         if (c === '{') depth++;
         else if (c === '}') depth--;
         value += c;

@@ -118,3 +118,21 @@ test("TemplateStringReader errors on escape at EOF", () => {
   expect(result.type).toBe("BadEscape");
 });
 
+test("TemplateStringReader handles empty template", () => {
+  const src = "``";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+  expect(stream.getPosition().index).toBe(2);
+});
+
+test("TemplateStringReader handles braces inside strings", () => {
+  const src = "`a ${ '{' }`";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});
+
