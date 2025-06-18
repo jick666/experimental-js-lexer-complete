@@ -50,3 +50,19 @@ test("ExponentReader stops before second exponent", () => {
   expect(tok.value).toBe("1e10");
   expect(stream.current()).toBe("e");
 });
+
+test("ExponentReader reads digit-dot-exponent form", () => {
+  const stream = new CharStream("1.e2");
+  const tok = ExponentReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("NUMBER");
+  expect(tok.value).toBe("1.e2");
+  expect(stream.getPosition().index).toBe(4);
+});
+
+test("ExponentReader rejects exponent missing digits after sign", () => {
+  const stream = new CharStream("1e+");
+  const pos = stream.getPosition();
+  const tok = ExponentReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});

@@ -136,3 +136,11 @@ test("TemplateStringReader handles braces inside strings", () => {
   expect(stream.getPosition().index).toBe(src.length);
 });
 
+
+test("TemplateStringReader handles escaped backtick in expression", () => {
+  const src = "`a ${`inner \\` backtick`}`";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+});

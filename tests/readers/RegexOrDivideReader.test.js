@@ -126,3 +126,14 @@ test("RegexOrDivideReader errors on unterminated character class", () => {
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe("UnterminatedRegex");
 });
+
+test("RegexOrDivideReader treats slash after line comment as divide", () => {
+  const src = "a//c\n/b/";
+  const stream = new CharStream(src);
+  stream.advance(); // 'a'
+  CommentReader(stream, () => {}); // consume line comment
+  stream.advance(); // newline
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("OPERATOR");
+  expect(token.value).toBe("/");
+});

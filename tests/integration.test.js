@@ -57,3 +57,15 @@ test("integration: hex literals", () => {
   ]);
   expect(toks[3].value).toBe("0x1A");
 });
+
+test("integration: numeric separator with exponent splits tokens", () => {
+  const toks = tokenize("let n = 1_0e3;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "IDENTIFIER",
+    "PUNCTUATION"
+  ]);
+});
