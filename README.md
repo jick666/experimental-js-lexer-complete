@@ -46,6 +46,20 @@ console.log(collected);
 // ['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'NUMBER', 'PUNCTUATION']
 ```
 
+For editors that prefer a standard Node stream interface, use the
+`createTokenStream` helper:
+
+```javascript
+import { createTokenStream } from 'experimental-js-lexer';
+
+const stream = createTokenStream('let x = 1;');
+stream.on('data', tok => {
+  console.log(tok.type);
+});
+```
+
+See `docs/VS_CODE_EXAMPLE.md` for a more complete VS Code integration example.
+
 ## Auto-Merge Workflow
 
 Pull requests labeled `reader` are automatically merged once all CI checks

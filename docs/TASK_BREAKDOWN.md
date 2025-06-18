@@ -14,8 +14,8 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Expand grammar and tests to validate new tokens.
 
 ## 17. Syntax Highlighting Integration
-- [ ] Expose a stable API that streams tokens for editor consumption.
-- [ ] Provide a reference integration example for a popular editor.
+- [x] Expose a stable API that streams tokens for editor consumption.
+- [x] Provide a reference integration example for a popular editor.
 
 ## 19. TypeScript Support
 - [ ] Migrate source files to TypeScript or generate `.d.ts` declarations.

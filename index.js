@@ -2,6 +2,7 @@
 import { CharStream } from "./src/lexer/CharStream.js";
 import { LexerEngine } from "./src/lexer/LexerEngine.js";
 import { IncrementalLexer } from "./src/integration/IncrementalLexer.js";
+import { createTokenStream } from "./src/integration/TokenStream.js";
 import { fileURLToPath } from "url";
 
 /**
@@ -24,7 +25,7 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
-export { IncrementalLexer };
+export { IncrementalLexer, createTokenStream };
 
 // Only run CLI when invoked directly
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
