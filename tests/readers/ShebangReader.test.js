@@ -54,3 +54,12 @@ test("ShebangReader ignores BOM at start", () => {
   const tok = ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e));
   expect(tok).toBeNull();
 });
+
+test("ShebangReader consumes spaces after hashbang", () => {
+  const src = "#! /usr/bin/env node\n";
+  const stream = new CharStream(src);
+  const token = ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("COMMENT");
+  expect(token.value).toBe("#! /usr/bin/env node");
+  expect(stream.current()).toBe("\n");
+});

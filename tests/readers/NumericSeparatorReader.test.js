@@ -49,3 +49,19 @@ test("NumericSeparatorReader rejects leading underscore", () => {
   expect(tok).toBeNull();
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("NumericSeparatorReader stops before decimal point", () => {
+  const stream = new CharStream("1_000.5");
+  const tok = NumericSeparatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("NUMBER");
+  expect(tok.value).toBe("1_000");
+  expect(stream.current()).toBe(".");
+});
+
+test("NumericSeparatorReader stops before exponent", () => {
+  const stream = new CharStream("1_0e5");
+  const tok = NumericSeparatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("NUMBER");
+  expect(tok.value).toBe("1_0");
+  expect(stream.current()).toBe("e");
+});
