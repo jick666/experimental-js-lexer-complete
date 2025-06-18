@@ -85,3 +85,11 @@ test("RegexOrDivideReader treats newline after identifier as divide", () => {
   expect(token.type).toBe("OPERATOR");
   expect(token.value).toBe("/");
 });
+
+test("RegexOrDivideReader allows newline inside regex literal", () => {
+  const src = "/a\nb/";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+});

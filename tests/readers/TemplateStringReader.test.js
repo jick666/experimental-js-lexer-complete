@@ -91,3 +91,12 @@ test("TemplateStringReader errors on unterminated expression", () => {
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe("UnterminatedTemplate");
 });
+
+test("TemplateStringReader handles nested template expressions", () => {
+  const src = "`a ${`inner ${1}`}`";
+  const stream = new CharStream(src);
+  const tok = TemplateStringReader(stream, (t, v, s, e) => new Token(t, v, s, e));
+  expect(tok.type).toBe("TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});

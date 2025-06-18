@@ -28,3 +28,12 @@ test("CommentReader handles unterminated block comment at EOF", () => {
   expect(token.value).toBe(src);
   expect(stream.eof()).toBe(true);
 });
+
+test("CommentReader handles line comment at EOF", () => {
+  const src = "// end";
+  const stream = new CharStream(src);
+  const token = CommentReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("COMMENT");
+  expect(token.value).toBe("// end");
+  expect(stream.eof()).toBe(true);
+});
