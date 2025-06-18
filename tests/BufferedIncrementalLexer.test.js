@@ -26,3 +26,21 @@ test('buffers incomplete multi-line comment across feeds', () => {
   expect(types).toEqual(['COMMENT', 'KEYWORD', 'IDENTIFIER', 'OPERATOR', 'NUMBER', 'PUNCTUATION']);
 });
 
+
+test('buffers incomplete regex across feeds', () => {
+  const types = [];
+  const lexer = new BufferedIncrementalLexer({ onToken: t => types.push(t.type) });
+  lexer.feed('const r = /ab');
+  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR']);
+  lexer.feed('c/;');
+  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'REGEX', 'PUNCTUATION']);
+});
+
+test('buffers incomplete template string with expression across feeds', () => {
+  const types = [];
+  const lexer = new BufferedIncrementalLexer({ onToken: t => types.push(t.type) });
+  lexer.feed('const t = `a ${1');
+  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR']);
+  lexer.feed('+2}`;');
+  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'TEMPLATE_STRING', 'PUNCTUATION']);
+});
