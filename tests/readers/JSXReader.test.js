@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import { CharStream } from "../../src/lexer/CharStream.js";
 import { Token } from "../../src/lexer/Token.js";
 import { JSXReader } from "../../src/lexer/JSXReader.js";
@@ -36,4 +37,14 @@ test("JSXReader returns LexerError on unterminated", () => {
   const result = JSXReader(stream, (t,v,s,e) => new Token(t,v,s,e), dummyEngine);
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe('UnterminatedJSX');
+});
+
+test("JSXReader handles escaped quotes and calls popMode", () => {
+  const src = '<div class="a\\"b">';
+  const stream = new CharStream(src);
+  const engine = { popMode: jest.fn() };
+  const token = JSXReader(stream, (t,v,s,e) => new Token(t,v,s,e), engine);
+  expect(token.value).toBe(src);
+  expect(engine.popMode).toHaveBeenCalled();
+  expect(stream.getPosition().index).toBe(src.length);
 });
