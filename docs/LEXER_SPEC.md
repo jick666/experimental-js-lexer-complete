@@ -61,6 +61,8 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Multi-line comments reaching EOF are returned as `COMMENT` tokens without error.
 - `/=` is always tokenized as the divide-assign operator before regex detection.
 - Regex or divide context is inferred from the last non-whitespace character.
+- Character classes inside regex literals are parsed, ignoring `/` characters
+  until the closing `]`.
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `NumberReader` only parses base‑10 integers and decimals.
 - `BigIntReader` parses integer literals with a trailing `n`.
