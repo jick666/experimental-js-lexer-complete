@@ -1,6 +1,6 @@
 ### Extended Reader & Integration Tasks
 
-- [ ] Implement HexReader (0x… literals)
+- [x] Implement HexReader (0x… literals)
 - [ ] Implement BinaryReader (0b… literals)
 - [ ] Implement OctalReader (0o… literals)
 - [ ] Implement ExponentReader (1e… literals)

@@ -45,3 +45,15 @@ test("integration: bigint and optional chaining", () => {
     "PUNCTUATION"
   ]);
 });
+
+test("integration: hex literals", () => {
+  const toks = tokenize("let n = 0x1A;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+  expect(toks[3].value).toBe("0x1A");
+});
