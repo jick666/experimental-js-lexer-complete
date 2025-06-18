@@ -8,6 +8,7 @@ export const JavaScriptGrammar = {
     "while", "with", "yield"
   ],
   operators: [
+    "?.","??","??=",
     "+","-","*","/","%","++","--","=","+=","-=","*=","/=","%=","==","===","!=","!==",
     ">","<",">=","<=","&&","||","!","?","...","=>"
   ],
@@ -15,6 +16,7 @@ export const JavaScriptGrammar = {
   patterns: {
     identifier: /^[A-Za-z_][A-Za-z0-9_]*/,
     number: /^\d+(\.\d+)?/,
+    bigint: /^\d+n/,
     whitespace: /^\s+/
   }
 };

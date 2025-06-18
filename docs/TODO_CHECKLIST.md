@@ -35,7 +35,7 @@
 - [x] Add JSX mode and handle advanced string-literal forms for Extended Reader Support.
 
 ### 13. ECMAScript Coverage
-- [ ] Develop additional readers to cover full modern ECMAScript syntax.
+- [x] Develop additional readers to cover full modern ECMAScript syntax.
 
 ### 14. Performance Analysis
 - [x] Benchmark tokenization on large files and identify hotspots for performance optimizations.

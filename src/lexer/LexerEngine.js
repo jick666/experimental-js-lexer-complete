@@ -1,4 +1,5 @@
 import { IdentifierReader } from './IdentifierReader.js';
+import { BigIntReader } from './BigIntReader.js';
 import { NumberReader } from './NumberReader.js';
 import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
@@ -25,6 +26,7 @@ export class LexerEngine {
         CommentReader,
         WhitespaceReader,
         IdentifierReader,
+        BigIntReader,
         NumberReader,
         StringReader,
         RegexOrDivideReader,
