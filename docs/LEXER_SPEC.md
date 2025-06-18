@@ -63,6 +63,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `NumberReader` only parses base‑10 integers and decimals.
 - `BigIntReader` parses integer literals with a trailing `n`.
+- `HexReader` parses `0x` or `0X` prefixed hexadecimal integers.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
 
