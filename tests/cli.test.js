@@ -1,5 +1,6 @@
 import { jest } from '@jest/globals';
 import { fileURLToPath } from 'url';
+import { tokenize } from '../index.js';
 
 /**
  * Helper to execute the CLI entry with mocked process args.
@@ -40,4 +41,17 @@ test('CLI exits with code 1 on lexer error', async () => {
   const result = await runCli(['/abc']);
   expect(result.exitCode).toBe(1);
   expect(result.errors.length).toBeGreaterThan(0);
+});
+
+test('CLI uses empty input when none provided', async () => {
+  const result = await runCli([]);
+  expect(result.logs[0]).toEqual([]);
+  expect(result.exitCode).toBeUndefined();
+});
+
+test('tokenize logs tokens when verbose', () => {
+  const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  tokenize('let x=1;', { verbose: true });
+  expect(spy).toHaveBeenCalled();
+  spy.mockRestore();
 });
