@@ -44,6 +44,20 @@ test("RegexOrDivideReader handles escaped slashes", () => {
   expect(token.value).toBe("/a\\/b/i");
 });
 
+test("RegexOrDivideReader handles character classes", () => {
+  const stream = new CharStream("/[a-z]/g");
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe("/[a-z]/g");
+});
+
+test("RegexOrDivideReader handles slashes in character classes", () => {
+  const stream = new CharStream("/[a\\/b]/");
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe("/[a\\/b]/");
+});
+
 test("RegexOrDivideReader treats context after paren as regex", () => {
   const stream = new CharStream("( /a/ )");
   stream.advance(); // (
