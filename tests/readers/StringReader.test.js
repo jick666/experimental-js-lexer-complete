@@ -36,3 +36,11 @@ test("StringReader handles escapes", () => {
   expect(token.value).toBe(src);
   expect(stream.getPosition().index).toBe(src.length);
 });
+
+test("StringReader errors on newline in string", () => {
+  const src = '"a\nb"';
+  const stream = new CharStream(src);
+  const result = StringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe('UnterminatedString');
+});
