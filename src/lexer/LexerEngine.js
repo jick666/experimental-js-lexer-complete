@@ -1,6 +1,8 @@
 import { IdentifierReader } from './IdentifierReader.js';
 import { HexReader } from './HexReader.js';
 import { BigIntReader } from './BigIntReader.js';
+import { NumericSeparatorReader } from './NumericSeparatorReader.js';
+import { ExponentReader } from './ExponentReader.js';
 import { NumberReader } from './NumberReader.js';
 import { StringReader } from './StringReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
@@ -40,6 +42,8 @@ export class LexerEngine {
         IdentifierReader,
         HexReader,
         BigIntReader,
+        NumericSeparatorReader,
+        ExponentReader,
         NumberReader,
         StringReader,
         RegexOrDivideReader,

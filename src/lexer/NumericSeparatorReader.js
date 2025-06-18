@@ -23,7 +23,7 @@ export function NumericSeparatorReader(stream, factory) {
     ch = stream.current();
   }
 
-  if (value.includes('_')) {
+  if (value.includes('_') && !lastUnderscore) {
     const endPos = stream.getPosition();
     return factory('NUMBER', value, startPos, endPos);
   }

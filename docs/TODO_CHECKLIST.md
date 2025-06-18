@@ -4,7 +4,7 @@
 - [x] Implement BinaryReader (0b… literals)
 - [x] Implement OctalReader (0o… literals)
 - [x] Implement ExponentReader (1e… literals)
-- [ ] Implement NumericSeparatorReader (1_000 separators)
+- [x] Implement NumericSeparatorReader (1_000 separators)
 - [ ] Implement UnicodeIdentifierReader (full Unicode support)
 - [ ] Implement ShebangReader (#!… file headers)
 - [ ] Buffer tokens in BufferedIncrementalLexer
