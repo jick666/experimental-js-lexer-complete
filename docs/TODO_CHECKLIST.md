@@ -47,7 +47,7 @@
 - [x] Expand `docs/LEXER_SPEC.md` with more edge-case examples and add clear usage snippets and 'getting started' examples.
 
 ### 17. Syntax Highlighting Integration
-- [ ] Build a syntax-highlighting integration hook so editors can consume tokens directly.
+- [x] Build a syntax-highlighting integration hook so editors can consume tokens directly.
 
 ### 18. Error Reporting Improvements
 - [x] Enhance `LexerError` to include source context (line, column, snippet) and meaningful messages.

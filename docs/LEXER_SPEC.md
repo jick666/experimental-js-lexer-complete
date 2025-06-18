@@ -80,3 +80,17 @@ import { tokenize } from "./index.js";
 const tokens = tokenize("const a = /re/g;");
 ```
 `tokens` is an array of `Token` objects. Setting `{ verbose: true }` logs tokens as they are produced. Custom readers may be added by pushing to `LexerEngine.modes.default` before tokenization.
+
+### Streaming Tokens for Syntax Highlighting
+
+The `createTokenStream` helper in `src/integration` returns a Node.js `Readable`
+that emits each token object. This is useful for editor integrations that rely
+on streaming lexers.
+
+```javascript
+import { createTokenStream } from '../index.js';
+const stream = createTokenStream('let x = 1;');
+stream.on('data', token => {
+  console.log(token.type);
+});
+```
