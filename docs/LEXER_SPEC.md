@@ -68,6 +68,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `BigIntReader` parses integer literals with a trailing `n`.
 - `HexReader` parses `0x` or `0X` prefixed hexadecimal integers.
 - `OctalReader` parses `0o` or `0O` prefixed octal integers.
+- `ExponentReader` parses numbers like `1e5` with scientific notation.
 - `ShebangReader` consumes `#!` headers at the start of a file as `COMMENT` tokens.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
