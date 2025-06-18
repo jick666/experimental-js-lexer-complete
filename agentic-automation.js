@@ -264,6 +264,84 @@ for (const [fname, content] of Object.entries(scripts)) {
   fs.chmodSync(full, 0o755);
 }
 
+// 3.5) Scaffold VS Code extension
+const extDir = 'extension';
+ensureDir(path.join(extDir, 'src'));
+
+const extPackage = {
+  name: 'experimental-js-lexer-extension',
+  displayName: 'Experimental JS Lexer Extension',
+  version: '0.0.1',
+  publisher: 'codex',
+  engines: { vscode: '^1.75.0' },
+  categories: ['Other'],
+  activationEvents: ['onCommand:experimental-js-lexer.tokenize'],
+  main: './dist/extension.js',
+  contributes: {
+    commands: [
+      {
+        command: 'experimental-js-lexer.tokenize',
+        title: 'Tokenize Current Document'
+      }
+    ]
+  },
+  scripts: {
+    build: 'tsc -p ./',
+    package: 'vsce package',
+    publish: 'vsce publish'
+  },
+  devDependencies: {
+    '@types/vscode': '^1.75.0',
+    typescript: '^4.9.5',
+    vsce: '^2.15.0'
+  },
+  dependencies: {
+    'experimental-js-lexer': 'file:..'
+  }
+};
+
+writeFile(path.join(extDir, 'package.json'), JSON.stringify(extPackage, null, 2));
+
+const extSource = `import * as vscode from 'vscode';
+import { createTokenStream } from 'experimental-js-lexer';
+
+export function activate(context: vscode.ExtensionContext) {
+  const disposable = vscode.commands.registerCommand('experimental-js-lexer.tokenize', () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const stream = createTokenStream(editor.document.getText());
+      stream.on('data', token => console.log(token));
+    }
+  });
+  context.subscriptions.push(disposable);
+}
+
+export function deactivate() {}
+`;
+writeFile(path.join(extDir, 'src', 'extension.ts'), extSource);
+
+writeFile(path.join(extDir, 'tsconfig.json'), JSON.stringify({
+  compilerOptions: {
+    target: 'es2020',
+    module: 'commonjs',
+    outDir: 'dist',
+    rootDir: 'src',
+    strict: true,
+    esModuleInterop: true
+  },
+  exclude: ['node_modules', '.vscode-test']
+}, null, 2));
+
+writeFile(path.join(extDir, 'vsce.yml'), `$schema: https://aka.ms/vscepublish.schema.json\ntoken: \${{ secrets.VSCE_TOKEN }}\n`);
+
+// patch root package.json with helper scripts
+const pkgPath = 'package.json';
+const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+pkg.scripts = pkg.scripts || {};
+pkg.scripts['build:extension'] = 'npm --prefix extension install && npm --prefix extension run build';
+pkg.scripts['publish:extension'] = 'npm --prefix extension install && npm --prefix extension run publish';
+writeFile(pkgPath, JSON.stringify(pkg, null, 2));
+
 // 4) Initialize benchmarks baseline
 const benchDir = '.benchmarks';
 ensureDir(benchDir);
