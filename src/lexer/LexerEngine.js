@@ -31,6 +31,7 @@ export class LexerEngine {
   constructor(stream) {
     this.stream = stream;
     this.stateStack = ['default'];
+    this.buffer = [];
 
     // Mapping of mode -> reader list. Order determines priority.
     this.modes = {
@@ -84,9 +85,10 @@ export class LexerEngine {
   }
 
   /**
-   * Reads the next token from the stream, or returns null at EOF.
+   * Internal method that reads the next token directly from the stream.
+   * @returns {Token|null}
    */
-  nextToken() {
+  _readFromStream() {
     const { stream } = this;
     const factory = (type, value, start, end) => new Token(type, value, start, end);
 
@@ -132,6 +134,35 @@ export class LexerEngine {
     }
 
     // EOF
-    return null;
+      return null;
+  }
+
+  /**
+   * Get the next token, consuming it from the stream or lookahead buffer.
+   * @returns {Token|null}
+   */
+  nextToken() {
+    if (this.buffer.length > 0) {
+      const tok = this.buffer.shift();
+      this.lastToken = tok;
+      return tok;
+    }
+    const tok = this._readFromStream();
+    this.lastToken = tok;
+    return tok;
+  }
+
+  /**
+   * Peek ahead n tokens without consuming them.
+   * @param {number} [n=1]
+   * @returns {Token|null}
+   */
+  peek(n = 1) {
+    while (this.buffer.length < n) {
+      const tok = this._readFromStream();
+      if (tok === null) break;
+      this.buffer.push(tok);
+    }
+    return this.buffer[n - 1] || null;
   }
 }

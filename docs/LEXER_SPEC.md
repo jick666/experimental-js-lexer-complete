@@ -11,6 +11,7 @@ This document defines the architecture and requirements for the experimental Jav
 
 ## 3. LexerEngine <a name="lexerengine"></a>
 - Manages `stateStack`, `lookahead`
+- Provides `peek(n)` for token lookahead
 - Dispatches to token readers per `stateStack` top
 
 ## 4. Token Readers <a name="readers"></a>

@@ -46,3 +46,15 @@ test("nextToken rethrows reader errors", () => {
   expect(err).toBeInstanceOf(LexerError);
   expect(err.type).toBe("UnterminatedRegex");
 });
+
+test("peek returns upcoming tokens without consuming", () => {
+  const engine = new LexerEngine(new CharStream("1 + 2"));
+  expect(engine.peek().type).toBe("NUMBER");
+  // repeated peek should not consume
+  expect(engine.peek().value).toBe("1");
+  // nextToken should yield the same first token
+  expect(engine.nextToken().value).toBe("1");
+  // peek with n=2 should see the third token
+  expect(engine.peek(2).value).toBe("2");
+  expect(engine.nextToken().value).toBe("+");
+});
