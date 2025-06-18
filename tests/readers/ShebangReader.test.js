@@ -42,3 +42,15 @@ test("ShebangReader handles CRLF line endings", () => {
   expect(token.value).toBe("#!/usr/bin/env node\r");
   expect(stream.current()).toBe("\n");
 });
+
+test("ShebangReader ignores BOM at start", () => {
+  const src = "\uFEFF#!/bin/bash";
+  const stream = new CharStream(src);
+  const pos = stream.getPosition();
+  const result = ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(result).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+  stream.advance(); // consume BOM
+  const tok = ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+});

@@ -110,3 +110,11 @@ test("TemplateStringReader handles CRLF line endings", () => {
   expect(stream.getPosition().index).toBe(src.length);
 });
 
+test("TemplateStringReader errors on escape at EOF", () => {
+  const src = "`abc\\"; // backslash at end
+  const stream = new CharStream(src);
+  const result = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe("BadEscape");
+});
+

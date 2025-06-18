@@ -118,3 +118,11 @@ test("RegexOrDivideReader treats newline after closing paren as divide", () => {
   expect(token.type).toBe("OPERATOR");
   expect(token.value).toBe("/");
 });
+
+test("RegexOrDivideReader errors on unterminated character class", () => {
+  const src = "/[abc/";
+  const stream = new CharStream(src);
+  const result = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(result).toBeInstanceOf(LexerError);
+  expect(result.type).toBe("UnterminatedRegex");
+});

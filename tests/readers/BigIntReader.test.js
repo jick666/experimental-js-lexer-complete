@@ -33,3 +33,19 @@ test("BigIntReader rejects prefixed binary bigints", () => {
   expect(tok).toBeNull();
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("BigIntReader rejects hex bigints", () => {
+  const stream = new CharStream("0x1Fn");
+  const pos = stream.getPosition();
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});
+
+test("BigIntReader stops before trailing digits", () => {
+  const stream = new CharStream("1n2");
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("BIGINT");
+  expect(tok.value).toBe("1n");
+  expect(stream.current()).toBe("2");
+});
