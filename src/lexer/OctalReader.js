@@ -4,15 +4,19 @@ export function OctalReader(stream, factory) {
   const prefix = stream.peek();
   if (prefix !== 'o' && prefix !== 'O') return null;
 
-  let idx = stream.index + 2;
+  const idx = stream.index + 2;
   const ch = stream.input[idx];
-  if (ch < '0' || ch > '7') return null;
+  if (!ch || ch < '0' || ch > '7') return null;
 
   let value = '0' + prefix;
   stream.advance();
   stream.advance();
 
-  while (stream.current() >= '0' && stream.current() <= '7') {
+  while (
+    stream.current() !== null &&
+    stream.current() >= '0' &&
+    stream.current() <= '7'
+  ) {
     value += stream.current();
     stream.advance();
   }

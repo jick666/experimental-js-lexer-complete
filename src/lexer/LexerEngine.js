@@ -1,5 +1,6 @@
 import { IdentifierReader } from './IdentifierReader.js';
 import { HexReader } from './HexReader.js';
+import { OctalReader } from './OctalReader.js';
 import { BigIntReader } from './BigIntReader.js';
 import { NumberReader } from './NumberReader.js';
 import { StringReader } from './StringReader.js';
@@ -39,6 +40,7 @@ export class LexerEngine {
         WhitespaceReader,
         IdentifierReader,
         HexReader,
+        OctalReader,
         BigIntReader,
         NumberReader,
         StringReader,
