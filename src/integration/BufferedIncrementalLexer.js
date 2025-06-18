@@ -36,6 +36,16 @@ export class BufferedIncrementalLexer {
         throw err;
       }
       if (token === null) break;
+      if (
+        token.type === 'COMMENT' &&
+        token.value.startsWith('/*') &&
+        !token.value.endsWith('*/') &&
+        this.stream.eof()
+      ) {
+        // Incomplete multi-line comment, rewind and wait for more input
+        this.stream.setPosition(pos);
+        break;
+      }
       this.tokens.push(token);
       this.onToken(token);
     }
