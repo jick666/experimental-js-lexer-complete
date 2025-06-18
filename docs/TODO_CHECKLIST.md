@@ -5,7 +5,7 @@
 - [x] Implement OctalReader (0o… literals)
 - [ ] Implement ExponentReader (1e… literals)
 - [x] Implement NumericSeparatorReader (1_000 separators)
-- [ ] Implement UnicodeIdentifierReader (full Unicode support)
+- [x] Implement UnicodeIdentifierReader (full Unicode support)
 - [x] Implement ShebangReader (#!… file headers)
 - [x] Buffer tokens in BufferedIncrementalLexer
 - [x] Scaffold VS Code Extension under `extension/`
