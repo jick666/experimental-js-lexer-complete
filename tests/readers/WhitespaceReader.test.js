@@ -8,3 +8,11 @@ test("WhitespaceReader skips consecutive whitespace", () => {
   expect(stream.getPosition().index).toBe(3);
   expect(stream.current()).toBe("a");
 });
+
+test("WhitespaceReader handles mixed whitespace characters", () => {
+  const stream = new CharStream(" \t\n\r\v\fabc");
+  const token = WhitespaceReader(stream, () => {});
+  expect(token).toBeNull();
+  expect(stream.getPosition().index).toBe(6);
+  expect(stream.current()).toBe("a");
+});
