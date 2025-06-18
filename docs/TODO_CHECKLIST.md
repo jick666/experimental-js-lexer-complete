@@ -7,6 +7,6 @@
 - [x] Implement NumericSeparatorReader (1_000 separators)
 - [ ] Implement UnicodeIdentifierReader (full Unicode support)
 - [x] Implement ShebangReader (#!… file headers)
-- [ ] Buffer tokens in BufferedIncrementalLexer
+- [x] Buffer tokens in BufferedIncrementalLexer
 - [x] Scaffold VS Code Extension under `extension/`
 - [x] Enhance RegexOrDivideReader to handle character classes
