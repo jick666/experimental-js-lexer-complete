@@ -41,16 +41,32 @@ export function RegexOrDivideReader(stream, factory) {
 
   let body = '';
   let escaped = false;
+  let inClass = false;
   while (!stream.eof()) {
     const ch = stream.current();
-    if (!escaped && ch === '/') break;
-    if (!escaped && ch === '\\') {
-      escaped = true;
-      body += ch;
-      stream.advance();
-      continue;
+    if (!escaped) {
+      if (ch === '\\') {
+        escaped = true;
+        body += ch;
+        stream.advance();
+        continue;
+      }
+      if (ch === '[' && !inClass) {
+        inClass = true;
+        body += ch;
+        stream.advance();
+        continue;
+      }
+      if (ch === ']' && inClass) {
+        inClass = false;
+        body += ch;
+        stream.advance();
+        continue;
+      }
+      if (ch === '/' && !inClass) break;
+    } else {
+      escaped = false;
     }
-    escaped = false;
     body += ch;
     stream.advance();
   }

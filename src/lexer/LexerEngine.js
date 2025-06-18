@@ -1,5 +1,10 @@
 import { IdentifierReader } from './IdentifierReader.js';
+import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
 import { HexReader } from './HexReader.js';
+import { BinaryReader } from './BinaryReader.js';
+import { OctalReader } from './OctalReader.js';
+import { NumericSeparatorReader } from './NumericSeparatorReader.js';
+import { ExponentReader } from './ExponentReader.js';
 import { BigIntReader } from './BigIntReader.js';
 import { NumberReader } from './NumberReader.js';
 import { StringReader } from './StringReader.js';
@@ -9,6 +14,7 @@ import { PunctuationReader } from './PunctuationReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
+import { ShebangReader } from './ShebangReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
@@ -35,11 +41,17 @@ export class LexerEngine {
     // Mapping of mode -> reader list. Order determines priority.
     this.modes = {
       default: [
+        ShebangReader,
         CommentReader,
         WhitespaceReader,
+        UnicodeIdentifierReader,
         IdentifierReader,
+        BinaryReader,
+        OctalReader,
         HexReader,
+        NumericSeparatorReader,
         BigIntReader,
+        ExponentReader,
         NumberReader,
         StringReader,
         RegexOrDivideReader,

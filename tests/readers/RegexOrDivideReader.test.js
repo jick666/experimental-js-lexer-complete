@@ -36,3 +36,11 @@ test("RegexOrDivideReader returns LexerError on unterminated regex", () => {
   expect(result.type).toBe("UnterminatedRegex");
   expect(result.toString()).toContain("line 1, column 0");
 });
+
+test("RegexOrDivideReader handles character class", () => {
+  const stream = new CharStream("/[a-z]/");
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe("/[a-z]/");
+  expect(stream.getPosition().index).toBe(7);
+});
