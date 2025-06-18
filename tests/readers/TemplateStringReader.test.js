@@ -69,3 +69,14 @@ test("TemplateStringReader tracks nested braces", () => {
   expect(token.value).toBe(src);
   expect(stream.getPosition().index).toBe(src.length);
 });
+
+test("TemplateStringReader handles multi-line content", () => {
+  const src = "`line1\nline2`";
+  const stream = new CharStream(src);
+  const token = TemplateStringReader(
+    stream,
+    (t, v, s, e) => new Token(t, v, s, e)
+  );
+  expect(token.value).toBe(src);
+  expect(stream.getPosition().index).toBe(src.length);
+});

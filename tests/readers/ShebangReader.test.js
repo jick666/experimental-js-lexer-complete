@@ -24,3 +24,12 @@ test("ShebangReader handles EOF without newline", () => {
   expect(token.value).toBe(src);
   expect(stream.eof()).toBe(true);
 });
+
+test("ShebangReader handles CRLF line endings", () => {
+  const src = "#!/usr/bin/env node\r\nconsole.log('hi');";
+  const stream = new CharStream(src);
+  const token = ShebangReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("COMMENT");
+  expect(token.value).toBe("#!/usr/bin/env node\r");
+  expect(stream.current()).toBe("\n");
+});
