@@ -66,3 +66,22 @@ test("RegexOrDivideReader treats context after paren as regex", () => {
   expect(token.type).toBe("REGEX");
   expect(token.value).toBe("/a/");
 });
+
+test("RegexOrDivideReader treats newline after regex starter as regex", () => {
+  const stream = new CharStream("1+\n/foo/");
+  stream.advance(); // '1'
+  stream.advance(); // '+'
+  stream.advance(); // '\n'
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe("/foo/");
+});
+
+test("RegexOrDivideReader treats newline after identifier as divide", () => {
+  const stream = new CharStream("a\n/b/");
+  stream.advance(); // 'a'
+  stream.advance(); // '\n'
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("OPERATOR");
+  expect(token.value).toBe("/");
+});
