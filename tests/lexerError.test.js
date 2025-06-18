@@ -18,3 +18,25 @@ test("LexerError formatting helpers", () => {
     end: { line: 1, column: 3 }
   });
 });
+
+test("LexerError context handles missing input", () => {
+  const err = new LexerError(
+    "SomeError",
+    "oops",
+    { line: 2, column: 1 },
+    { line: 2, column: 2 }
+  );
+  expect(err.context).toBe("");
+  expect(err.toString()).toContain("line 2, column 1");
+});
+
+test("LexerError context uses blank line when out of range", () => {
+  const err = new LexerError(
+    "Other",
+    "bad",
+    { line: 5, column: 2 },
+    { line: 5, column: 3 },
+    "a\nb"
+  );
+  expect(err.context).toBe("\n  ^");
+});
