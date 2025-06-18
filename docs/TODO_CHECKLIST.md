@@ -2,7 +2,7 @@
 
 - [x] Implement HexReader (0x… literals)
 - [x] Implement BinaryReader (0b… literals)
-- [ ] Implement OctalReader (0o… literals)
+- [x] Implement OctalReader (0o… literals)
 - [ ] Implement ExponentReader (1e… literals)
 - [ ] Implement NumericSeparatorReader (1_000 separators)
 - [ ] Implement UnicodeIdentifierReader (full Unicode support)
