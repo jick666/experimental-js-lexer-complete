@@ -8,7 +8,7 @@ export function NumericSeparatorReader(stream, factory) {
   while (ch !== null) {
     if (ch === '_') {
       if (lastUnderscore) {
-        stream.index = startPos.index;
+        stream.setPosition(startPos);
         return null;
       }
       lastUnderscore = true;
@@ -28,6 +28,6 @@ export function NumericSeparatorReader(stream, factory) {
     return factory('NUMBER', value, startPos, endPos);
   }
 
-  stream.index = startPos.index;
+  stream.setPosition(startPos);
   return null;
 }

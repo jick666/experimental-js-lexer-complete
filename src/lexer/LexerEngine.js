@@ -10,6 +10,12 @@ import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
+import { ShebangReader } from './ShebangReader.js';
+import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
+import { BinaryReader } from './BinaryReader.js';
+import { OctalReader } from './OctalReader.js';
+import { ExponentReader } from './ExponentReader.js';
+import { NumericSeparatorReader } from './NumericSeparatorReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -37,8 +43,14 @@ export class LexerEngine {
       default: [
         CommentReader,
         WhitespaceReader,
+        ShebangReader,
+        UnicodeIdentifierReader,
         IdentifierReader,
         HexReader,
+        BinaryReader,
+        OctalReader,
+        ExponentReader,
+        NumericSeparatorReader,
         BigIntReader,
         NumberReader,
         StringReader,
