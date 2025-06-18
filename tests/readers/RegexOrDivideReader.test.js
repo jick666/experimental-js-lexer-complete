@@ -36,3 +36,19 @@ test("RegexOrDivideReader returns LexerError on unterminated regex", () => {
   expect(result.type).toBe("UnterminatedRegex");
   expect(result.toString()).toContain("line 1, column 0");
 });
+
+test("RegexOrDivideReader handles escaped slashes", () => {
+  const stream = new CharStream("/a\\/b/i");
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe("/a\\/b/i");
+});
+
+test("RegexOrDivideReader treats context after paren as regex", () => {
+  const stream = new CharStream("( /a/ )");
+  stream.advance(); // (
+  stream.advance(); // space
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe("/a/");
+});
