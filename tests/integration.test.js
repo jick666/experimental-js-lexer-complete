@@ -30,3 +30,18 @@ test("integration: tokenize throws on unterminated regex", () => {
 test("integration: tokenize throws on unterminated template", () => {
   expect(() => tokenize("`oops")).toThrow();
 });
+
+test("integration: bigint and optional chaining", () => {
+  const toks = tokenize("let x = 1n ?? obj?.prop;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "BIGINT",
+    "OPERATOR",
+    "IDENTIFIER",
+    "OPERATOR",
+    "IDENTIFIER",
+    "PUNCTUATION"
+  ]);
+});

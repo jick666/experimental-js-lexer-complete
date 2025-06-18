@@ -10,8 +10,8 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Document usage and edge cases in `docs/LEXER_SPEC.md`.
 
 ## 13. ECMAScript Coverage
-- [ ] Create readers for remaining ECMAScript features (e.g. bigints, optional chaining, nullish coalescing).
-- [ ] Expand grammar and tests to validate new tokens.
+- [x] Create readers for remaining ECMAScript features (e.g. bigints, optional chaining, nullish coalescing).
+- [x] Expand grammar and tests to validate new tokens.
 
 ## 17. Syntax Highlighting Integration
 - [ ] Expose a stable API that streams tokens for editor consumption.

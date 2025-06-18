@@ -17,14 +17,15 @@ This document defines the architecture and requirements for the experimental Jav
 Each is a pure function `(stream, factory) => Token|null`:
 - `IdentifierReader` (§4.1)
 - `NumberReader` (§4.2)
-- `OperatorReader` (§4.3)
-- `PunctuationReader` (§4.4)
-- `RegexOrDivideReader` (§4.5)
-- `TemplateStringReader` (§4.6)
-- `WhitespaceReader` (§4.7)
-- `CommentReader` (§4.8)
-- `StringReader` (§4.9)
-- `JSXReader` (§4.10)
+- `BigIntReader` (§4.3)
+- `OperatorReader` (§4.4)
+- `PunctuationReader` (§4.5)
+- `RegexOrDivideReader` (§4.6)
+- `TemplateStringReader` (§4.7)
+- `WhitespaceReader` (§4.8)
+- `CommentReader` (§4.9)
+- `StringReader` (§4.10)
+- `JSXReader` (§4.11)
 
 ## 5. Modes <a name="modes"></a>
 - `default`, `template_string`, `regex`, `jsx`, etc.
@@ -61,6 +62,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Regex or divide context is inferred from the last non-whitespace character.
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `NumberReader` only parses base‑10 integers and decimals.
+- `BigIntReader` parses integer literals with a trailing `n`.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
 
