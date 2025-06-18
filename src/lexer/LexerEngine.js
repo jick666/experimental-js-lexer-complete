@@ -1,15 +1,12 @@
 import { IdentifierReader } from './IdentifierReader.js';
+import { HexReader } from './HexReader.js';
 import { BigIntReader } from './BigIntReader.js';
-import { HexReader } from './HexReader.js';
-        HexReader,
-import { HexReader } from './HexReader.js';
 import { NumberReader } from './NumberReader.js';
-import { HexReader } from './HexReader.js';
+import { StringReader } from './StringReader.js';
+import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
-import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
-import { StringReader } from './StringReader.js';
 import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
@@ -34,14 +31,15 @@ export class LexerEngine {
   constructor(stream) {
     this.stream = stream;
     this.stateStack = ['default'];
+
     // Mapping of mode -> reader list. Order determines priority.
     this.modes = {
       default: [
         CommentReader,
         WhitespaceReader,
         IdentifierReader,
-        BigIntReader,
         HexReader,
+        BigIntReader,
         NumberReader,
         StringReader,
         RegexOrDivideReader,
@@ -54,6 +52,7 @@ export class LexerEngine {
       regex: [RegexOrDivideReader],
       jsx: [JSXReader]
     };
+
     // Apply registered plugins
     for (const plugin of LexerEngine.plugins) {
       if (plugin.modes) {
@@ -66,7 +65,7 @@ export class LexerEngine {
         plugin.init(this);
       }
     }
-    // Track last returned token for contextual readers
+
     this.lastToken = null;
   }
 
@@ -91,24 +90,24 @@ export class LexerEngine {
     const { stream } = this;
     const factory = (type, value, start, end) => new Token(type, value, start, end);
 
-      while (!stream.eof()) {
-        // 0. Emit comments as tokens
-        const comment = CommentReader(stream, factory, this);
-        if (comment) {
-          this.lastToken = comment;
-          return comment;
-        }
+    while (!stream.eof()) {
+      // 0. Emit comments
+      const comment = CommentReader(stream, factory, this);
+      if (comment) {
+        this.lastToken = comment;
+        return comment;
+      }
 
-        // 1. Skip whitespace (handled by WhitespaceReader in default mode)
-
+      // 1. Mode switching for JSX
       let mode = this.currentMode();
       if (mode === 'default' && stream.current() === '<') {
         this.pushMode('jsx');
         mode = this.currentMode();
       }
+
       const readers = this.modes[mode] || this.modes.default;
 
-      // 2. Try each reader in sequence for the current mode
+      // 2. Try each reader in sequence
       for (const Reader of readers) {
         const result = Reader(stream, factory, this);
         if (result) {
@@ -116,7 +115,7 @@ export class LexerEngine {
             throw result;
           }
           const token = result;
-          // 3. Promote identifiers that match keywords
+          // 3. Promote identifiers matching keywords
           if (
             token.type === 'IDENTIFIER' &&
             JavaScriptGrammar.keywords.includes(token.value)
@@ -128,11 +127,11 @@ export class LexerEngine {
         }
       }
 
-      // 4. If nothing matched, advance one character to avoid infinite loops
+      // 4. No match → advance one char to avoid infinite loop
       stream.advance();
     }
 
-    // End of file
+    // EOF
     return null;
   }
 }
