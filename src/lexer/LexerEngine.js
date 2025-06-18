@@ -17,6 +17,16 @@ import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
  * LexerEngine orchestrates all token readers to produce a stream of Tokens.
  */
 export class LexerEngine {
+  static plugins = [];
+
+  static registerPlugin(plugin) {
+    this.plugins.push(plugin);
+  }
+
+  static clearPlugins() {
+    this.plugins = [];
+  }
+
   constructor(stream) {
     this.stream = stream;
     this.stateStack = ['default'];
@@ -39,6 +49,18 @@ export class LexerEngine {
       regex: [RegexOrDivideReader],
       jsx: [JSXReader]
     };
+    // Apply registered plugins
+    for (const plugin of LexerEngine.plugins) {
+      if (plugin.modes) {
+        for (const [mode, readers] of Object.entries(plugin.modes)) {
+          if (!this.modes[mode]) this.modes[mode] = [];
+          this.modes[mode].push(...readers);
+        }
+      }
+      if (typeof plugin.init === 'function') {
+        plugin.init(this);
+      }
+    }
     // Track last returned token for contextual readers
     this.lastToken = null;
   }

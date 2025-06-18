@@ -22,6 +22,6 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Include build steps and update CI to compile TypeScript.
 
 ## 20. Plugin API
-- [ ] Design a registration mechanism for custom reader plugins.
-- [ ] Implement plugin loading and lifecycle hooks.
-- [ ] Document how to build and register plugins.
+- [x] Design a registration mechanism for custom reader plugins.
+- [x] Implement plugin loading and lifecycle hooks.
+- [x] Document how to build and register plugins.

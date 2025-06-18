@@ -60,6 +60,21 @@ stream.on('data', tok => {
 
 See `docs/VS_CODE_EXAMPLE.md` for a more complete VS Code integration example.
 
+## Plugin API
+
+Custom token readers can be installed at runtime. Register a plugin before
+creating a lexer instance:
+
+```javascript
+import { registerPlugin, tokenize } from 'experimental-js-lexer';
+import { MyPlugin } from './my-plugin.js';
+
+registerPlugin(MyPlugin);
+console.log(tokenize('#')); // tokens include MY custom types
+```
+
+See `docs/PLUGIN_API.md` for details on authoring plugins.
+
 ## Auto-Merge Workflow
 
 Pull requests labeled `reader` are automatically merged once all CI checks

@@ -56,4 +56,4 @@
 - [x] Generate and distribute `.d.ts` declaration files and migrate the source codebase to TypeScript for TypeScript support.
 
 ### 20. Plugin API
-- [ ] Design and implement a runtime plugin system that allows registering custom reader modules for the plugin API.
+- [x] Design and implement a runtime plugin system that allows registering custom reader modules for the plugin API.

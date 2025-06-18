@@ -25,6 +25,8 @@ export function tokenize(code, { verbose = false } = {}) {
   return tokens;
 }
 
+export const registerPlugin = LexerEngine.registerPlugin.bind(LexerEngine);
+export const clearPlugins = LexerEngine.clearPlugins.bind(LexerEngine);
 export { IncrementalLexer, createTokenStream };
 
 // Only run CLI when invoked directly

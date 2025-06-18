@@ -94,3 +94,17 @@ stream.on('data', token => {
   console.log(token.type);
 });
 ```
+
+## 12. Plugin API <a name="plugin"></a>
+Plugins extend the lexer with additional readers. Register them via
+`LexerEngine.registerPlugin` before creating a lexer instance.
+
+```javascript
+import { LexerEngine } from './src/lexer/LexerEngine.js';
+import { HashPlugin } from './hash-plugin.js';
+
+LexerEngine.registerPlugin(HashPlugin);
+```
+
+Plugins may provide readers for any mode using a `modes` map and an optional
+`init(engine)` hook. See `docs/PLUGIN_API.md` for a full example.
