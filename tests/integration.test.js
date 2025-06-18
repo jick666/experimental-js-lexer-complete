@@ -57,3 +57,15 @@ test("integration: hex literals", () => {
   ]);
   expect(toks[3].value).toBe("0x1A");
 });
+
+test("integration: octal literals", () => {
+  const toks = tokenize("let n = 0o755;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+  expect(toks[3].value).toBe("0o755");
+});
