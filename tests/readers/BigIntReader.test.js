@@ -73,3 +73,35 @@ test("BigIntReader rejects trailing underscore", () => {
   expect(tok).toBeNull();
   expect(stream.getPosition()).toEqual(pos);
 });
+
+test("BigIntReader handles zero bigint", () => {
+  const stream = new CharStream("0n");
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("BIGINT");
+  expect(tok.value).toBe("0n");
+  expect(stream.getPosition().index).toBe(2);
+});
+
+test("BigIntReader reads bigint with internal separators", () => {
+  const stream = new CharStream("1_2_3n");
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("BIGINT");
+  expect(tok.value).toBe("1_2_3n");
+  expect(stream.getPosition().index).toBe(6);
+});
+
+test("BigIntReader rejects consecutive separators", () => {
+  const stream = new CharStream("1__2n");
+  const pos = stream.getPosition();
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok).toBeNull();
+  expect(stream.getPosition()).toEqual(pos);
+});
+
+test("BigIntReader reads bigint with leading zeros", () => {
+  const stream = new CharStream("00n");
+  const tok = BigIntReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(tok.type).toBe("BIGINT");
+  expect(tok.value).toBe("00n");
+  expect(stream.getPosition().index).toBe(3);
+});
