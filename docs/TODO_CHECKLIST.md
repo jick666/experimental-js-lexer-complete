@@ -53,7 +53,7 @@
 - [x] Enhance `LexerError` to include source context (line, column, snippet) and meaningful messages.
 
 ### 19. TypeScript Support
-- [ ] Generate and distribute `.d.ts` declaration files and migrate the source codebase to TypeScript for TypeScript support.
+- [x] Generate and distribute `.d.ts` declaration files and migrate the source codebase to TypeScript for TypeScript support.
 
 ### 20. Plugin API
 - [ ] Design and implement a runtime plugin system that allows registering custom reader modules for the plugin API.

@@ -18,8 +18,8 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Provide a reference integration example for a popular editor.
 
 ## 19. TypeScript Support
-- [ ] Migrate source files to TypeScript or generate `.d.ts` declarations.
-- [ ] Include build steps and update CI to compile TypeScript.
+- [x] Migrate source files to TypeScript or generate `.d.ts` declarations.
+- [x] Include build steps and update CI to compile TypeScript.
 
 ## 20. Plugin API
 - [ ] Design a registration mechanism for custom reader plugins.
