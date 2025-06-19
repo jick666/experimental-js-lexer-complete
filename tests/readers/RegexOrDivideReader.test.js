@@ -155,3 +155,19 @@ test("RegexOrDivideReader handles escaped closing bracket", () => {
   expect(token.value).toBe(src);
   expect(stream.getPosition().index).toBe(src.length);
 });
+
+test("RegexOrDivideReader handles named capture groups", () => {
+  const src = "/foo(?<name>bar)/";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+});
+
+test("RegexOrDivideReader handles lookbehind assertions", () => {
+  const src = "/(?<=foo)bar/";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+});

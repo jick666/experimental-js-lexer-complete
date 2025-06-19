@@ -59,6 +59,31 @@ export function RegexOrDivideReader(stream, factory) {
           inCharClass = true;
         } else if (ch === '/') {
           break;
+        } else if (
+          ch === '('
+          && stream.peek() === '?'
+          && stream.peek(2) === '<'
+        ) {
+          body += ch; // '('
+          stream.advance();
+          body += stream.current(); // '?'
+          stream.advance();
+          body += stream.current(); // '<'
+          stream.advance();
+          if (stream.current() === '=' || stream.current() === '!') {
+            body += stream.current();
+            stream.advance();
+          } else {
+            while (!stream.eof() && stream.current() !== '>') {
+              body += stream.current();
+              stream.advance();
+            }
+            if (stream.current() === '>') {
+              body += stream.current();
+              stream.advance();
+            }
+          }
+          continue;
         }
       }
     } else {
