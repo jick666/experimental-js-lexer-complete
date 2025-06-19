@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- Documentation note on running optimization sprint scripts
 - Project scaffold for experimental-js-lexer
 - Spec, tests, CI, lint, promptMap, issue templates
 - Benchmark script and initial throughput measurements
