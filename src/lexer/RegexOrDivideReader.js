@@ -1,17 +1,6 @@
 // §4.5 RegexOrDivideReader
 // Context-sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
-
-function isIdentifierStart(ch) {
-  return (
-    (ch >= 'A' && ch <= 'Z') ||
-    (ch >= 'a' && ch <= 'z') ||
-    ch === '_'
-  );
-}
-
-function isIdentifierPart(ch) {
-  return isIdentifierStart(ch) || (ch >= '0' && ch <= '9');
-}
+import { isIdentifierStart, isIdentifierPart } from './utils.js';
 
 import matchProperty from 'unicode-match-property-ecmascript';
 import matchPropertyValue from 'unicode-match-property-value-ecmascript';

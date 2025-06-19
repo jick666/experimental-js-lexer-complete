@@ -1,16 +1,5 @@
 // §4.1 IdentifierReader
-
-function isIdentifierStart(ch) {
-  return (
-    (ch >= 'A' && ch <= 'Z') ||
-    (ch >= 'a' && ch <= 'z') ||
-    ch === '_'
-  );
-}
-
-function isIdentifierPart(ch) {
-  return isIdentifierStart(ch) || (ch >= '0' && ch <= '9');
-}
+import { isIdentifierStart, isIdentifierPart } from './utils.js';
 
 export function IdentifierReader(stream, factory) {
   const startPos = stream.getPosition();

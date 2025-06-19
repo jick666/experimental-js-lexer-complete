@@ -20,3 +20,15 @@ export function readDigitsWithUnderscores(stream, startPos) {
   }
   return { value, underscoreSeen, lastUnderscore };
 }
+
+export function isIdentifierStart(ch) {
+  return (
+    (ch >= 'A' && ch <= 'Z') ||
+    (ch >= 'a' && ch <= 'z') ||
+    ch === '_'
+  );
+}
+
+export function isIdentifierPart(ch) {
+  return isIdentifierStart(ch) || (ch >= '0' && ch <= '9');
+}
