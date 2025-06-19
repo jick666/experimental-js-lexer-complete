@@ -20,6 +20,7 @@ import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
 import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
 import { ShebangReader } from './ShebangReader.js';
 import { DoExpressionReader } from './DoExpressionReader.js';
+import { ModuleBlockReader } from './ModuleBlockReader.js';
 import { PrivateIdentifierReader } from './PrivateIdentifierReader.js';
 import { ImportAssertionReader } from './ImportAssertionReader.js';
 import { RecordAndTupleReader } from './RecordAndTupleReader.js';
@@ -56,6 +57,7 @@ export class LexerEngine {
         ShebangReader,
         PrivateIdentifierReader,
         DoExpressionReader,
+        ModuleBlockReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
@@ -83,6 +85,35 @@ export class LexerEngine {
         ShebangReader,
         PrivateIdentifierReader,
         DoExpressionReader,
+        ModuleBlockReader,
+        ImportAssertionReader,
+        RecordAndTupleReader,
+        IdentifierReader,
+        UnicodeIdentifierReader,
+        UnicodeEscapeIdentifierReader,
+        HexReader,
+        BinaryReader,
+        OctalReader,
+        BigIntReader,
+        NumericSeparatorReader,
+        ExponentReader,
+        NumberReader,
+        StringReader,
+        RegexOrDivideReader,
+        PipelineOperatorReader,
+        OperatorReader,
+        PunctuationReader,
+        TemplateStringReader,
+        JSXReader
+      ],
+      module_block: [
+        HTMLCommentReader,
+        CommentReader,
+        WhitespaceReader,
+        ShebangReader,
+        PrivateIdentifierReader,
+        DoExpressionReader,
+        ModuleBlockReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,

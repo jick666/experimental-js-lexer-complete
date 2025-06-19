@@ -201,3 +201,16 @@ test("integration: record and tuple literals", () => {
   ]);
 });
 
+
+test("integration: module blocks", () => {
+  const toks = tokenize("module { let x = 1; }");
+  expect(toks.map(t => t.type)).toEqual([
+    "MODULE_BLOCK_START",
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION",
+    "MODULE_BLOCK_END"
+  ]);
+});
