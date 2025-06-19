@@ -17,6 +17,8 @@ Use the convenience script to sync the project board, run linting, tests, and be
 npm run workflow
 ```
 
+For large optimization sprints, run `node .github/scripts/close-todo.js` and `node .github/scripts/check-drift.js` first to sync open issues.
+
 ## Project Board
 
 Track progress and self-assign tasks on the [GitHub Project Board](https://github.com/your-org/experimental-js-lexer/projects/1).
