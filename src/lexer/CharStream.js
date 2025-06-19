@@ -4,19 +4,44 @@
 export class CharStream {
   constructor(input) {
     this.input = input;
+    this.length = input.length;
     this.index = 0;
     this.line = 1;
     this.column = 0;
   }
-  current() { return this.input[this.index] || null; }
-  peek(offset = 1) { return this.input[this.index + offset] || null; }
+
+  append(chunk) {
+    this.input += chunk;
+    this.length = this.input.length;
+  }
+
+  current() {
+    return this.index < this.length ? this.input[this.index] || null : null;
+  }
+
+  peek(offset = 1) {
+    const pos = this.index + offset;
+    return pos < this.length ? this.input[pos] || null : null;
+  }
+
   advance() {
-    if (this.current() === '\n') { this.line++; this.column = 0; }
-    else { this.column++; }
+    if (this.current() === '\n') {
+      this.line++;
+      this.column = 0;
+    } else {
+      this.column++;
+    }
     this.index++;
   }
-  eof() { return this.index >= this.input.length; }
-  getPosition() { return { line: this.line, column: this.column, index: this.index }; }
+
+  eof() {
+    return this.index >= this.length;
+  }
+
+  getPosition() {
+    return { line: this.line, column: this.column, index: this.index };
+  }
+
   setPosition(pos) {
     this.index = pos.index;
     this.line = pos.line;

@@ -46,10 +46,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Write unit tests for plugin tokens.
 
 ## 24. Performance Benchmarks
-- [ ] Add benchmark script using Node's `perf_hooks`.
-- [ ] Document baseline results in `README.md`.
-- [ ] Investigate CharStream caching optimizations.
-- [ ] Update changelog with performance metrics.
+- [x] Add benchmark script using Node's `perf_hooks`.
+- [x] Document baseline results in `README.md`.
+- [x] Investigate CharStream caching optimizations.
+- [x] Update changelog with performance metrics.
 
 ## 25. Incremental Lexer Persistence
 - [ ] Document how to save and restore lexer state.

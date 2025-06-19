@@ -16,5 +16,5 @@
 - [x] Implement PipelineOperatorReader for `|>` expressions
 - [x] Implement DoExpressionReader to support `do { }` syntax
 - [x] Add TypeScriptPlugin providing decorators and type annotations
-- [ ] Benchmark lexer speed and optimize CharStream caching
+- [x] Benchmark lexer speed and optimize CharStream caching
 - [ ] Document incremental lexer state persistence
