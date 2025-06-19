@@ -1,16 +1,14 @@
 // §4.2 NumberReader
-function isDigit(ch) {
-  return ch !== null && ch >= '0' && ch <= '9';
-}
+import { isDecimalDigit } from './utils.js';
 
 export function NumberReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
-  if (!isDigit(ch)) return null;
+  if (!isDecimalDigit(ch)) return null;
 
   let value = '';
   // integer part
-  while (ch !== null && isDigit(ch)) {
+  while (ch !== null && isDecimalDigit(ch)) {
     value += ch;
     stream.advance();
     ch = stream.current();
@@ -20,7 +18,7 @@ export function NumberReader(stream, factory) {
     value += '.';
     stream.advance();
     ch = stream.current();
-    while (ch !== null && isDigit(ch)) {
+    while (ch !== null && isDecimalDigit(ch)) {
       value += ch;
       stream.advance();
       ch = stream.current();

@@ -20,3 +20,7 @@ export function readDigitsWithUnderscores(stream, startPos) {
   }
   return { value, underscoreSeen, lastUnderscore };
 }
+
+export function isDecimalDigit(ch) {
+  return ch !== null && ch >= '0' && ch <= '9';
+}
