@@ -1,23 +1,32 @@
 name: Sync TODO with Project Board
+
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 1 * * *'   # daily 01:00 UTC
   push:
-    paths: ['docs/TODO_CHECKLIST.md']
+    paths:
+      - 'docs/TODO_CHECKLIST.md'
+
+permissions:
+  issues:  write
+  contents: read
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_REPOSITORY: ${{ github.repository }}
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - run: npm ci
+        with:
+          node-version: 20
+
+      - run: npm install
+
+      # setup-project-board is now a no-op but harmless to keep
       - run: node .github/scripts/setup-project-board.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+
       - run: node .github/scripts/seed-todo.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
