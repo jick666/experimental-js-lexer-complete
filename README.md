@@ -11,23 +11,11 @@ Run `npm install` once to set up Husky hooks. Commits will automatically run
 `npm run lint` and `npm test` before being created.
 
 ### Workflow Helper
-Use the convenience script to sync the project board, run linting, tests, and benchmarks in one go:
+Use the convenience script to run linting, tests, and benchmarks in one go:
 
 ```bash
 npm run workflow
 ```
-
-For large optimization sprints, run `node .github/scripts/close-todo.js` and `node .github/scripts/check-drift.js` first to sync open issues.
-
-## Project Board
-
-Track progress and self-assign tasks on the [GitHub Project Board](https://github.com/your-org/experimental-js-lexer/projects/1).
-The `setup-project-board.js` helper ensures a board with `Todo`, `In Progress`,
-`Review`, and `Done` columns exists. Running the `seed-todo.js` script will
-create issues from `docs/TODO_CHECKLIST.md` and place them in the **Todo**
-column automatically. These scripts rely on the `@octokit/rest` package,
-installed when running `npm install`.
-
 ## Code of Conduct
 
 Please read `CODE_OF_CONDUCT.md` to understand expectations for participation.

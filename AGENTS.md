@@ -7,8 +7,8 @@ This repository is optimized for iterative development by Codex agents.
 2. Use Node.js 18 or higher.
 
 ## Workflow Steps
-1. Pick the highest priority unchecked item in `docs/TODO_CHECKLIST.md`.
-2. Review the matching section in `docs/TASK_BREAKDOWN.md` for granular subtasks.
+1. Choose an open issue or propose a new enhancement.
+2. Review `docs/TASK_BREAKDOWN.md` for historical context if needed.
 3. Consult `docs/LEXER_SPEC.md` and other docs for background.
 4. Implement code changes in `src/` and update or add tests under `tests/`.
 5. Before every commit, run:
@@ -16,7 +16,7 @@ This repository is optimized for iterative development by Codex agents.
    npm run lint && npm test -- --coverage
    ```
    Ensure test coverage stays above 90%.
-5. (Optional) Run **all** checks & board-sync in one go:
+6. (Optional) Run **all** checks in one go:
 
    ```bash
    npm run workflow   # requires GitHub creds; otherwise just lint & tests run

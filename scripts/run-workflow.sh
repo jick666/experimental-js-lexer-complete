@@ -5,15 +5,12 @@ set -euo pipefail
 node -v     # confirm Node >=18
 npm install
 
-# 2. Sync project board and seed issues (optional setup)
-npm run sync:project
-
-# 3. Lint, test with coverage, and benchmark
+# 2. Lint, test with coverage, and benchmark
 npm run lint
 npm test -- --coverage
 npm run bench
 
-# 4. Display coverage summary
+# 3. Display coverage summary
 grep -A1 "All files" coverage/lcov-report/index.html || true
 
 echo "Workflow checks complete."

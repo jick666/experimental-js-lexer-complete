@@ -7,8 +7,6 @@ on:
 permissions:
   contents:        write   # required by pascalgn/automerge-action
   pull-requests:   write
-  issues:          write   # so close-todo can close Issues
-
 jobs:
   automerge:
     runs-on: ubuntu-latest
@@ -29,5 +27,3 @@ jobs:
 
       - run: npm install
 
-      - name: Close completed TODOs
-        run: node .github/scripts/close-todo.js

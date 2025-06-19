@@ -1,6 +1,4 @@
-# Task Breakdown for Remaining TODO Items
-
-This document outlines detailed subtasks for each remaining objective in `TODO_CHECKLIST.md`.
+# Archived Task Breakdown
 
 ## 12. Extended Reader Support
 - [x] Implement a `JSXReader` capable of tokenizing JSX syntax.
