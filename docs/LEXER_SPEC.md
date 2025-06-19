@@ -83,6 +83,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `ExponentReader` parses numbers with `e` or `E` exponents.
 - `UnicodeIdentifierReader` reads identifiers starting with non-ASCII Unicode characters.
 - `UnicodeEscapeIdentifierReader` reads identifiers containing Unicode escape sequences like `\u{1F600}`.
+- `ByteOrderMarkReader` handles a leading `\uFEFF` byte order mark and emits a `BOM` token.
 - `ShebangReader` consumes `#!` headers at the start of a file as `COMMENT` tokens.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
@@ -309,4 +310,9 @@ function.sent;
 produces the tokens `[
   FUNCTION_SENT("function.sent"), PUNCTUATION(";")
 ]`.
+
+## 24. Byte Order Mark <a name="bom"></a>
+If a file begins with the Unicode byte order mark (`\uFEFF`), the lexer emits a
+`BOM` token and advances past it before processing the rest of the input. The
+token's value is the literal BOM character.
 

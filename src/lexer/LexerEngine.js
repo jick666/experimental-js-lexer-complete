@@ -18,6 +18,7 @@ import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { HTMLCommentReader } from './HTMLCommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
+import { ByteOrderMarkReader } from './ByteOrderMarkReader.js';
 import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
 import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
 import { ShebangReader } from './ShebangReader.js';
@@ -59,6 +60,7 @@ export class LexerEngine {
         HTMLCommentReader,
         CommentReader,
         WhitespaceReader,
+        ByteOrderMarkReader,
         ShebangReader,
         PrivateIdentifierReader,
         DoExpressionReader,
@@ -92,6 +94,7 @@ export class LexerEngine {
         HTMLCommentReader,
         CommentReader,
         WhitespaceReader,
+        ByteOrderMarkReader,
         ShebangReader,
         PrivateIdentifierReader,
         DoExpressionReader,
@@ -125,6 +128,7 @@ export class LexerEngine {
         HTMLCommentReader,
         CommentReader,
         WhitespaceReader,
+        ByteOrderMarkReader,
         ShebangReader,
         PrivateIdentifierReader,
         DoExpressionReader,

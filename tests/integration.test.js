@@ -126,6 +126,13 @@ test("integration: shebang comment", () => {
   expect(toks[0].value).toBe("#!/usr/bin/env node");
 });
 
+test("integration: byte order mark", () => {
+  const src = "\uFEFFlet a = 1;";
+  const toks = tokenize(src);
+  expect(toks[0].type).toBe("BOM");
+  expect(toks[1].type).toBe("KEYWORD");
+});
+
 test("integration: html comments", () => {
   const src = "<!-- hidden -->\nlet a = 1;";
   const toks = tokenize(src);

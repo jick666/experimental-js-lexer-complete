@@ -138,10 +138,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Add unit tests for Flow-specific tokens.
 
 ## 40. Byte Order Mark Handling
-- [ ] Implement `ByteOrderMarkReader` for files starting with `\uFEFF`.
-- [ ] Integrate this reader before ShebangReader in `LexerEngine`.
-- [ ] Add tests ensuring BOM is skipped or tokenized correctly.
-- [ ] Document BOM behavior in `docs/LEXER_SPEC.md`.
+- [x] Implement `ByteOrderMarkReader` for files starting with `\uFEFF`.
+- [x] Integrate this reader before ShebangReader in `LexerEngine`.
+- [x] Add tests ensuring BOM is skipped or tokenized correctly.
+- [x] Document BOM behavior in `docs/LEXER_SPEC.md`.
 
 ## 41. Source Mapping Comment Reader
 - [ ] Create `SourceMappingURLReader` recognizing `//# sourceMappingURL=` comments.
