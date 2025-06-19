@@ -34,3 +34,35 @@ const tokens = tokenize('#');
 ```
 
 Use `clearPlugins()` to remove all registered plugins, typically in tests.
+
+## Example: TypeScript Decorators
+
+Plugins can extend the lexer to handle TypeScript or Flow syntax. This example
+adds support for decorator tokens beginning with `@`:
+
+```javascript
+export function TSDecoratorReader(stream, factory) {
+  const pos = stream.getPosition();
+  if (stream.current() !== '@') return null;
+  let val = '@';
+  stream.advance();
+  while (stream.current() && /[A-Za-z0-9_$]/.test(stream.current())) {
+    val += stream.current();
+    stream.advance();
+  }
+  return factory('DECORATOR', val, pos, stream.getPosition());
+}
+
+export const TSDecoratorPlugin = {
+  modes: { default: [TSDecoratorReader] },
+  init(engine) {
+    /* engine tweaks */
+  }
+};
+```
+
+Register the plugin in the same way:
+
+```javascript
+registerPlugin(TSDecoratorPlugin);
+```
