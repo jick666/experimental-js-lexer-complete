@@ -120,3 +120,9 @@ LexerEngine.registerPlugin(HashPlugin);
 
 Plugins may provide readers for any mode using a `modes` map and an optional
 `init(engine)` hook. See `docs/PLUGIN_API.md` for a full example.
+
+## 13. Pipeline Operator <a name="pipeline"></a>
+The experimental lexer will recognize the pipeline operator `|>` as a distinct `PIPELINE_OPERATOR` token. This reader should emit the token when the `|>` sequence is encountered in default mode. Future versions may support additional pipeline styles.
+
+## 14. Do Expressions <a name="do-expressions"></a>
+Do expressions allow block scoped evaluation returning the last statement value. The lexer must produce `DO_BLOCK_START` and `DO_BLOCK_END` tokens around the `do { ... }` body and handle nesting via the state stack.
