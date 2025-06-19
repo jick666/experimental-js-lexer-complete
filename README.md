@@ -1,6 +1,3 @@
-**`README.md`**  
-(Inserted **Agent Workflow** before Code of Conduct and updated step 6.)  
-
 # experimental-js-lexer
 
 A modular, adaptive, experimental JavaScript lexer designed for autonomous development by OpenAI Codex agents.
