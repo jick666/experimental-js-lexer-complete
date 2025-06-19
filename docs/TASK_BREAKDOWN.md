@@ -73,3 +73,15 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Hook the reader into import parsing flows in `LexerEngine`.
 - [ ] Test static and dynamic import assertion examples.
 - [ ] Document the new syntax in usage docs.
+
+## 29. Record and Tuple Syntax
+- [ ] Implement `RecordAndTupleReader` to tokenize `#{}` and `#[]` constructs.
+- [ ] Integrate the reader into default mode of `LexerEngine`.
+- [ ] Add unit tests for record and tuple literals.
+- [ ] Document record and tuple tokenization in `docs/LEXER_SPEC.md`.
+
+## 30. Unicode Property Escapes
+- [ ] Extend `RegexOrDivideReader` to support `\p{...}` and `\P{...}` escapes.
+- [ ] Validate property names using Unicode property data.
+- [ ] Provide tests covering positive and negative property escapes.
+- [ ] Document supported properties and limitations.
