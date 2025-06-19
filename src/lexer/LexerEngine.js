@@ -15,6 +15,7 @@ import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
+import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
 import { ShebangReader } from './ShebangReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
@@ -47,6 +48,7 @@ export class LexerEngine {
         ShebangReader,
         IdentifierReader,
         UnicodeIdentifierReader,
+        UnicodeEscapeIdentifierReader,
         HexReader,
         BinaryReader,
         OctalReader,

@@ -17,6 +17,7 @@ import { OctalReader } from "../src/lexer/OctalReader.js";
 import { ExponentReader } from "../src/lexer/ExponentReader.js";
 import { NumericSeparatorReader } from "../src/lexer/NumericSeparatorReader.js";
 import { UnicodeIdentifierReader } from "../src/lexer/UnicodeIdentifierReader.js";
+import { UnicodeEscapeIdentifierReader } from "../src/lexer/UnicodeEscapeIdentifierReader.js";
 import { ShebangReader } from "../src/lexer/ShebangReader.js";
 
 function randomAsciiString(maxLen = 20) {
@@ -44,6 +45,7 @@ const READERS = [
   ["ExponentReader", ExponentReader],
   ["NumericSeparatorReader", NumericSeparatorReader],
   ["UnicodeIdentifierReader", UnicodeIdentifierReader],
+  ["UnicodeEscapeIdentifierReader", UnicodeEscapeIdentifierReader],
   ["ShebangReader", ShebangReader],
 ];
 
