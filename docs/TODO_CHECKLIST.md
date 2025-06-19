@@ -30,4 +30,4 @@
 - [x] Add ModuleBlockReader for `module { ... }` blocks
 - [x] Support decimal literals like `123.45m` or `0d123.45`
 - [x] Tokenize `using` and `await using` statements
-- [ ] Add tokens for pattern matching `match`/`case` syntax
+- [x] Add tokens for pattern matching `match`/`case` syntax

@@ -224,3 +224,17 @@ test("integration: await using statement", () => {
   const toks = tokenize("await using y = bar();");
   expect(toks[0].type).toBe("AWAIT_USING");
 });
+
+test("integration: pattern matching tokens", () => {
+  const toks = tokenize("match (x) { case 1: }");
+  expect(toks.map(t => t.type)).toEqual([
+    "MATCH",
+    "PUNCTUATION",
+    "IDENTIFIER",
+    "PUNCTUATION",
+    "PUNCTUATION",
+    "CASE",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+});
