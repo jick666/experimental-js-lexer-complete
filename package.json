@@ -32,7 +32,7 @@
     "@octokit/rest": "^22.0.0",
     "eslint": "^8.0.0",
     "husky": "^9.1.7",
-    "jest": "^29.0.0"
+    "jest": "^30.0.2"
   },
   "dependencies": {
     "unicode-match-property-ecmascript": "^2.0.0",
