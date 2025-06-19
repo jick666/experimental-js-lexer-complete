@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// scripts/repo-info.cjs
+// .github/scripts/repo-info.cjs
 // Summarize key repo information for new agents
 const fs = require('fs');
 const path = require('path');
@@ -32,7 +32,7 @@ if (fs.existsSync(todoPath)) {
 }
 
 heading('Next Task');
-const nextTaskScript = path.join('scripts', 'next-task.cjs');
+const nextTaskScript = path.join('.github', 'scripts', 'next-task.cjs');
 if (fs.existsSync(nextTaskScript)) {
   const { spawnSync } = require('child_process');
   const res = spawnSync('node', [nextTaskScript]);
