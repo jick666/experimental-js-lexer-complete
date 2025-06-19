@@ -2,11 +2,8 @@
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
-import { CommentReader } from './CommentReader.js';
-import { HTMLCommentReader } from './HTMLCommentReader.js';
-import { SourceMappingURLReader } from './SourceMappingURLReader.js';
 // Consolidated list of default readers
-import { baseReaders } from './defaultReaders.js';
+import { baseReaders, preReaders } from './defaultReaders.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -83,21 +80,14 @@ export class LexerEngine {
       new Token(type, value, start, end, stream.sourceURL);
 
     while (!stream.eof()) {
-      // 0. Emit comments
-      const htmlComment = HTMLCommentReader(stream, factory, this);
-      if (htmlComment) {
-        this.lastToken = htmlComment;
-        return htmlComment;
-      }
-      const sourceMap = SourceMappingURLReader(stream, factory, this);
-      if (sourceMap) {
-        this.lastToken = sourceMap;
-        return sourceMap;
-      }
-      const comment = CommentReader(stream, factory, this);
-      if (comment) {
-        this.lastToken = comment;
-        return comment;
+
+      // 0. Run early readers like comments
+      for (const Reader of preReaders) {
+        const result = Reader(stream, factory, this);
+        if (result) {
+          this.lastToken = result;
+          return result;
+        }
       }
 
       // 1. Mode switching for JSX
@@ -149,7 +139,7 @@ export class LexerEngine {
     }
 
     // EOF
-      return null;
+    return null;
   }
 
   /**
