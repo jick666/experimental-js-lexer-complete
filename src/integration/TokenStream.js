@@ -7,9 +7,9 @@ import { LexerEngine } from '../lexer/LexerEngine.js';
  * @param {string} code Source code to tokenize
  * @returns {Readable}
  */
-export function createTokenStream(code) {
+export function createTokenStream(code, { errorRecovery = false } = {}) {
   const stream = new CharStream(code);
-  const engine = new LexerEngine(stream);
+  const engine = new LexerEngine(stream, { errorRecovery });
   let trivia = [];
   let prev = null;
   return new Readable({

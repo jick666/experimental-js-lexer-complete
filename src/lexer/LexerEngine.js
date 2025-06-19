@@ -49,8 +49,9 @@ export class LexerEngine {
     this.plugins = [];
   }
 
-  constructor(stream) {
+  constructor(stream, { errorRecovery = false } = {}) {
     this.stream = stream;
+    this.errorRecovery = errorRecovery;
     this.stateStack = ['default'];
     this.buffer = [];
     this.disableJsx = false;
@@ -240,6 +241,18 @@ export class LexerEngine {
         const result = Reader(stream, factory, this);
         if (result) {
           if (result instanceof LexerError) {
+            if (this.errorRecovery) {
+              let endPos = result.end;
+              stream.setPosition(endPos);
+              if (endPos.index === result.start.index) {
+                stream.advance();
+                endPos = stream.getPosition();
+              }
+              const value = stream.input.slice(result.start.index, endPos.index);
+              const tok = factory('ERROR_TOKEN', value, result.start, endPos);
+              this.lastToken = tok;
+              return tok;
+            }
             throw result;
           }
           const token = result;

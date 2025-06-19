@@ -12,9 +12,9 @@ import { fileURLToPath } from "url";
  * @param root0
  * @param root0.verbose
  */
-export function tokenize(code, { verbose = false } = {}) {
+export function tokenize(code, { verbose = false, errorRecovery = false } = {}) {
   const stream = new CharStream(code);
-  const lexer = new LexerEngine(stream);
+  const lexer = new LexerEngine(stream, { errorRecovery });
   const tokens = [];
   let trivia = [];
   let prev = null;
