@@ -133,4 +133,12 @@ a |> b
 produces the tokens `[IDENTIFIER("a"), PIPELINE_OPERATOR("|>"), IDENTIFIER("b")]`.
 
 ## 14. Do Expressions <a name="do-expressions"></a>
-Do expressions allow block scoped evaluation returning the last statement value. The lexer must produce `DO_BLOCK_START` and `DO_BLOCK_END` tokens around the `do { ... }` body and handle nesting via the state stack.
+Do expressions allow block scoped evaluation returning the last statement value. When the lexer encounters the keyword `do` followed by an opening brace, it emits a `DO_BLOCK_START` token and pushes a `do_block` mode on the state stack. The body of the block is tokenized normally. Each closing brace decrements an internal counter and when the matching brace is reached a `DO_BLOCK_END` token is emitted and the mode is popped. Nested `do` blocks are therefore handled correctly.
+
+Example:
+
+```
+do { 1 + 2 }
+```
+
+produces the tokens `[DO_BLOCK_START("do {"), NUMBER("1"), OPERATOR("+"), NUMBER("2"), DO_BLOCK_END("}")]`.

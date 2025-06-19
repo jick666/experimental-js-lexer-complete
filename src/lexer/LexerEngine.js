@@ -18,6 +18,7 @@ import { WhitespaceReader } from './WhitespaceReader.js';
 import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
 import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
 import { ShebangReader } from './ShebangReader.js';
+import { DoExpressionReader } from './DoExpressionReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -47,6 +48,30 @@ export class LexerEngine {
         CommentReader,
         WhitespaceReader,
         ShebangReader,
+        DoExpressionReader,
+        IdentifierReader,
+        UnicodeIdentifierReader,
+        UnicodeEscapeIdentifierReader,
+        HexReader,
+        BinaryReader,
+        OctalReader,
+        BigIntReader,
+        NumericSeparatorReader,
+        ExponentReader,
+        NumberReader,
+        StringReader,
+        RegexOrDivideReader,
+        PipelineOperatorReader,
+        OperatorReader,
+        PunctuationReader,
+        TemplateStringReader,
+        JSXReader
+      ],
+      do_block: [
+        CommentReader,
+        WhitespaceReader,
+        ShebangReader,
+        DoExpressionReader,
         IdentifierReader,
         UnicodeIdentifierReader,
         UnicodeEscapeIdentifierReader,
