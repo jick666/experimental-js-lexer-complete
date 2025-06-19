@@ -1,6 +1,15 @@
 import { BaseIncrementalLexer } from './BaseIncrementalLexer.js';
 import { LexerError } from '../lexer/LexerError.js';
 
+function isIncompleteBlockComment(token, stream) {
+  return (
+    token.type === 'COMMENT' &&
+    token.value.startsWith('/*') &&
+    !token.value.endsWith('*/') &&
+    stream.eof()
+  );
+}
+
 /**
  * BufferedIncrementalLexer buffers incomplete tokens across feed() calls.
  * It avoids throwing when a chunk ends in the middle of a token.
@@ -33,12 +42,7 @@ export class BufferedIncrementalLexer extends BaseIncrementalLexer {
         throw err;
       }
       if (token === null) break;
-      if (
-        token.type === 'COMMENT' &&
-        token.value.startsWith('/*') &&
-        !token.value.endsWith('*/') &&
-        this.stream.eof()
-      ) {
+      if (isIncompleteBlockComment(token, this.stream)) {
         // Incomplete multi-line comment, rewind and wait for more input
         this.stream.setPosition(pos);
         break;
