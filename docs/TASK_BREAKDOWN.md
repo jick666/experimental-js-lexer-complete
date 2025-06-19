@@ -156,7 +156,7 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Describe normalization rules in the spec.
 
 ## 43. Error Recovery Mode
-- [ ] Add an optional lexer mode to skip malformed or unknown tokens.
-- [ ] Emit `ERROR_TOKEN` placeholders for invalid sequences.
-- [ ] Ensure recovery mode resumes lexing after errors without crashing.
-- [ ] Provide documentation and examples of recovery behavior.
+- [x] Add an optional lexer mode to skip malformed or unknown tokens.
+- [x] Emit `ERROR_TOKEN` placeholders for invalid sequences.
+- [x] Ensure recovery mode resumes lexing after errors without crashing.
+- [x] Provide documentation and examples of recovery behavior.

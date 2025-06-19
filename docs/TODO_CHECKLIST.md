@@ -44,4 +44,4 @@
 - [x] Implement ByteOrderMarkReader for handling BOM at file start
 - [x] Parse `//# sourceMappingURL=` comments for tool integration
 - [x] Normalize all Unicode whitespace via UnicodeWhitespaceReader
-- [ ] Add ErrorRecoveryMode to skip malformed tokens gracefully
+- [x] Add ErrorRecoveryMode to skip malformed tokens gracefully

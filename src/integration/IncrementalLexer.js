@@ -6,11 +6,11 @@ import { Token } from '../lexer/Token.js';
  * IncrementalLexer allows feeding code chunks and emits tokens as they are produced.
  */
 export class IncrementalLexer {
-  constructor({ onToken } = {}) {
+  constructor({ onToken, errorRecovery = false } = {}) {
     this.onToken = onToken || (() => {});
     this.tokens = [];
     this.stream = new CharStream('');
-    this.engine = new LexerEngine(this.stream);
+    this.engine = new LexerEngine(this.stream, { errorRecovery });
   }
 
   /**
@@ -59,7 +59,8 @@ export class IncrementalLexer {
         stateStack: [...this.engine.stateStack],
         buffer: this.engine.buffer.map(t => t.toJSON()),
         disableJsx: this.engine.disableJsx,
-        lastToken: this.engine.lastToken ? this.engine.lastToken.toJSON() : null
+        lastToken: this.engine.lastToken ? this.engine.lastToken.toJSON() : null,
+        errorRecovery: this.engine.errorRecovery
       }
     };
   }
@@ -71,7 +72,7 @@ export class IncrementalLexer {
   restoreState(state) {
     this.stream = new CharStream(state.input);
     this.stream.setPosition(state.position);
-    this.engine = new LexerEngine(this.stream);
+    this.engine = new LexerEngine(this.stream, { errorRecovery: state.engine.errorRecovery });
     this.engine.stateStack = [...state.engine.stateStack];
     this.engine.buffer = state.engine.buffer.map(
       t => new Token(t.type, t.value, t.start, t.end)

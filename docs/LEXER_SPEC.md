@@ -89,6 +89,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
 - `JSXReader` ignores `<` inside `{}` expressions and supports self-closing tags.
+- When `errorRecovery` is enabled, malformed sequences emit `ERROR_TOKEN` placeholders instead of throwing.
 
 ## 11. Usage Examples <a name="examples"></a>
 Run the CLI directly:
@@ -330,3 +331,20 @@ property into a single `WHITESPACE` token. Consecutive characters—including
 rare spaces such as `\u2003` (EM SPACE) and `\u205F` (MEDIUM MATHEMATICAL
 SPACE)—are consumed together, and the token's value preserves the original
 characters.
+
+## 27. Error Recovery Mode <a name="error-recovery"></a>
+Passing `{ errorRecovery: true }` to the lexer causes malformed sequences to be
+replaced with `ERROR_TOKEN` placeholders instead of throwing a `LexerError`.
+Lexing then resumes after the offending text.
+
+Example:
+
+```javascript
+"abc
+let x = 1;
+```
+
+produces the tokens `[
+  ERROR_TOKEN("\"abc"), WHITESPACE("\n"), KEYWORD("let"), IDENTIFIER("x"),
+  OPERATOR("="), NUMBER("1"), PUNCTUATION(";")
+]`.
