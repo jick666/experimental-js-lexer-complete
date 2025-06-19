@@ -125,3 +125,12 @@ test("integration: shebang comment", () => {
   expect(toks[0].type).toBe("COMMENT");
   expect(toks[0].value).toBe("#!/usr/bin/env node");
 });
+
+test("integration: pipeline operator", () => {
+  const toks = tokenize("a |> b");
+  expect(toks.map(t => t.type)).toEqual([
+    "IDENTIFIER",
+    "PIPELINE_OPERATOR",
+    "IDENTIFIER"
+  ]);
+});
