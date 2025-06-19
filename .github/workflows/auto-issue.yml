@@ -1,16 +1,17 @@
 name: Auto-Create Reader Tasks
 on:
   schedule:
-    - cron: '0 4 * * *'   # daily at 04:00 UTC
+    - cron: '0 4 * * *'   # daily 04:00 UTC
 
 jobs:
   file-tasks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18          # ← was 16
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
       - run: node .github/scripts/seed-todo.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
