@@ -18,6 +18,7 @@ export function tokenize(code, { verbose = false } = {}) {
   const tokens = [];
   let trivia = [];
   let prev = null;
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const tok = lexer.nextToken();
     if (tok === null) break;

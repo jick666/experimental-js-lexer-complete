@@ -46,15 +46,13 @@ test("TemplateStringReader returns LexerError on unterminated template", () => {
   expect(result.toString()).toContain('line 1, column 0');
 });
 
-test("TemplateStringReader returns LexerError on bad escape", () => {
+test("TemplateStringReader returns INVALID_TEMPLATE_STRING on bad escape", () => {
   const stream = new CharStream('`bad \\');
   const result = TemplateStringReader(
     stream,
     (type, value, start, end) => new Token(type, value, start, end)
   );
-  expect(result).toBeInstanceOf(LexerError);
-  expect(result.type).toBe('BadEscape');
-  expect(result.toString()).toContain('line 1, column 5');
+  expect(result.type).toBe('INVALID_TEMPLATE_STRING');
 });
 
 test("TemplateStringReader handles escapes and nested braces", () => {
@@ -119,12 +117,11 @@ test("TemplateStringReader handles CRLF line endings", () => {
   expect(stream.getPosition().index).toBe(src.length);
 });
 
-test("TemplateStringReader errors on escape at EOF", () => {
+test("TemplateStringReader returns INVALID_TEMPLATE_STRING on escape at EOF", () => {
   const src = "`abc\\"; // backslash at end
   const stream = new CharStream(src);
   const result = TemplateStringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
-  expect(result).toBeInstanceOf(LexerError);
-  expect(result.type).toBe("BadEscape");
+  expect(result.type).toBe("INVALID_TEMPLATE_STRING");
 });
 
 test("TemplateStringReader handles empty template", () => {

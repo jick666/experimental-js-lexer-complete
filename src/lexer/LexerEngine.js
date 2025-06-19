@@ -118,7 +118,7 @@ export class LexerEngine {
       let mode = this.currentMode();
       if (mode === 'default' && stream.current() === '<') {
         const next = stream.peek();
-        if (/[A-Za-z\/!?]|>/.test(next)) {
+        if (/[A-Za-z/!?]|>/.test(next)) {
           this.pushMode('jsx');
           mode = this.currentMode();
         }

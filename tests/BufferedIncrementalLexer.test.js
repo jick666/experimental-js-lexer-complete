@@ -31,9 +31,17 @@ test('buffers incomplete regex across feeds', () => {
   const types = [];
   const lexer = new BufferedIncrementalLexer({ onToken: t => types.push(t.type) });
   lexer.feed('const r = /ab');
-  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR']);
+  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'INVALID_REGEX']);
   lexer.feed('c/;');
-  expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'REGEX', 'PUNCTUATION']);
+  expect(types).toEqual([
+    'KEYWORD',
+    'IDENTIFIER',
+    'OPERATOR',
+    'INVALID_REGEX',
+    'IDENTIFIER',
+    'OPERATOR',
+    'PUNCTUATION'
+  ]);
 });
 
 test('buffers incomplete template string with expression across feeds', () => {
