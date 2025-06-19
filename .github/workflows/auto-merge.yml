@@ -1,34 +1,26 @@
-# .github/workflows/auto-merge.yml
 name: Auto-Merge Reader PRs
-
 on:
   pull_request_target:
     types: [labeled, synchronize, opened]
 
 permissions:
-  contents: write    # needed to merge
+  contents: write
   pull-requests: write
 
 jobs:
   automerge:
     runs-on: ubuntu-latest
-
-    # 👇 makes GITHUB_TOKEN available to *all* run: steps
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
       - name: Automerge
         uses: pascalgn/automerge-action@v0.14.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - run: npm install
-
+      - run: npm ci
       - name: Close completed TODOs
-        run: node .github/scripts/close-todo.js      # env already set above
+        run: node .github/scripts/close-todo.js
