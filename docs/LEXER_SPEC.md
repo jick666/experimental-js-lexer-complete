@@ -67,6 +67,9 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Named capture groups using the syntax `(?<name>...)` are recognized. Capture
   group names must follow identifier rules (letters, digits, underscore) and
   invalid names cause the lexer to emit an `INVALID_REGEX` token.
+- Unicode property escapes using `\p{}` and `\P{}` are validated against
+  canonical Unicode property names and values. Unknown properties result
+  in an `INVALID_REGEX` token.
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `HTML_TEMPLATE_STRING` tokens are returned for `html`-tagged templates.
 - `NumberReader` only parses base‑10 integers and decimals.

@@ -184,3 +184,26 @@ test("RegexOrDivideReader handles lookbehind assertions", () => {
   expect(token.type).toBe("REGEX");
   expect(token.value).toBe(src);
 });
+
+test("RegexOrDivideReader handles Unicode property escapes", () => {
+  const src = "/\\p{Letter}+/u";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+});
+
+test("RegexOrDivideReader handles negative Unicode property escapes", () => {
+  const src = "/\\P{Script=Latin}/u";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+});
+
+test("RegexOrDivideReader rejects unknown Unicode property", () => {
+  const src = "/\\p{UnknownProp}/u";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("INVALID_REGEX");
+});
