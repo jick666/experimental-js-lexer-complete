@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Documentation note on running optimization sprint scripts
+- Support for named capture groups in regular expression literals
 - Project scaffold for experimental-js-lexer
 - Spec, tests, CI, lint, promptMap, issue templates
 - Benchmark script and initial throughput measurements

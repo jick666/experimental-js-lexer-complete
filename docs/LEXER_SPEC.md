@@ -64,6 +64,9 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Regex or divide context is inferred from the last non-whitespace character.
 - Character classes inside regex literals are parsed, ignoring `/` characters
   until the closing `]`.
+- Named capture groups using the syntax `(?<name>...)` are recognized. Capture
+  group names must follow identifier rules (letters, digits, underscore) and
+  invalid names cause the lexer to emit an `INVALID_REGEX` token.
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `HTML_TEMPLATE_STRING` tokens are returned for `html`-tagged templates.
 - `NumberReader` only parses base‑10 integers and decimals.
