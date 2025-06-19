@@ -66,3 +66,15 @@ Register the plugin in the same way:
 ```javascript
 registerPlugin(TSDecoratorPlugin);
 ```
+
+## TypeScript Plugin
+
+The `TypeScriptPlugin` bundles readers for decorators, type annotations and
+generic parameters. When registered it disables automatic JSX detection so
+generics like `Map<string>` are tokenized correctly.
+
+```javascript
+import { TypeScriptPlugin } from './src/plugins/typescript/TypeScriptPlugin.js';
+
+registerPlugin(TypeScriptPlugin);
+```
