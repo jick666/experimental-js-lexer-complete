@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/stale@v5
         with:
-          repo-token: "${{ secrets.GITHUB_TOKEN_WORKFLOW }}"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
           days-before-stale: 30
           days-before-close: 7
           stale-issue-message: 'This issue has been automatically marked as stale due to inactivity. Please update if still relevant.'
