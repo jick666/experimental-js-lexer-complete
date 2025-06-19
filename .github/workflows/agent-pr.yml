@@ -2,6 +2,7 @@ name: Agent PR Launcher
 on:
   issues:
     types: [opened, labeled]
+
 jobs:
   launch:
     if: contains(github.event.issue.labels.*.name, 'reader')
@@ -14,7 +15,7 @@ jobs:
             const issue = context.payload.issue;
             await github.issues.createComment({
               owner: context.repo.owner,
-              repo: context.repo.repo,
+              repo:  context.repo.repo,
               issue_number: issue.number,
               body: '@codex-bot please begin implementing this reader per spec.'
             });
