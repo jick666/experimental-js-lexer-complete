@@ -2,12 +2,13 @@
  * Provides character level access with position tracking for the lexer.
  */
 export class CharStream {
-  constructor(input) {
+  constructor(input, { sourceURL = null } = {}) {
     this.input = input;
     this.length = input.length;
     this.index = 0;
     this.line = 1;
     this.column = 0;
+    this.sourceURL = sourceURL;
   }
 
   append(chunk) {
@@ -39,7 +40,12 @@ export class CharStream {
   }
 
   getPosition() {
-    return { line: this.line, column: this.column, index: this.index };
+    return {
+      line: this.line,
+      column: this.column,
+      index: this.index,
+      sourceURL: this.sourceURL
+    };
   }
 
   setPosition(pos) {

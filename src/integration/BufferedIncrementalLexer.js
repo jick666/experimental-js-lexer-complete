@@ -9,10 +9,10 @@ import { saveState, restoreState } from './stateUtils.js';
  * It avoids throwing when a chunk ends in the middle of a token.
  */
 export class BufferedIncrementalLexer {
-  constructor({ onToken, errorRecovery = false } = {}) {
+  constructor({ onToken, errorRecovery = false, sourceURL = null } = {}) {
     this.onToken = onToken || (() => {});
     this.tokens = [];
-    this.stream = new CharStream('');
+    this.stream = new CharStream('', { sourceURL });
     this.engine = new LexerEngine(this.stream, { errorRecovery });
     this.trivia = [];
     this._deps = { CharStream, LexerEngine, Token };

@@ -13,8 +13,11 @@ import { fileURLToPath } from "url";
  * @param root0
  * @param root0.verbose
  */
-export function tokenize(code, { verbose = false, errorRecovery = false } = {}) {
-  const stream = new CharStream(code);
+export function tokenize(
+  code,
+  { verbose = false, errorRecovery = false, sourceURL = null } = {}
+) {
+  const stream = new CharStream(code, { sourceURL });
   const lexer = new LexerEngine(stream, { errorRecovery });
   const tokens = [];
   for (const tok of tokenIterator(lexer)) {

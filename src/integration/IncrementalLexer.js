@@ -8,10 +8,10 @@ import { tokenIterator } from './tokenUtils.js';
  * IncrementalLexer allows feeding code chunks and emits tokens as they are produced.
  */
 export class IncrementalLexer {
-  constructor({ onToken, errorRecovery = false } = {}) {
+  constructor({ onToken, errorRecovery = false, sourceURL = null } = {}) {
     this.onToken = onToken || (() => {});
     this.tokens = [];
-    this.stream = new CharStream('');
+    this.stream = new CharStream('', { sourceURL });
     this.engine = new LexerEngine(this.stream, { errorRecovery });
     // dependencies for state helpers
     this._deps = { CharStream, LexerEngine, Token };

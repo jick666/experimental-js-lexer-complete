@@ -79,7 +79,8 @@ export class LexerEngine {
    */
   _readFromStream() {
     const { stream } = this;
-    const factory = (type, value, start, end) => new Token(type, value, start, end);
+    const factory = (type, value, start, end) =>
+      new Token(type, value, start, end, stream.sourceURL);
 
     while (!stream.eof()) {
       // 0. Emit comments
