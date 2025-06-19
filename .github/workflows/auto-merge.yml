@@ -12,6 +12,10 @@ permissions:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+
+    # 👇 makes GITHUB_TOKEN available to *all* run: steps
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
     steps:
       - uses: actions/checkout@v3
 
@@ -27,4 +31,4 @@ jobs:
       - run: npm install
 
       - name: Close completed TODOs
-        run: node .github/scripts/close-todo.js
+        run: node .github/scripts/close-todo.js      # env already set above
