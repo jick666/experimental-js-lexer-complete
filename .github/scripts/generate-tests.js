@@ -1,3 +1,2 @@
 #!/usr/bin/env node
-console.log("⚠️  generate-tests.js stub – integrate your test-generation agent here.");
-process.exit(0);
+console.log('🛈  generate-tests.js placeholder – plug in your test generator here.');
