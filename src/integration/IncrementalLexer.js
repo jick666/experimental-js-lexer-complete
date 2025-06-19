@@ -19,9 +19,22 @@ export class IncrementalLexer {
   feed(chunk) {
     this.stream.input += chunk;
     let token;
+    let trivia = [];
     while ((token = this.engine.nextToken()) !== null) {
+      if (token.type === 'WHITESPACE') {
+        trivia.push(token);
+        continue;
+      }
+      token.trivia.leading = trivia;
+      if (this.tokens.length > 0) {
+        this.tokens[this.tokens.length - 1].trivia.trailing = trivia;
+      }
+      trivia = [];
       this.tokens.push(token);
       this.onToken(token);
+    }
+    if (this.tokens.length > 0) {
+      this.tokens[this.tokens.length - 1].trivia.trailing = trivia;
     }
   }
 

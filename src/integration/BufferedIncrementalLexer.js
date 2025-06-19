@@ -12,6 +12,7 @@ export class BufferedIncrementalLexer {
     this.tokens = [];
     this.stream = new CharStream('');
     this.engine = new LexerEngine(this.stream);
+    this.trivia = [];
   }
 
   /**
@@ -46,6 +47,15 @@ export class BufferedIncrementalLexer {
         this.stream.setPosition(pos);
         break;
       }
+      if (token.type === 'WHITESPACE') {
+        this.trivia.push(token);
+        continue;
+      }
+      token.trivia.leading = this.trivia;
+      if (this.tokens.length > 0) {
+        this.tokens[this.tokens.length - 1].trivia.trailing = this.trivia;
+      }
+      this.trivia = [];
       this.tokens.push(token);
       this.onToken(token);
     }

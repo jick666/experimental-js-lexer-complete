@@ -54,7 +54,13 @@ test("peek returns upcoming tokens without consuming", () => {
   expect(engine.peek().value).toBe("1");
   // nextToken should yield the same first token
   expect(engine.nextToken().value).toBe("1");
-  // peek with n=2 should see the third token
-  expect(engine.peek(2).value).toBe("2");
+  // whitespace token follows
+  expect(engine.peek().type).toBe("WHITESPACE");
+  // peek with n=2 should see the operator
+  expect(engine.peek(2).value).toBe("+");
+  // peek with n=4 should see the final number
+  expect(engine.peek(4).value).toBe("2");
+  // consume whitespace then operator
+  expect(engine.nextToken().type).toBe("WHITESPACE");
   expect(engine.nextToken().value).toBe("+");
 });

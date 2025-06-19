@@ -7,6 +7,7 @@ export class Token {
     this.value = value;
     this.start = start;
     this.end = end;
+    this.trivia = { leading: [], trailing: [] };
   }
   toJSON() {
     return { type: this.type, value: this.value, start: this.start, end: this.end };

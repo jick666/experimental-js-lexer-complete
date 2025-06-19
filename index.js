@@ -16,13 +16,23 @@ export function tokenize(code, { verbose = false } = {}) {
   const stream = new CharStream(code);
   const lexer = new LexerEngine(stream);
   const tokens = [];
-  // eslint-disable-next-line no-constant-condition
+  let trivia = [];
+  let prev = null;
   while (true) {
     const tok = lexer.nextToken();
     if (tok === null) break;
+    if (tok.type === 'WHITESPACE') {
+      trivia.push(tok);
+      continue;
+    }
+    tok.trivia.leading = trivia;
+    if (prev) prev.trivia.trailing = trivia;
+    trivia = [];
     tokens.push(tok);
+    prev = tok;
     if (verbose) console.log(tok);
   }
+  if (prev) prev.trivia.trailing = trivia;
   return tokens;
 }
 
