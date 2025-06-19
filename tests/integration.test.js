@@ -126,6 +126,13 @@ test("integration: shebang comment", () => {
   expect(toks[0].value).toBe("#!/usr/bin/env node");
 });
 
+test("integration: html comments", () => {
+  const src = "<!-- hidden -->\nlet a = 1;";
+  const toks = tokenize(src);
+  expect(toks[0].type).toBe("COMMENT");
+  expect(toks[0].value).toBe("<!-- hidden -->");
+});
+
 test("integration: pipeline operator", () => {
   const toks = tokenize("a |> b");
   expect(toks.map(t => t.type)).toEqual([

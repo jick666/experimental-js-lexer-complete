@@ -14,6 +14,7 @@ import { PunctuationReader } from './PunctuationReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
+import { HTMLCommentReader } from './HTMLCommentReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
 import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
@@ -49,6 +50,7 @@ export class LexerEngine {
     // Mapping of mode -> reader list. Order determines priority.
     this.modes = {
       default: [
+        HTMLCommentReader,
         CommentReader,
         WhitespaceReader,
         ShebangReader,
@@ -75,6 +77,7 @@ export class LexerEngine {
         JSXReader
       ],
       do_block: [
+        HTMLCommentReader,
         CommentReader,
         WhitespaceReader,
         ShebangReader,
@@ -145,6 +148,11 @@ export class LexerEngine {
 
     while (!stream.eof()) {
       // 0. Emit comments
+      const htmlComment = HTMLCommentReader(stream, factory, this);
+      if (htmlComment) {
+        this.lastToken = htmlComment;
+        return htmlComment;
+      }
       const comment = CommentReader(stream, factory, this);
       if (comment) {
         this.lastToken = comment;
