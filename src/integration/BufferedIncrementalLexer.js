@@ -1,21 +1,14 @@
-import { CharStream } from '../lexer/CharStream.js';
-import { LexerEngine } from '../lexer/LexerEngine.js';
+import { BaseIncrementalLexer } from './BaseIncrementalLexer.js';
 import { LexerError } from '../lexer/LexerError.js';
-import { Token } from '../lexer/Token.js';
-import { saveState, restoreState } from './stateUtils.js';
 
 /**
  * BufferedIncrementalLexer buffers incomplete tokens across feed() calls.
  * It avoids throwing when a chunk ends in the middle of a token.
  */
-export class BufferedIncrementalLexer {
-  constructor({ onToken, errorRecovery = false, sourceURL = null } = {}) {
-    this.onToken = onToken || (() => {});
-    this.tokens = [];
-    this.stream = new CharStream('', { sourceURL });
-    this.engine = new LexerEngine(this.stream, { errorRecovery });
+export class BufferedIncrementalLexer extends BaseIncrementalLexer {
+  constructor(options = {}) {
+    super(options);
     this.trivia = [];
-    this._deps = { CharStream, LexerEngine, Token };
   }
 
   /**
@@ -64,26 +57,11 @@ export class BufferedIncrementalLexer {
     }
   }
 
-  /**
-   * Return all tokens produced so far.
-   */
-  getTokens() {
-    return this.tokens.slice();
-  }
-
-  /**
-   * Serialize lexer state for later restoration.
-   * @returns {object}
-   */
   saveState() {
-    return saveState(this, true);
+    return super.saveState(true);
   }
 
-  /**
-   * Restore a previously saved lexer state.
-   * @param {object} state
-   */
   restoreState(state) {
-    restoreState(this, state, true);
+    super.restoreState(state, true);
   }
 }
