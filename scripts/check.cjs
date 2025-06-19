@@ -3,22 +3,22 @@
  * scripts/check.cjs
  *
  * 1) ESLint
- * 2) Jest + coverage report
- * 3) Benchmark regression check (<=10 % drop allowed)
+ * 2) Jest (coverage)
+ * 3) Benchmarks  + 10 %-regression guard
  */
-import { execSync } from 'child_process';
-import fs from 'fs';
+const { execSync } = require('child_process');
+const fs           = require('fs');
 
-function run(cmd, opts = {}) {
+function run(cmd) {
   console.log(`\n› ${cmd}`);
-  execSync(cmd, { stdio: 'inherit', ...opts });
+  execSync(cmd, { stdio: 'inherit' });
 }
 
-run('eslint .');
-run('node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage');
+run('npm run lint');
+run('npm test');
 
-run('node tests/benchmarks/lexer.bench.js > bench-current.txt');
-run('node .github/scripts/compare-benchmark.js bench-current.txt .benchmarks/baseline.json');
+run('node tests/benchmarks/lexer.bench.js > tests/benchmarks/out.txt');
+run('node .github/scripts/compare-benchmark.js tests/benchmarks/out.txt .benchmarks/baseline.json');
 
-fs.rmSync('bench-current.txt');
-console.log('\n✔ all checks passed');
+fs.rmSync('tests/benchmarks/out.txt');
+console.log('\n✔  all checks passed');
