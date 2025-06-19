@@ -32,3 +32,23 @@ This repository is optimized for iterative development by Codex agents.
 - CI (lint, tests, coverage) must pass and at least one approving review is required.
 
 Adhering to these guidelines will help Codex agents collaborate effectively on this project.
+
+## Agent Jobs
+
+### Triage Agent
+- **Triggers:** `issues` opened or labeled, and new `issue_comment` events.
+- **Inputs:** operates on issues labeled `todo`, `drift`, or `reader`.
+- **Outputs:** may close `todo` issues and open new `reader` issues when drift is detected.
+- **Dry-Run:** run `node .github/scripts/close-todo.js --dry-run` and `node .github/scripts/check-drift.js --dry-run` to test locally without API calls.
+
+### Codegen Agent
+- **Triggers:** `pull_request` events and manual `workflow_dispatch`.
+- **Inputs:** current repository state plus the `OPENAI_API_KEY` and `GITHUB_TOKEN` secrets from the environment.
+- **Outputs:** commits automated updates on a new branch.
+- **Dry-Run:** execute `node agentic-automation.js` manually. Skip pushing changes to test by omitting the commit step or adding `--dry-run` to the helper scripts it calls.
+
+### Conflict Agent
+- **Triggers:** runs after the codegen agent.
+- **Inputs:** compares the recorded `main` branch SHA to detect divergence.
+- **Outputs:** aborts with an error if `main` has moved; otherwise opens a pull request.
+- **Dry-Run:** invoke the conflict check steps with `--dry-run` on the helper scripts; no PR will be opened.
