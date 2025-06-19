@@ -134,7 +134,7 @@ export class LexerEngine {
           // 3. Promote identifiers matching keywords
           if (
             token.type === 'IDENTIFIER' &&
-            JavaScriptGrammar.keywords.includes(token.value)
+            JavaScriptGrammar.keywordSet.has(token.value)
           ) {
             token.type = 'KEYWORD';
           }

@@ -1,9 +1,7 @@
 // §4.3 OperatorReader
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
 
-const ops = JavaScriptGrammar.operators
-  .slice()
-  .sort((a, b) => b.length - a.length);
+const ops = JavaScriptGrammar.sortedOperators;
 
 export function OperatorReader(stream, factory) {
   const startPos = stream.getPosition();
