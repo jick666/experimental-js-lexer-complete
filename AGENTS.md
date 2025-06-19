@@ -16,6 +16,10 @@ This repository is optimized for iterative development by Codex agents.
    npm run lint && npm test -- --coverage
    ```
    Ensure test coverage stays above 90%.
+   You can also run all workflow checks and board syncing with:
+   ```bash
+   npm run workflow
+   ```
 
 ## Commit Guidelines
 - Use [Conventional Commits](https://www.conventionalcommits.org) (`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`).

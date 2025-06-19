@@ -10,6 +10,13 @@ See `QUICK_START.md` for setup and development guidelines.
 Run `npm install` once to set up Husky hooks. Commits will automatically run
 `npm run lint` and `npm test` before being created.
 
+### Workflow Helper
+Use the convenience script to sync the project board, run linting, tests, and benchmarks in one go:
+
+```bash
+npm run workflow
+```
+
 ## Project Board
 
 Track progress and self-assign tasks on the [GitHub Project Board](https://github.com/your-org/experimental-js-lexer/projects/1).

@@ -13,7 +13,9 @@
     "prepare": "node scripts/prepare-husky.cjs",
     "build:extension": "npm --prefix extension install && npm --prefix extension run build",
     "publish:extension": "npm --prefix extension install && npm --prefix extension run publish",
-    "sync:project": "node .github/scripts/setup-project-board.js && node .github/scripts/seed-todo.js"
+    "sync:project": "node .github/scripts/setup-project-board.js && node .github/scripts/seed-todo.js",
+    "workflow": "bash scripts/run-workflow.sh",
+    "next-task": "node scripts/next-task.cjs"
   },
   "keywords": [
     "lexer",
