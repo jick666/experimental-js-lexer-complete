@@ -136,3 +136,27 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Allow enabling Flow mode without interfering with JSX.
 - [ ] Document plugin usage and examples.
 - [ ] Add unit tests for Flow-specific tokens.
+
+## 40. Byte Order Mark Handling
+- [ ] Implement `ByteOrderMarkReader` for files starting with `\uFEFF`.
+- [ ] Integrate this reader before ShebangReader in `LexerEngine`.
+- [ ] Add tests ensuring BOM is skipped or tokenized correctly.
+- [ ] Document BOM behavior in `docs/LEXER_SPEC.md`.
+
+## 41. Source Mapping Comment Reader
+- [ ] Create `SourceMappingURLReader` recognizing `//# sourceMappingURL=` comments.
+- [ ] Expose parsed mapping values via a new token type.
+- [ ] Add unit tests for inline and external source maps.
+- [ ] Document usage for build tools.
+
+## 42. Unicode Whitespace Consolidation
+- [ ] Extend `WhitespaceReader` to treat all Unicode spaces equivalently.
+- [ ] Normalize uncommon spaces like `\u2003` and `\u205F` to a single token type.
+- [ ] Add tests covering various Unicode whitespace characters.
+- [ ] Describe normalization rules in the spec.
+
+## 43. Error Recovery Mode
+- [ ] Add an optional lexer mode to skip malformed or unknown tokens.
+- [ ] Emit `ERROR_TOKEN` placeholders for invalid sequences.
+- [ ] Ensure recovery mode resumes lexing after errors without crashing.
+- [ ] Provide documentation and examples of recovery behavior.
