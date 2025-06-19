@@ -1,4 +1,3 @@
-
 # experimental-js-lexer
 
 A modular, adaptive, experimental JavaScript lexer designed for autonomous development by OpenAI Codex agents.
