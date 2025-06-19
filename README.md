@@ -23,6 +23,30 @@ Print an overview of available scripts and open tasks:
 ```bash
 npm run repo-info
 ```
+
+## Agent Workflow
+
+Automated agents coordinate through GitHub branches. A typical session:
+
+1. Sync with `main`:
+   ```bash
+   git fetch origin
+   git checkout main
+   git reset --hard origin/main
+   ```
+2. Create a new branch named `agent/<date>-<TASK_ID>`.
+3. Before editing, rebase to the latest `main`:
+   ```bash
+   git pull --rebase origin main
+   ```
+   Abort and resync if conflicts occur.
+4. Run checks locally:
+   ```bash
+   npm run lint && npm test
+   ```
+5. After committing, rebase onto `main` again and rerun the checks.
+6. Push the branch and open a pull request using the `GITHUB_TOKEN`.
+
 ## Code of Conduct
 
 Please read `CODE_OF_CONDUCT.md` to understand expectations for participation.
