@@ -1,7 +1,12 @@
 name: Agent PR Launcher
+
 on:
   issues:
     types: [opened, labeled]
+
+permissions:
+  issues:  write     # allow the job to add a comment
+  contents: read     # checkout still needs this
 
 jobs:
   launch:
@@ -10,7 +15,7 @@ jobs:
     steps:
       - uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}   # default GITHUB_TOKEN
           script: |
             const issue = context.payload.issue;
             await github.issues.createComment({
