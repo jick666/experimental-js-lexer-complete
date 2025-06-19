@@ -112,3 +112,27 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Add `match` and `case` tokens for future pattern matching.
 - [x] Add tokenization tests.
 - [x] Document reserved keywords.
+
+## 36. Function.sent Meta Property
+- [ ] Create `FunctionSentReader` to recognize `function.sent`.
+- [ ] Register the reader in default mode for generator functions.
+- [ ] Write unit tests covering `function.sent` usage.
+- [ ] Document the new token in `docs/LEXER_SPEC.md`.
+
+## 37. Bind Operator
+- [ ] Implement `BindOperatorReader` emitting `BIND_OPERATOR` for `::`.
+- [ ] Integrate the reader near the pipeline operator in `LexerEngine`.
+- [ ] Add tests like `obj::method` tokenization.
+- [ ] Document operator semantics.
+
+## 38. RegExp Unicode Sets
+- [ ] Extend `RegexOrDivideReader` to parse Unicode sets under the `v` flag.
+- [ ] Validate set operations and nested character classes.
+- [ ] Add tests using expressions like `[\p{Script=Latin}--[a-z]]/v`.
+- [ ] Document support in regex section.
+
+## 39. Flow Type Plugin
+- [ ] Provide `FlowTypePlugin` with readers for Flow annotations.
+- [ ] Allow enabling Flow mode without interfering with JSX.
+- [ ] Document plugin usage and examples.
+- [ ] Add unit tests for Flow-specific tokens.

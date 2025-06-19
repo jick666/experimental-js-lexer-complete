@@ -31,3 +31,10 @@
 - [x] Support decimal literals like `123.45m` or `0d123.45`
 - [x] Tokenize `using` and `await using` statements
 - [x] Add tokens for pattern matching `match`/`case` syntax
+
+#### Proposed Future Enhancements
+
+- [ ] Implement FunctionSentReader for `function.sent` meta property
+- [ ] Add BindOperatorReader for `::` method binding
+- [ ] Extend RegexOrDivideReader to support Unicode sets with the `v` flag
+- [ ] Provide FlowTypePlugin for Flow-specific syntax
