@@ -3,11 +3,11 @@
 This document outlines detailed subtasks for each remaining objective in `TODO_CHECKLIST.md`.
 
 ## 12. Extended Reader Support
-- [ ] Implement a `JSXReader` capable of tokenizing JSX syntax.
-- [ ] Add a `jsx` mode in `LexerEngine` and dispatch to `JSXReader`.
-- [ ] Support advanced string literals (multi-line, escape forms) in a dedicated reader.
-- [ ] Update unit tests covering JSX and new string literals.
-- [ ] Document usage and edge cases in `docs/LEXER_SPEC.md`.
+- [x] Implement a `JSXReader` capable of tokenizing JSX syntax.
+- [x] Add a `jsx` mode in `LexerEngine` and dispatch to `JSXReader`.
+- [x] Support advanced string literals (multi-line, escape forms) in a dedicated reader.
+- [x] Update unit tests covering JSX and new string literals.
+- [x] Document usage and edge cases in `docs/LEXER_SPEC.md`.
 
 ## 13. ECMAScript Coverage
 - [x] Create readers for remaining ECMAScript features (e.g. bigints, optional chaining, nullish coalescing).

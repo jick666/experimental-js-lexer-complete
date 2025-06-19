@@ -29,5 +29,8 @@
     "@jest/globals": "^29.0.0",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
