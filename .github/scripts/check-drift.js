@@ -12,6 +12,8 @@
 import fs from "fs";
 import { Octokit } from "@octokit/rest";
 
+const dryRun = process.argv.includes('--dry-run');
+
 const {
   GITHUB_TOKEN: token,
   GITHUB_REPOSITORY: repoFull,
@@ -49,6 +51,7 @@ const existing = new Set(
 /* helper – optionally add a card to the board's “Todo” column ----------- */
 async function addCard(issueId) {
   if (!boardName) return;
+  if (dryRun) return;
   try {
     const proj = (await octokit.request(
       "GET /repos/{owner}/{repo}/projects",
@@ -78,11 +81,15 @@ for (const r of missing) {
     console.log(`ℹ️  Issue already exists: ${title}`);
     continue;
   }
-  const issue = await octokit.rest.issues.create({
-    owner, repo, title,
-    body: `Spec includes **${r}** but it is not yet implemented in the lexer.`,
-    labels: ["reader", "auto-generated"]
-  });
-  console.log(`🆕 Created #${issue.data.number} – ${title}`);
-  await addCard(issue.data.id);
+  if (dryRun) {
+    console.log(`[dry-run] would open issue: ${title}`);
+  } else {
+    const issue = await octokit.rest.issues.create({
+      owner, repo, title,
+      body: `Spec includes **${r}** but it is not yet implemented in the lexer.`,
+      labels: ["reader", "auto-generated"]
+    });
+    console.log(`🆕 Created #${issue.data.number} – ${title}`);
+    await addCard(issue.data.id);
+  }
 }

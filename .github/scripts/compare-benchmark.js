@@ -4,6 +4,7 @@
  * Fails CI if any throughput drops below 90 % of baseline.
  */
 import fs from "fs";
+const dryRun = process.argv.includes('--dry-run');
 
 const [, , currentFile, baselineFile] = process.argv;
 if (!currentFile || !baselineFile) {
@@ -27,5 +28,9 @@ for (const [file, base] of Object.entries(baseline)) {
     console.error(`🔻  ${file}: ${cur.toFixed(2)} MB/s (baseline ${base})`);
     fail = true;
   }
+}
+if (dryRun) {
+  console.log(`[dry-run] benchmark comparison result: ${fail ? 'fail' : 'pass'}`);
+  process.exit(0);
 }
 process.exit(fail ? 1 : 0);

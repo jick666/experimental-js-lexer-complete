@@ -8,3 +8,4 @@
 6. Label the PR with `reader` to enable the auto‑merge workflow.
 7. Ensure CI (lint, tests, coverage ≥ 90%) passes and obtain at least one approving review.
 8. Once these requirements are met, the **Auto‑Merge Reader PRs** action will squash merge the PR automatically.
+9. Comment `/run-agent` on an issue to trigger the multi-agent workflow manually.

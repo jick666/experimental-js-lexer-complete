@@ -15,15 +15,25 @@
 import fs from 'fs';
 import path from 'path';
 
+const dryRun = process.argv.includes('--dry-run');
+
 function ensureDir(dirPath) {
   if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath, { recursive: true });
+    if (dryRun) {
+      console.log(`[dry-run] mkdir -p ${dirPath}`);
+    } else {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
   }
 }
 
 function writeFile(filePath, content) {
-  fs.writeFileSync(filePath, content, 'utf8');
-  console.log(`✔ ${filePath}`);
+  if (dryRun) {
+    console.log(`[dry-run] write ${filePath}`);
+  } else {
+    fs.writeFileSync(filePath, content, 'utf8');
+    console.log(`✔ ${filePath}`);
+  }
 }
 
 // 1) Update .codex/promptMap.json
