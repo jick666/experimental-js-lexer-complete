@@ -56,9 +56,9 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Agent prompts: `.codex/promptMap.json`
 
 ## 10. Edge Cases & Error Handling <a name="edge"></a>
-- Unterminated regex literals yield a `LexerError` of type `UnterminatedRegex`.
-- Unterminated template literals yield a `LexerError` of type `UnterminatedTemplate`.
-- Bad escape sequences inside template strings produce a `LexerError` of type `BadEscape`.
+- Unterminated regex literals emit an `INVALID_REGEX` token instead of throwing.
+- Bad escape sequences in strings or template literals emit an `INVALID_ESCAPE` token.
+- Unterminated template literals still yield a `LexerError` of type `UnterminatedTemplate`.
 - Multi-line comments reaching EOF are returned as `COMMENT` tokens without error.
 - `/=` is always tokenized as the divide-assign operator before regex detection.
 - Regex or divide context is inferred from the last non-whitespace character.

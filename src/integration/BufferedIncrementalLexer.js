@@ -37,6 +37,14 @@ export class BufferedIncrementalLexer {
       }
       if (token === null) break;
       if (
+        (token.type === 'INVALID_REGEX' || token.type === 'INVALID_ESCAPE') &&
+        this.stream.eof()
+      ) {
+        // Incomplete token, rewind and wait for more input
+        this.stream.setPosition(pos);
+        break;
+      }
+      if (
         token.type === 'COMMENT' &&
         token.value.startsWith('/*') &&
         !token.value.endsWith('*/') &&

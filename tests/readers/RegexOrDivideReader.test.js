@@ -1,7 +1,6 @@
 import { CharStream } from "../../src/lexer/CharStream.js";
 import { Token } from "../../src/lexer/Token.js";
 import { RegexOrDivideReader } from "../../src/lexer/RegexOrDivideReader.js";
-import { LexerError } from "../../src/lexer/LexerError.js";
 
 import { CommentReader } from "../../src/lexer/CommentReader.js";
 test("RegexOrDivideReader reads regex literal", () => {
@@ -30,12 +29,11 @@ test("RegexOrDivideReader reads '/=' operator", () => {
   expect(stream.getPosition().index).toBe(2);
 });
 
-test("RegexOrDivideReader returns LexerError on unterminated regex", () => {
+test("RegexOrDivideReader returns INVALID_REGEX token on unterminated regex", () => {
   const stream = new CharStream("/abc");
   const result = RegexOrDivideReader(stream, (t, v, s, e) => new Token(t, v, s, e));
-  expect(result).toBeInstanceOf(LexerError);
-  expect(result.type).toBe("UnterminatedRegex");
-  expect(result.toString()).toContain("line 1, column 0");
+  expect(result.type).toBe("INVALID_REGEX");
+  expect(result.value).toBe("/abc");
 });
 
 test("RegexOrDivideReader handles escaped slashes", () => {
@@ -119,12 +117,12 @@ test("RegexOrDivideReader treats newline after closing paren as divide", () => {
   expect(token.value).toBe("/");
 });
 
-test("RegexOrDivideReader errors on unterminated character class", () => {
+test("RegexOrDivideReader returns INVALID_REGEX token on unterminated character class", () => {
   const src = "/[abc/";
   const stream = new CharStream(src);
   const result = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
-  expect(result).toBeInstanceOf(LexerError);
-  expect(result.type).toBe("UnterminatedRegex");
+  expect(result.type).toBe("INVALID_REGEX");
+  expect(result.value).toBe(src);
 });
 
 test("RegexOrDivideReader treats slash after line comment as divide", () => {

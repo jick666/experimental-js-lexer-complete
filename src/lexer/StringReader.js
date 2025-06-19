@@ -16,12 +16,12 @@ export function StringReader(stream, factory) {
       value += ch;
       stream.advance();
       if (stream.eof()) {
-        return new LexerError(
-          'BadEscape',
-          'Bad escape sequence in string literal',
+        const endPos = stream.getPosition();
+        return factory(
+          'INVALID_ESCAPE',
+          stream.input.slice(startPos.index, endPos.index),
           startPos,
-          stream.getPosition(),
-          stream.input
+          endPos
         );
       }
       value += stream.current();
