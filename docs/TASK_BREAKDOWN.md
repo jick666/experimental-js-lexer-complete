@@ -81,10 +81,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Document record and tuple tokenization in `docs/LEXER_SPEC.md`.
 
 ## 30. Unicode Property Escapes
-- [ ] Extend `RegexOrDivideReader` to support `\p{...}` and `\P{...}` escapes.
-- [ ] Validate property names using Unicode property data.
-- [ ] Provide tests covering positive and negative property escapes.
-- [ ] Document supported properties and limitations.
+- [x] Extend `RegexOrDivideReader` to support `\p{...}` and `\P{...}` escapes.
+- [x] Validate property names using Unicode property data.
+- [x] Provide tests covering positive and negative property escapes.
+- [x] Document supported properties and limitations.
 
 ## 31. HTML Comment Support
 - [ ] Add `HTMLCommentReader` for `<!--` and `-->`.

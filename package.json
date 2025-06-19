@@ -36,5 +36,9 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "unicode-match-property-ecmascript": "^2.0.0",
+    "unicode-match-property-value-ecmascript": "^2.2.0"
   }
 }
