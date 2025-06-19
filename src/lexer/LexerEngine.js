@@ -1,36 +1,12 @@
-import { IdentifierReader } from './IdentifierReader.js';
-import { BinaryReader } from './BinaryReader.js';
-import { OctalReader } from './OctalReader.js';
-import { HexReader } from './HexReader.js';
-import { BigIntReader } from './BigIntReader.js';
-import { DecimalLiteralReader } from './DecimalLiteralReader.js';
-import { NumericSeparatorReader } from './NumericSeparatorReader.js';
-import { ExponentReader } from './ExponentReader.js';
-import { NumberReader } from './NumberReader.js';
-import { StringReader } from './StringReader.js';
+// Individual token readers
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
-import { BindOperatorReader } from './BindOperatorReader.js';
-import { PipelineOperatorReader } from './PipelineOperatorReader.js';
-import { OperatorReader } from './OperatorReader.js';
-import { PunctuationReader } from './PunctuationReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { HTMLCommentReader } from './HTMLCommentReader.js';
 import { SourceMappingURLReader } from './SourceMappingURLReader.js';
-import { UnicodeWhitespaceReader } from './UnicodeWhitespaceReader.js';
-import { ByteOrderMarkReader } from './ByteOrderMarkReader.js';
-import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
-import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
-import { ShebangReader } from './ShebangReader.js';
-import { DoExpressionReader } from './DoExpressionReader.js';
-import { ModuleBlockReader } from './ModuleBlockReader.js';
-import { UsingStatementReader } from './UsingStatementReader.js';
-import { PatternMatchReader } from './PatternMatchReader.js';
-import { PrivateIdentifierReader } from './PrivateIdentifierReader.js';
-import { ImportAssertionReader } from './ImportAssertionReader.js';
-import { RecordAndTupleReader } from './RecordAndTupleReader.js';
-import { FunctionSentReader } from './FunctionSentReader.js';
+// Consolidated list of default readers
+import { baseReaders } from './defaultReaders.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -57,112 +33,11 @@ export class LexerEngine {
     this.disableJsx = false;
 
     // Mapping of mode -> reader list. Order determines priority.
+    const shared = [...baseReaders];
     this.modes = {
-      default: [
-        HTMLCommentReader,
-        SourceMappingURLReader,
-        CommentReader,
-        UnicodeWhitespaceReader,
-        ByteOrderMarkReader,
-        ShebangReader,
-        PrivateIdentifierReader,
-        DoExpressionReader,
-        ModuleBlockReader,
-        UsingStatementReader,
-        PatternMatchReader,
-        FunctionSentReader,
-        ImportAssertionReader,
-        RecordAndTupleReader,
-        IdentifierReader,
-        UnicodeIdentifierReader,
-        UnicodeEscapeIdentifierReader,
-        HexReader,
-        BinaryReader,
-        OctalReader,
-        BigIntReader,
-        DecimalLiteralReader,
-        NumericSeparatorReader,
-        ExponentReader,
-        NumberReader,
-        StringReader,
-        RegexOrDivideReader,
-        PipelineOperatorReader,
-        BindOperatorReader,
-        OperatorReader,
-        PunctuationReader,
-        TemplateStringReader,
-        JSXReader
-      ],
-      do_block: [
-        HTMLCommentReader,
-        SourceMappingURLReader,
-        CommentReader,
-        UnicodeWhitespaceReader,
-        ByteOrderMarkReader,
-        ShebangReader,
-        PrivateIdentifierReader,
-        DoExpressionReader,
-        ModuleBlockReader,
-        UsingStatementReader,
-        PatternMatchReader,
-        FunctionSentReader,
-        ImportAssertionReader,
-        RecordAndTupleReader,
-        IdentifierReader,
-        UnicodeIdentifierReader,
-        UnicodeEscapeIdentifierReader,
-        HexReader,
-        BinaryReader,
-        OctalReader,
-        BigIntReader,
-        DecimalLiteralReader,
-        NumericSeparatorReader,
-        ExponentReader,
-        NumberReader,
-        StringReader,
-        RegexOrDivideReader,
-        PipelineOperatorReader,
-        BindOperatorReader,
-        OperatorReader,
-        PunctuationReader,
-        TemplateStringReader,
-        JSXReader
-      ],
-      module_block: [
-        HTMLCommentReader,
-        SourceMappingURLReader,
-        CommentReader,
-        UnicodeWhitespaceReader,
-        ByteOrderMarkReader,
-        ShebangReader,
-        PrivateIdentifierReader,
-        DoExpressionReader,
-        ModuleBlockReader,
-        UsingStatementReader,
-        PatternMatchReader,
-        FunctionSentReader,
-        ImportAssertionReader,
-        RecordAndTupleReader,
-        IdentifierReader,
-        UnicodeIdentifierReader,
-        UnicodeEscapeIdentifierReader,
-        HexReader,
-        BinaryReader,
-        OctalReader,
-        BigIntReader,
-        DecimalLiteralReader,
-        NumericSeparatorReader,
-        ExponentReader,
-        NumberReader,
-        StringReader,
-        RegexOrDivideReader,
-        PipelineOperatorReader,
-        BindOperatorReader,
-        OperatorReader,
-        PunctuationReader,
-        TemplateStringReader,
-        JSXReader
-      ],
+      default: [...shared],
+      do_block: [...shared],
+      module_block: [...shared],
       template_string: [TemplateStringReader],
       regex: [RegexOrDivideReader],
       jsx: [JSXReader]
