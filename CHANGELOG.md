@@ -9,9 +9,10 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Project scaffold for experimental-js-lexer
 - Spec, tests, CI, lint, promptMap, issue templates
+- Benchmark script and initial throughput measurements
 
 ### Changed
-- N/A
+- Optimized CharStream with length caching for faster lexing
 
 ### Fixed
 - N/A

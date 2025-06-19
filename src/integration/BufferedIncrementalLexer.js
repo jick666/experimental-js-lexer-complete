@@ -21,7 +21,7 @@ export class BufferedIncrementalLexer {
    * @param {string} chunk
    */
   feed(chunk) {
-    this.stream.input += chunk;
+    this.stream.append(chunk);
     // eslint-disable-next-line no-constant-condition
     while (true) {
       const pos = this.stream.getPosition();
