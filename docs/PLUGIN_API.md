@@ -78,3 +78,13 @@ import { TypeScriptPlugin } from './src/plugins/typescript/TypeScriptPlugin.js';
 
 registerPlugin(TypeScriptPlugin);
 ```
+
+## Flow Type Plugin
+
+The `FlowTypePlugin` adds a reader for Flow-style type annotations. Unlike the TypeScript plugin it leaves JSX parsing enabled so Flow code can coexist with React components.
+
+```javascript
+import { FlowTypePlugin } from './src/plugins/flow/FlowTypePlugin.js';
+
+registerPlugin(FlowTypePlugin);
+```
