@@ -37,8 +37,14 @@ test('CLI prints tokens array for valid input', async () => {
   expect(result.exitCode).toBeUndefined();
 });
 
-test('CLI exits with code 1 on lexer error', async () => {
+test('CLI outputs INVALID_REGEX token for bad input', async () => {
   const result = await runCli(['/abc']);
+  expect(result.exitCode).toBeUndefined();
+  expect(result.logs[0][0].type).toBe('INVALID_REGEX');
+});
+
+test('CLI exits with code 1 on template error', async () => {
+  const result = await runCli(['`unterminated']);
   expect(result.exitCode).toBe(1);
   expect(result.errors.length).toBeGreaterThan(0);
 });

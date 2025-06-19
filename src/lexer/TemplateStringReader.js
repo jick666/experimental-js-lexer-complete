@@ -22,12 +22,12 @@ export function TemplateStringReader(stream, factory) {
       value += ch;
       stream.advance();
       if (stream.eof()) {
-        return new LexerError(
-          'BadEscape',
-          'Bad escape sequence in template literal',
+        const endPos = stream.getPosition();
+        return factory(
+          'INVALID_ESCAPE',
+          stream.input.slice(escStart.index, endPos.index),
           escStart,
-          stream.getPosition(),
-          stream.input
+          endPos
         );
       }
       value += stream.current();

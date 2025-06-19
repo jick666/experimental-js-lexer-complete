@@ -2,7 +2,6 @@ import { jest } from "@jest/globals";
 import { CharStream } from "../src/lexer/CharStream.js";
 import { LexerEngine } from "../src/lexer/LexerEngine.js";
 
-import { LexerError } from "../src/lexer/LexerError.js";
 test("LexerEngine pushMode and popMode manage state stack", () => {
   const engine = new LexerEngine(new CharStream(""));
   expect(engine.currentMode()).toBe("default");
@@ -35,16 +34,10 @@ test("nextToken auto-enables JSX mode", () => {
   expect(engine.currentMode()).toBe("default");
 });
 
-test("nextToken rethrows reader errors", () => {
+test("nextToken returns INVALID_REGEX token instead of throwing", () => {
   const engine = new LexerEngine(new CharStream("/abc"));
-  let err;
-  try {
-    engine.nextToken();
-  } catch (e) {
-    err = e;
-  }
-  expect(err).toBeInstanceOf(LexerError);
-  expect(err.type).toBe("UnterminatedRegex");
+  const tok = engine.nextToken();
+  expect(tok.type).toBe("INVALID_REGEX");
 });
 
 test("peek returns upcoming tokens without consuming", () => {

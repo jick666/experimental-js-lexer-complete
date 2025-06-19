@@ -44,3 +44,11 @@ test("StringReader errors on newline in string", () => {
   expect(result).toBeInstanceOf(LexerError);
   expect(result.type).toBe('UnterminatedString');
 });
+
+test("StringReader returns INVALID_ESCAPE token on escape at EOF", () => {
+  const src = '"abc\\';
+  const stream = new CharStream(src);
+  const result = StringReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(result.type).toBe('INVALID_ESCAPE');
+  expect(result.value).toBe(src);
+});

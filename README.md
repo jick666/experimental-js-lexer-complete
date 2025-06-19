@@ -60,6 +60,11 @@ stream.on('data', tok => {
 
 See `docs/VS_CODE_EXAMPLE.md` for a more complete VS Code integration example.
 
+## Error Recovery Tokens
+
+When the lexer encounters an unterminated regular expression or an invalid escape sequence in a string or template literal, it emits recovery tokens (`INVALID_REGEX` or `INVALID_ESCAPE`) instead of throwing. This allows tooling to continue processing the remainder of the file.
+
+
 ## Plugin API
 
 Custom token readers can be installed at runtime. Register a plugin before
