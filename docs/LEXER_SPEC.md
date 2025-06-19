@@ -74,6 +74,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `HTML_TEMPLATE_STRING` tokens are returned for `html`-tagged templates.
 - `NumberReader` only parses base‑10 integers and decimals.
 - `BigIntReader` parses integer literals with a trailing `n`.
+- `DecimalLiteralReader` parses decimal literals like `123.4m` or `0d123.4`.
 - `HexReader` parses `0x` or `0X` prefixed hexadecimal integers.
 - `OctalReader` parses `0o` or `0O` prefixed octal integers.
 - `ExponentReader` parses numbers with `e` or `E` exponents.

@@ -3,6 +3,7 @@ import { BinaryReader } from './BinaryReader.js';
 import { OctalReader } from './OctalReader.js';
 import { HexReader } from './HexReader.js';
 import { BigIntReader } from './BigIntReader.js';
+import { DecimalLiteralReader } from './DecimalLiteralReader.js';
 import { NumericSeparatorReader } from './NumericSeparatorReader.js';
 import { ExponentReader } from './ExponentReader.js';
 import { NumberReader } from './NumberReader.js';
@@ -67,6 +68,7 @@ export class LexerEngine {
         BinaryReader,
         OctalReader,
         BigIntReader,
+        DecimalLiteralReader,
         NumericSeparatorReader,
         ExponentReader,
         NumberReader,
@@ -95,6 +97,7 @@ export class LexerEngine {
         BinaryReader,
         OctalReader,
         BigIntReader,
+        DecimalLiteralReader,
         NumericSeparatorReader,
         ExponentReader,
         NumberReader,
@@ -123,6 +126,7 @@ export class LexerEngine {
         BinaryReader,
         OctalReader,
         BigIntReader,
+        DecimalLiteralReader,
         NumericSeparatorReader,
         ExponentReader,
         NumberReader,
