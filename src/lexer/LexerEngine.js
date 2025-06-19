@@ -7,6 +7,7 @@ import { HTMLCommentReader } from './HTMLCommentReader.js';
 import { SourceMappingURLReader } from './SourceMappingURLReader.js';
 // Consolidated list of default readers
 import { baseReaders } from './defaultReaders.js';
+import { createDefaultModes } from './defaultModes.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -33,15 +34,12 @@ export class LexerEngine {
     this.disableJsx = false;
 
     // Mapping of mode -> reader list. Order determines priority.
-    const shared = [...baseReaders];
-    this.modes = {
-      default: [...shared],
-      do_block: [...shared],
-      module_block: [...shared],
-      template_string: [TemplateStringReader],
-      regex: [RegexOrDivideReader],
-      jsx: [JSXReader]
-    };
+    this.modes = createDefaultModes(
+      baseReaders,
+      TemplateStringReader,
+      RegexOrDivideReader,
+      JSXReader
+    );
 
     // Apply registered plugins
     for (const plugin of LexerEngine.plugins) {
