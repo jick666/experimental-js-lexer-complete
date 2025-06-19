@@ -18,3 +18,9 @@
 - [x] Add TypeScriptPlugin providing decorators and type annotations
 - [x] Benchmark lexer speed and optimize CharStream caching
 - [x] Document incremental lexer state persistence
+
+### Future Lexical Enhancement Tasks
+
+- [ ] Implement PrivateIdentifierReader for `#private` fields
+- [ ] Support named capture groups in regular expressions
+- [ ] Recognize import assertion syntax after `import` statements

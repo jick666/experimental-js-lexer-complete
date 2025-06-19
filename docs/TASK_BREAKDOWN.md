@@ -55,3 +55,21 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document how to save and restore lexer state.
 - [x] Provide example code snippet in `README.md`.
 - [x] Add tests covering lexing resume functionality.
+
+## 26. Private Identifiers
+- [ ] Add `PrivateIdentifierReader` for tokens like `#field`.
+- [ ] Insert the reader early in `LexerEngine`'s default mode.
+- [ ] Write unit tests covering class fields and methods.
+- [ ] Document new `PRIVATE_IDENTIFIER` token in `docs/LEXER_SPEC.md`.
+
+## 27. Regex Named Capture Groups
+- [ ] Extend `RegexOrDivideReader` to recognize `(?<name>...)` syntax.
+- [ ] Validate capture group names using identifier rules.
+- [ ] Add tests with single and multiple named groups.
+- [ ] Document named group parsing rules and limitations.
+
+## 28. Import Assertions
+- [ ] Implement `ImportAssertionReader` handling `assert { ... }` clauses.
+- [ ] Hook the reader into import parsing flows in `LexerEngine`.
+- [ ] Test static and dynamic import assertion examples.
+- [ ] Document the new syntax in usage docs.
