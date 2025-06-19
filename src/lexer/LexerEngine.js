@@ -17,6 +17,7 @@ import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
 import { CommentReader } from './CommentReader.js';
 import { HTMLCommentReader } from './HTMLCommentReader.js';
+import { SourceMappingURLReader } from './SourceMappingURLReader.js';
 import { WhitespaceReader } from './WhitespaceReader.js';
 import { ByteOrderMarkReader } from './ByteOrderMarkReader.js';
 import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
@@ -58,6 +59,7 @@ export class LexerEngine {
     this.modes = {
       default: [
         HTMLCommentReader,
+        SourceMappingURLReader,
         CommentReader,
         WhitespaceReader,
         ByteOrderMarkReader,
@@ -92,6 +94,7 @@ export class LexerEngine {
       ],
       do_block: [
         HTMLCommentReader,
+        SourceMappingURLReader,
         CommentReader,
         WhitespaceReader,
         ByteOrderMarkReader,
@@ -126,6 +129,7 @@ export class LexerEngine {
       ],
       module_block: [
         HTMLCommentReader,
+        SourceMappingURLReader,
         CommentReader,
         WhitespaceReader,
         ByteOrderMarkReader,
@@ -207,6 +211,11 @@ export class LexerEngine {
       if (htmlComment) {
         this.lastToken = htmlComment;
         return htmlComment;
+      }
+      const sourceMap = SourceMappingURLReader(stream, factory, this);
+      if (sourceMap) {
+        this.lastToken = sourceMap;
+        return sourceMap;
       }
       const comment = CommentReader(stream, factory, this);
       if (comment) {

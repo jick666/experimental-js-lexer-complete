@@ -144,10 +144,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document BOM behavior in `docs/LEXER_SPEC.md`.
 
 ## 41. Source Mapping Comment Reader
-- [ ] Create `SourceMappingURLReader` recognizing `//# sourceMappingURL=` comments.
-- [ ] Expose parsed mapping values via a new token type.
-- [ ] Add unit tests for inline and external source maps.
-- [ ] Document usage for build tools.
+- [x] Create `SourceMappingURLReader` recognizing `//# sourceMappingURL=` comments.
+- [x] Expose parsed mapping values via a new token type.
+- [x] Add unit tests for inline and external source maps.
+- [x] Document usage for build tools.
 
 ## 42. Unicode Whitespace Consolidation
 - [ ] Extend `WhitespaceReader` to treat all Unicode spaces equivalently.
