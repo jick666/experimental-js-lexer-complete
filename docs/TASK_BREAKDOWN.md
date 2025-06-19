@@ -37,11 +37,11 @@
 - [x] Document behavior and edge cases.
 
 ## 23. TypeScript Plugin
-- [ ] Create `TypeScriptPlugin` under `src/plugins/typescript`.
-- [ ] Add readers for decorators and type annotations.
-- [ ] Support generic type parameters.
-- [ ] Document plugin usage with examples.
-- [ ] Write unit tests for plugin tokens.
+ - [x] Create `TypeScriptPlugin` under `src/plugins/typescript`.
+ - [x] Add readers for decorators and type annotations.
+ - [x] Support generic type parameters.
+ - [x] Document plugin usage with examples.
+ - [x] Write unit tests for plugin tokens.
 
 ## 24. Performance Benchmarks
 - [x] Add benchmark script using Node's `perf_hooks`.
@@ -61,10 +61,10 @@
 - [x] Document new `PRIVATE_IDENTIFIER` token in `docs/LEXER_SPEC.md`.
 
 ## 27. Regex Named Capture Groups
-- [ ] Extend `RegexOrDivideReader` to recognize `(?<name>...)` syntax.
-- [ ] Validate capture group names using identifier rules.
-- [ ] Add tests with single and multiple named groups.
-- [ ] Document named group parsing rules and limitations.
+ - [x] Extend `RegexOrDivideReader` to recognize `(?<name>...)` syntax.
+ - [x] Validate capture group names using identifier rules.
+ - [x] Add tests with single and multiple named groups.
+ - [x] Document named group parsing rules and limitations.
 
 ## 28. Import Assertions
  - [x] Implement `ImportAssertionReader` handling `assert { ... }` clauses.
@@ -73,10 +73,10 @@
  - [x] Document the new syntax in usage docs.
 
 ## 29. Record and Tuple Syntax
-- [ ] Implement `RecordAndTupleReader` to tokenize `#{}` and `#[]` constructs.
-- [ ] Integrate the reader into default mode of `LexerEngine`.
-- [ ] Add unit tests for record and tuple literals.
-- [ ] Document record and tuple tokenization in `docs/LEXER_SPEC.md`.
+ - [x] Implement `RecordAndTupleReader` to tokenize `#{}` and `#[]` constructs.
+ - [x] Integrate the reader into default mode of `LexerEngine`.
+ - [x] Add unit tests for record and tuple literals.
+ - [x] Document record and tuple tokenization in `docs/LEXER_SPEC.md`.
 
 ## 30. Unicode Property Escapes
 - [x] Extend `RegexOrDivideReader` to support `\p{...}` and `\P{...}` escapes.
