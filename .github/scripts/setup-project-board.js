@@ -1,58 +1,54 @@
 #!/usr/bin/env node
 /**
- * Ensures a project board named $PROJECT_NAME exists with the standard four
- * columns.  Silently exits offline.
+ * Guarantee a classic project board called $PROJECT_NAME exists with the
+ * columns ["Todo", "In Progress", "Review", "Done"].
  */
-import { Octokit } from '@octokit/rest';
+import { Octokit } from "@octokit/rest";
 
-const { GITHUB_TOKEN, GITHUB_REPOSITORY, PROJECT_NAME = 'Experimental Lexer' } =
-  process.env;
+const {
+  GITHUB_TOKEN,
+  GITHUB_REPOSITORY,
+  PROJECT_NAME = "Experimental Lexer"
+} = process.env;
 
 if (!GITHUB_TOKEN || !GITHUB_REPOSITORY) {
-  console.log('ℹ️  No GitHub credentials – skipped project-board setup.');
+  console.log("ℹ️  setup-project-board: no GitHub creds – skipping.");
   process.exit(0);
 }
 
-const [owner, repo] = GITHUB_REPOSITORY.split('/');
+const [owner, repo] = GITHUB_REPOSITORY.split("/");
 const octokit = new Octokit({ auth: GITHUB_TOKEN });
-const columns = ['Todo', 'In Progress', 'Review', 'Done'];
+const wantCols = ["Todo", "In Progress", "Review", "Done"];
+
+/* convenience wrapper that always speaks classic-projects API ---------- */
+const gh = (path, params = {}) =>
+  octokit.request(path, {
+    owner, repo,
+    mediaType: { previews: ["inertia"] },
+    ...params
+  });
 
 (async () => {
   /* 1 – board */
-  const boards = await octokit.rest.projects.listForRepo({
-    owner,
-    repo,
-    mediaType: { previews: ['inertia'] }
-  });
-  let board = boards.data.find(p => p.name === PROJECT_NAME);
+  const boards = (await gh("GET /repos/{owner}/{repo}/projects")).data;
+  let board = boards.find(b => b.name === PROJECT_NAME);
   if (!board) {
-    board = (
-      await octokit.rest.projects.createForRepo({
-        owner,
-        repo,
-        name: PROJECT_NAME,
-        mediaType: { previews: ['inertia'] }
-      })
-    ).data;
-    console.log(`✓ created board ${PROJECT_NAME}`);
+    board = (await gh("POST /repos/{owner}/{repo}/projects", { name: PROJECT_NAME })).data;
+    console.log(`✅ created board “${PROJECT_NAME}”`);
   }
 
   /* 2 – columns */
-  const existing = (
-    await octokit.rest.projects.listColumns({
-      project_id: board.id,
-      mediaType: { previews: ['inertia'] }
-    })
-  ).data.map(c => c.name);
+  const existing = new Set(
+    (await gh("GET /projects/{project_id}/columns", { project_id: board.id }))
+      .data.map(c => c.name)
+  );
 
-  for (const col of columns) {
-    if (!existing.includes(col)) {
-      await octokit.rest.projects.createColumn({
-        project_id: board.id,
-        name: col,
-        mediaType: { previews: ['inertia'] }
+  for (const name of wantCols) {
+    if (!existing.has(name)) {
+      await gh("POST /projects/{project_id}/columns", {
+        project_id: board.id, name
       });
-      console.log(`  • added column ${col}`);
+      console.log(`  • added column ${name}`);
     }
   }
 })();
