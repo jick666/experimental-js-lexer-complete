@@ -25,3 +25,33 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Design a registration mechanism for custom reader plugins.
 - [x] Implement plugin loading and lifecycle hooks.
 - [x] Document how to build and register plugins.
+
+## 21. Pipeline Operator
+- [ ] Define `PIPELINE_OPERATOR` token type.
+- [ ] Implement `PipelineOperatorReader` to emit this token.
+- [ ] Add unit tests ensuring `a |> b` tokenizes correctly.
+- [ ] Document new syntax in `docs/LEXER_SPEC.md`.
+
+## 22. Do Expressions
+- [ ] Add `DoExpressionReader` for `do { ... }` blocks.
+- [ ] Handle nested `do` blocks with the state stack.
+- [ ] Test token sequence for simple examples.
+- [ ] Document behavior and edge cases.
+
+## 23. TypeScript Plugin
+- [ ] Create `TypeScriptPlugin` under `src/plugins/typescript`.
+- [ ] Add readers for decorators and type annotations.
+- [ ] Support generic type parameters.
+- [ ] Document plugin usage with examples.
+- [ ] Write unit tests for plugin tokens.
+
+## 24. Performance Benchmarks
+- [ ] Add benchmark script using Node's `perf_hooks`.
+- [ ] Document baseline results in `README.md`.
+- [ ] Investigate CharStream caching optimizations.
+- [ ] Update changelog with performance metrics.
+
+## 25. Incremental Lexer Persistence
+- [ ] Document how to save and restore lexer state.
+- [ ] Provide example code snippet in `README.md`.
+- [ ] Add tests covering lexing resume functionality.

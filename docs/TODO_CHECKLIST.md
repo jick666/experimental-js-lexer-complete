@@ -10,3 +10,11 @@
 - [x] Buffer tokens in BufferedIncrementalLexer
 - [x] Scaffold VS Code Extension under `extension/`
 - [x] Enhance RegexOrDivideReader to handle character classes
+
+### New Feature & Optimization Tasks
+
+- [ ] Implement PipelineOperatorReader for `|>` expressions
+- [ ] Implement DoExpressionReader to support `do { }` syntax
+- [ ] Add TypeScriptPlugin providing decorators and type annotations
+- [ ] Benchmark lexer speed and optimize CharStream caching
+- [ ] Document incremental lexer state persistence
