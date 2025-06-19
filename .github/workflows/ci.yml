@@ -1,47 +1,26 @@
-# .github/workflows/ci.yml
 name: CI
-
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ '**' ]
+  push:        { branches: [main] }
+  pull_request { branches: ['**'] }
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x, 22.x]
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Set up Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          # prefer strict, reproducible installs
-          if [ -f package-lock.json ]; then
-            npm ci
-          else
-            npm install
-          fi
-
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Test
-        run: npm test
-
-      - name: Upload coverage report
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - uses: actions/upload-artifact@v4
         if: success()
-        uses: actions/upload-artifact@v4
         with:
           name: coverage-${{ matrix.node-version }}
           path: coverage/
