@@ -238,3 +238,11 @@ test("integration: pattern matching tokens", () => {
     "PUNCTUATION"
   ]);
 });
+
+test("integration: function.sent meta property", () => {
+  const toks = tokenize("function.sent;");
+  expect(toks.map(t => t.type)).toEqual([
+    "FUNCTION_SENT",
+    "PUNCTUATION"
+  ]);
+});

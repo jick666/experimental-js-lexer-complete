@@ -27,6 +27,7 @@ import { PatternMatchReader } from './PatternMatchReader.js';
 import { PrivateIdentifierReader } from './PrivateIdentifierReader.js';
 import { ImportAssertionReader } from './ImportAssertionReader.js';
 import { RecordAndTupleReader } from './RecordAndTupleReader.js';
+import { FunctionSentReader } from './FunctionSentReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -63,6 +64,7 @@ export class LexerEngine {
         ModuleBlockReader,
         UsingStatementReader,
         PatternMatchReader,
+        FunctionSentReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
@@ -94,6 +96,7 @@ export class LexerEngine {
         ModuleBlockReader,
         UsingStatementReader,
         PatternMatchReader,
+        FunctionSentReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
@@ -125,6 +128,7 @@ export class LexerEngine {
         ModuleBlockReader,
         UsingStatementReader,
         PatternMatchReader,
+        FunctionSentReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
