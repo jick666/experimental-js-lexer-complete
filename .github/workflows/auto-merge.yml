@@ -1,26 +1,33 @@
 name: Auto-Merge Reader PRs
+
 on:
   pull_request_target:
     types: [labeled, synchronize, opened]
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents:        write   # required by pascalgn/automerge-action
+  pull-requests:   write
+  issues:          write   # so close-todo can close Issues
 
 jobs:
   automerge:
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPOSITORY: ${{ github.repository }}   # helper scripts need this
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with:
+          node-version: 20
+
       - name: Automerge
         uses: pascalgn/automerge-action@v0.14.3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm ci
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - run: npm install
+
       - name: Close completed TODOs
         run: node .github/scripts/close-todo.js
