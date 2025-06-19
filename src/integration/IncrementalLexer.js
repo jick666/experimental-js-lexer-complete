@@ -1,20 +1,12 @@
-import { CharStream } from '../lexer/CharStream.js';
-import { LexerEngine } from '../lexer/LexerEngine.js';
-import { Token } from '../lexer/Token.js';
-import { saveState, restoreState } from './stateUtils.js';
+import { BaseIncrementalLexer } from './BaseIncrementalLexer.js';
 import { tokenIterator } from './tokenUtils.js';
 
 /**
  * IncrementalLexer allows feeding code chunks and emits tokens as they are produced.
  */
-export class IncrementalLexer {
-  constructor({ onToken, errorRecovery = false, sourceURL = null } = {}) {
-    this.onToken = onToken || (() => {});
-    this.tokens = [];
-    this.stream = new CharStream('', { sourceURL });
-    this.engine = new LexerEngine(this.stream, { errorRecovery });
-    // dependencies for state helpers
-    this._deps = { CharStream, LexerEngine, Token };
+export class IncrementalLexer extends BaseIncrementalLexer {
+  constructor(options = {}) {
+    super(options);
   }
 
   /**
@@ -29,26 +21,4 @@ export class IncrementalLexer {
     }
   }
 
-  /**
-   * Return all tokens produced so far.
-   */
-  getTokens() {
-    return this.tokens.slice();
-  }
-
-  /**
-   * Serialize the lexer's internal state for persistence.
-   * @returns {object}
-   */
-  saveState() {
-    return saveState(this);
-  }
-
-  /**
-   * Restore a previously saved lexer state.
-   * @param {object} state
-   */
-  restoreState(state) {
-    restoreState(this, state);
-  }
 }
