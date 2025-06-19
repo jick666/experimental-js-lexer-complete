@@ -1,14 +1,15 @@
 # Quick Start
 
-1. Install dependencies:
+1. Use Node.js 18 or higher.
+2. Install dependencies:
    ```bash
    npm install
    ```
-2. Run tests:
+3. Run tests:
    ```bash
    npm test
    ```
-3. Lex a file:
+4. Lex a file:
    ```bash
    node index.js "let x = 42;"
    ```
