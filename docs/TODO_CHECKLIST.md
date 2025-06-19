@@ -1,20 +1,8 @@
-### Extended Reader & Integration Tasks
+### Maintenance & Usability Tasks
 
-- [x] Implement HexReader (0x… literals)
-- [x] Implement BinaryReader (0b… literals)
-- [x] Implement OctalReader (0o… literals)
-- [x] Implement ExponentReader (1e… literals)
-- [x] Implement NumericSeparatorReader (1_000 separators)
-- [x] Implement UnicodeIdentifierReader (full Unicode support)
-- [x] Implement ShebangReader (#!… file headers)
-- [x] Buffer tokens in BufferedIncrementalLexer
-- [x] Scaffold VS Code Extension under `extension/`
-- [x] Enhance RegexOrDivideReader to handle character classes
-
-### New Feature & Optimization Tasks
-
-- [x] Implement PipelineOperatorReader for `|>` expressions
-- [x] Implement DoExpressionReader to support `do { }` syntax
-- [x] Add TypeScriptPlugin providing decorators and type annotations
-- [x] Benchmark lexer speed and optimize CharStream caching
-- [x] Document incremental lexer state persistence
+- [ ] Add CLI to tokenize files and output JSON
+- [ ] Enhance LexerError with line/column context
+- [ ] Provide FlowPlugin to support Flow type syntax
+- [ ] Benchmark incremental lexer on large codebases
+- [ ] Update VS Code extension to use incremental token stream for highlighting
+- [ ] Document advanced integration patterns using `createTokenStream`

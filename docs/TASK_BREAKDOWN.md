@@ -39,11 +39,11 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document behavior and edge cases.
 
 ## 23. TypeScript Plugin
-- [ ] Create `TypeScriptPlugin` under `src/plugins/typescript`.
-- [ ] Add readers for decorators and type annotations.
-- [ ] Support generic type parameters.
-- [ ] Document plugin usage with examples.
-- [ ] Write unit tests for plugin tokens.
+- [x] Create `TypeScriptPlugin` under `src/plugins/typescript`.
+- [x] Add readers for decorators and type annotations.
+- [x] Support generic type parameters.
+- [x] Document plugin usage with examples.
+- [x] Write unit tests for plugin tokens.
 
 ## 24. Performance Benchmarks
 - [x] Add benchmark script using Node's `perf_hooks`.
@@ -55,3 +55,30 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document how to save and restore lexer state.
 - [x] Provide example code snippet in `README.md`.
 - [x] Add tests covering lexing resume functionality.
+
+## 26. Command-Line Interface
+- [ ] Create `lexer-cli` for tokenizing files
+- [ ] Allow JSON output with `--json`
+- [ ] Add unit tests covering CLI behavior
+
+## 27. Enhanced Error Reporting
+- [ ] Include line and column info in `LexerError`
+- [ ] Update existing readers to supply position context
+- [ ] Document error reporting in `docs/LEXER_SPEC.md`
+
+## 28. Flow Type Plugin
+- [ ] Implement `FlowPlugin` under `src/plugins/flow`
+- [ ] Add readers for Flow type annotations and variance
+- [ ] Provide integration tests for Flow syntax
+
+## 29. Large File Benchmarks
+- [ ] Measure memory usage for incremental lexing on >1MB sources
+- [ ] Record results in `CHANGELOG.md`
+
+## 30. VS Code Highlighting
+- [ ] Stream tokens from `BufferedIncrementalLexer` in the extension
+- [ ] Display simple token highlighting using decorations
+
+## 31. Advanced Integration Examples
+- [ ] Write guide on using `createTokenStream` with Node pipelines
+- [ ] Provide code snippets in `docs/VS_CODE_EXAMPLE.md`
