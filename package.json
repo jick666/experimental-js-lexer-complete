@@ -14,7 +14,8 @@
     "build:extension": "npm --prefix extension install && npm --prefix extension run build",
     "publish:extension": "npm --prefix extension install && npm --prefix extension run publish",
     "workflow": "bash scripts/run-workflow.sh",
-    "next-task": "node scripts/next-task.cjs"
+    "next-task": "node scripts/next-task.cjs",
+    "repo-info": "node scripts/repo-info.cjs"
   },
   "keywords": [
     "lexer",

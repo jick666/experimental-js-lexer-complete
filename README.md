@@ -16,6 +16,13 @@ Use the convenience script to run linting, tests, and benchmarks in one go:
 ```bash
 npm run workflow
 ```
+
+### Repository Info
+Print an overview of available scripts and open tasks:
+
+```bash
+npm run repo-info
+```
 ## Code of Conduct
 
 Please read `CODE_OF_CONDUCT.md` to understand expectations for participation.
