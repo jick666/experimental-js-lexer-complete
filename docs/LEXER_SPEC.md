@@ -140,7 +140,20 @@ a |> b
 
 produces the tokens `[IDENTIFIER("a"), PIPELINE_OPERATOR("|>"), IDENTIFIER("b")]`.
 
-## 14. Do Expressions <a name="do-expressions"></a>
+## 14. Bind Operator <a name="bind"></a>
+The bind operator `::` allows convenient method extraction without losing the
+object context. When the lexer encounters the sequence `::` it emits a distinct
+`BIND_OPERATOR` token.
+
+Example:
+
+```
+obj::method
+```
+
+produces the tokens `[IDENTIFIER("obj"), BIND_OPERATOR("::"), IDENTIFIER("method")]`.
+
+## 15. Do Expressions <a name="do-expressions"></a>
 Do expressions allow block scoped evaluation returning the last statement value. When the lexer encounters the keyword `do` followed by an opening brace, it emits a `DO_BLOCK_START` token and pushes a `do_block` mode on the state stack. The body of the block is tokenized normally. Each closing brace decrements an internal counter and when the matching brace is reached a `DO_BLOCK_END` token is emitted and the mode is popped. Nested `do` blocks are therefore handled correctly.
 
 Example:
@@ -151,7 +164,7 @@ do { 1 + 2 }
 
 produces the tokens `[DO_BLOCK_START("do {"), NUMBER("1"), OPERATOR("+"), NUMBER("2"), DO_BLOCK_END("}")]`.
 
-## 15. Private Identifiers <a name="private-identifiers"></a>
+## 16. Private Identifiers <a name="private-identifiers"></a>
 Private class fields and methods begin with a `#` prefix. When the lexer
 encounters `#` followed by an identifier, it emits a `PRIVATE_IDENTIFIER`
 token containing the full sequence including the hash.
@@ -169,7 +182,7 @@ produces the tokens `[
   PUNCTUATION("{"), PUNCTUATION("}"), PUNCTUATION("}")
 ]`.
 
-## 16. Import Assertions <a name="import-assertions"></a>
+## 17. Import Assertions <a name="import-assertions"></a>
 Import statements may include an `assert` clause to provide metadata about the
 module being imported. The lexer recognizes the sequence `assert { ... }` (or
 `assert: { ... }` inside dynamic import options) as a single
@@ -187,7 +200,7 @@ produces the tokens `[
   PUNCTUATION(";")
 ]`.
 
-## 17. Record and Tuple Literals <a name="record-tuple"></a>
+## 18. Record and Tuple Literals <a name="record-tuple"></a>
 Record (`#{}`) and tuple (`#[ ]`) literals start with `#` followed by
 `{` or `[`.
 When these sequences are encountered, the lexer emits a `RECORD_START`
@@ -206,7 +219,7 @@ produces the tokens `[
   TUPLE_START("#["), NUMBER("1"), PUNCTUATION("]")
 ]`.
 
-## 18. HTML Comments <a name="html-comments"></a>
+## 19. HTML Comments <a name="html-comments"></a>
 When `<!--` or `-->` appears at the start of a line, it is treated like a
 single-line comment. The lexer consumes the rest of the line and emits a
 `COMMENT` token containing the text of the comment.
@@ -223,7 +236,7 @@ produces the tokens `[
   OPERATOR("="), NUMBER("1"), PUNCTUATION(";")
 ]`.
 
-## 19. Module Blocks <a name="module-blocks"></a>
+## 20. Module Blocks <a name="module-blocks"></a>
 Module blocks start with the keyword `module` followed by an opening brace.
 When this sequence is encountered the lexer emits a `MODULE_BLOCK_START` token
 and pushes a `module_block` mode. Braces inside the block increment and
@@ -242,7 +255,7 @@ produces the tokens `[
   OPERATOR("="), NUMBER("1"), PUNCTUATION(";"), MODULE_BLOCK_END("}")
 ]`.
 
-## 20. Explicit Resource Management <a name="using"></a>
+## 21. Explicit Resource Management <a name="using"></a>
 The lexer recognizes the experimental `using` declarations for managing
 resources. When the keyword `using` appears at the start of a statement it
 emits a `USING` token. If the sequence is preceded by `await` separated by
@@ -262,7 +275,7 @@ produces the tokens `[
   ...
 ]`.
 
-## 21. Pattern Matching <a name="pattern-matching"></a>
+## 22. Pattern Matching <a name="pattern-matching"></a>
 The lexer reserves the keywords `match` and `case` for future pattern
 matching support. When these words appear at statement boundaries they
 are emitted as `MATCH` and `CASE` tokens respectively.
@@ -279,7 +292,7 @@ produces the tokens `[
   PUNCTUATION("}")
 ]`.
 
-## 22. Function.sent <a name="function-sent"></a>
+## 23. Function.sent <a name="function-sent"></a>
 Generator functions may access the `function.sent` meta property to
 retrieve the value supplied by the most recent `next()` call. When the
 lexer encounters the exact sequence `function.sent` it emits a

@@ -120,10 +120,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document the new token in `docs/LEXER_SPEC.md`.
 
 ## 37. Bind Operator
-- [ ] Implement `BindOperatorReader` emitting `BIND_OPERATOR` for `::`.
-- [ ] Integrate the reader near the pipeline operator in `LexerEngine`.
-- [ ] Add tests like `obj::method` tokenization.
-- [ ] Document operator semantics.
+- [x] Implement `BindOperatorReader` emitting `BIND_OPERATOR` for `::`.
+- [x] Integrate the reader near the pipeline operator in `LexerEngine`.
+- [x] Add tests like `obj::method` tokenization.
+- [x] Document operator semantics.
 
 ## 38. RegExp Unicode Sets
 - [ ] Extend `RegexOrDivideReader` to parse Unicode sets under the `v` flag.
