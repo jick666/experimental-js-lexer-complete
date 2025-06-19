@@ -10,9 +10,10 @@
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest.config.cjs --coverage",
     "bench": "node tests/benchmarks/lexer.bench.js",
     "build": "echo \"Nothing to build\"",
-    "prepare": "npm run lint",
+    "prepare": "node scripts/prepare-husky.cjs",
     "build:extension": "npm --prefix extension install && npm --prefix extension run build",
-    "publish:extension": "npm --prefix extension install && npm --prefix extension run publish"
+    "publish:extension": "npm --prefix extension install && npm --prefix extension run publish",
+    "sync:project": "node .github/scripts/setup-project-board.js && node .github/scripts/seed-todo.js"
   },
   "keywords": [
     "lexer",
@@ -22,13 +23,13 @@
   ],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
-    "eslint": "^8.0.0",
-    "jest": "^29.0.0",
-    "@jest/globals": "^29.0.0",
     "@commitlint/cli": "^17.0.0",
-    "@commitlint/config-conventional": "^17.0.0"
+    "@commitlint/config-conventional": "^17.0.0",
+    "@jest/globals": "^29.0.0",
+    "eslint": "^8.0.0",
+    "husky": "^9.1.7",
+    "jest": "^29.0.0"
   },
   "engines": {
     "node": ">=18"

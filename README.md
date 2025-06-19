@@ -6,9 +6,17 @@ A modular, adaptive, experimental JavaScript lexer designed for autonomous devel
 
 See `QUICK_START.md` for setup and development guidelines.
 
+### Pre-commit
+Run `npm install` once to set up Husky hooks. Commits will automatically run
+`npm run lint` and `npm test` before being created.
+
 ## Project Board
 
 Track progress and self-assign tasks on the [GitHub Project Board](https://github.com/your-org/experimental-js-lexer/projects/1).
+The `setup-project-board.js` helper ensures a board with `Todo`, `In Progress`,
+`Review`, and `Done` columns exists. Running the `seed-todo.js` script will
+create issues from `docs/TODO_CHECKLIST.md` and place them in the **Todo**
+column automatically.
 
 ## Code of Conduct
 

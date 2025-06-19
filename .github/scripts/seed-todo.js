@@ -4,6 +4,7 @@ const fs = require('fs');
 const { Octokit } = require('@octokit/rest');
 const token = process.env.GITHUB_TOKEN;
 const repoFull = process.env.GITHUB_REPOSITORY;
+const boardName = process.env.PROJECT_NAME || 'Experimental Lexer';
 
 if (!token) {
   console.error('GITHUB_TOKEN env var required');
@@ -17,6 +18,15 @@ if (!repoFull) {
 
 const [owner, repo] = repoFull.split('/');
 const octokit = new Octokit({ auth: token });
+
+async function getTodoColumnId() {
+  const { data: projects } = await octokit.rest.projects.listForRepo({ owner, repo });
+  const project = projects.find(p => p.name === boardName);
+  if (!project) return null;
+  const { data: columns } = await octokit.rest.projects.listColumns({ project_id: project.id });
+  const column = columns.find(c => c.name === 'Todo');
+  return column ? column.id : null;
+}
 
 async function getExistingTitles() {
   const issues = await octokit.paginate(octokit.rest.issues.listForRepo, {
@@ -43,6 +53,10 @@ function parseTodos(filePath) {
 async function main() {
   const existing = await getExistingTitles();
   const todos = parseTodos('docs/TODO_CHECKLIST.md');
+  const columnId = await getTodoColumnId();
+  if (!columnId) {
+    console.warn('Project board or Todo column not found');
+  }
 
   for (const task of todos) {
     const title = `TODO: ${task}`;
@@ -57,6 +71,13 @@ async function main() {
         labels: ['todo'],
       });
       console.log(`Created issue: ${title} (#${issue.data.number})`);
+      if (columnId) {
+        await octokit.rest.projects.createCard({
+          column_id: columnId,
+          content_id: issue.data.id,
+          content_type: 'Issue'
+        });
+      }
     } catch (err) {
       console.error(`Failed to create issue for "${task}":`, err);
     }
