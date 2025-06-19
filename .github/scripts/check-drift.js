@@ -18,6 +18,8 @@ const {
   PROJECT_NAME: boardName
 } = process.env;
 
+const dryRun = process.argv.includes('--dry-run');
+
 if (!token || !repoFull) {
   console.warn("ℹ️  check-drift: no GitHub creds – skipping.");
   process.exit(0);
@@ -78,11 +80,15 @@ for (const r of missing) {
     console.log(`ℹ️  Issue already exists: ${title}`);
     continue;
   }
-  const issue = await octokit.rest.issues.create({
-    owner, repo, title,
-    body: `Spec includes **${r}** but it is not yet implemented in the lexer.`,
-    labels: ["reader", "auto-generated"]
-  });
-  console.log(`🆕 Created #${issue.data.number} – ${title}`);
-  await addCard(issue.data.id);
+  if (dryRun) {
+    console.log(`🔎 Would create: ${title}`);
+  } else {
+    const issue = await octokit.rest.issues.create({
+      owner, repo, title,
+      body: `Spec includes **${r}** but it is not yet implemented in the lexer.`,
+      labels: ["reader", "auto-generated"]
+    });
+    console.log(`🆕 Created #${issue.data.number} – ${title}`);
+    await addCard(issue.data.id);
+  }
 }
