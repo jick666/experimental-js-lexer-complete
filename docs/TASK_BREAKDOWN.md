@@ -69,10 +69,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Document named group parsing rules and limitations.
 
 ## 28. Import Assertions
-- [ ] Implement `ImportAssertionReader` handling `assert { ... }` clauses.
-- [ ] Hook the reader into import parsing flows in `LexerEngine`.
-- [ ] Test static and dynamic import assertion examples.
-- [ ] Document the new syntax in usage docs.
+ - [x] Implement `ImportAssertionReader` handling `assert { ... }` clauses.
+ - [x] Hook the reader into import parsing flows in `LexerEngine`.
+ - [x] Test static and dynamic import assertion examples.
+ - [x] Document the new syntax in usage docs.
 
 ## 29. Record and Tuple Syntax
 - [ ] Implement `RecordAndTupleReader` to tokenize `#{}` and `#[]` constructs.
