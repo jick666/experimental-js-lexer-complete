@@ -142,6 +142,15 @@ test("integration: pipeline operator", () => {
   ]);
 });
 
+test("integration: bind operator", () => {
+  const toks = tokenize("obj::method");
+  expect(toks.map(t => t.type)).toEqual([
+    "IDENTIFIER",
+    "BIND_OPERATOR",
+    "IDENTIFIER"
+  ]);
+});
+
 test("integration: private identifiers", () => {
   const toks = tokenize("class C { #a; #b() {} }");
   expect(toks.map(t => t.type)).toEqual([

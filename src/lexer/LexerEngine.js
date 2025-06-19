@@ -9,6 +9,7 @@ import { ExponentReader } from './ExponentReader.js';
 import { NumberReader } from './NumberReader.js';
 import { StringReader } from './StringReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
+import { BindOperatorReader } from './BindOperatorReader.js';
 import { PipelineOperatorReader } from './PipelineOperatorReader.js';
 import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
@@ -81,6 +82,7 @@ export class LexerEngine {
         StringReader,
         RegexOrDivideReader,
         PipelineOperatorReader,
+        BindOperatorReader,
         OperatorReader,
         PunctuationReader,
         TemplateStringReader,
@@ -113,6 +115,7 @@ export class LexerEngine {
         StringReader,
         RegexOrDivideReader,
         PipelineOperatorReader,
+        BindOperatorReader,
         OperatorReader,
         PunctuationReader,
         TemplateStringReader,
@@ -145,6 +148,7 @@ export class LexerEngine {
         StringReader,
         RegexOrDivideReader,
         PipelineOperatorReader,
+        BindOperatorReader,
         OperatorReader,
         PunctuationReader,
         TemplateStringReader,
