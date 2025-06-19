@@ -134,3 +134,21 @@ test("integration: pipeline operator", () => {
     "IDENTIFIER"
   ]);
 });
+
+test("integration: private identifiers", () => {
+  const toks = tokenize("class C { #a; #b() {} }");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "PUNCTUATION",
+    "PRIVATE_IDENTIFIER",
+    "PUNCTUATION",
+    "PRIVATE_IDENTIFIER",
+    "PUNCTUATION",
+    "PUNCTUATION",
+    "PUNCTUATION",
+    "PUNCTUATION",
+    "PUNCTUATION"
+  ]);
+});
+

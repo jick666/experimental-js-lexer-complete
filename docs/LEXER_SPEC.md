@@ -142,3 +142,21 @@ do { 1 + 2 }
 ```
 
 produces the tokens `[DO_BLOCK_START("do {"), NUMBER("1"), OPERATOR("+"), NUMBER("2"), DO_BLOCK_END("}")]`.
+
+## 15. Private Identifiers <a name="private-identifiers"></a>
+Private class fields and methods begin with a `#` prefix. When the lexer
+encounters `#` followed by an identifier, it emits a `PRIVATE_IDENTIFIER`
+token containing the full sequence including the hash.
+
+Example:
+
+```
+class C { #field; #method() {} }
+```
+
+produces the tokens `[
+  KEYWORD("class"), IDENTIFIER("C"), PUNCTUATION("{"),
+  PRIVATE_IDENTIFIER("#field"), PUNCTUATION(";"),
+  PRIVATE_IDENTIFIER("#method"), PUNCTUATION("("), PUNCTUATION(")"),
+  PUNCTUATION("{"), PUNCTUATION("}"), PUNCTUATION("}")
+]`.
