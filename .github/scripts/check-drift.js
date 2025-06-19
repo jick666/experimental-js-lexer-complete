@@ -12,6 +12,8 @@
 import fs from "fs";
 import { Octokit } from "@octokit/rest";
 
+const dryRun = process.argv.includes("--dry-run");
+
 const {
   GITHUB_TOKEN: token,
   GITHUB_REPOSITORY: repoFull,
@@ -40,7 +42,7 @@ if (missing.length === 0) {
 }
 
 /* 2️⃣  existing issues cache -------------------------------------------- */
-const existing = new Set(
+const existing = dryRun ? new Set() : new Set(
   (await octokit.paginate(octokit.rest.issues.listForRepo, {
     owner, repo, state: "open", per_page: 100
   })).map(i => i.title)
@@ -48,7 +50,7 @@ const existing = new Set(
 
 /* helper – optionally add a card to the board's “Todo” column ----------- */
 async function addCard(issueId) {
-  if (!boardName) return;
+  if (!boardName || dryRun) return;
   try {
     const proj = (await octokit.request(
       "GET /repos/{owner}/{repo}/projects",
@@ -76,6 +78,10 @@ for (const r of missing) {
   const title = `[Reader] ${r}`;
   if (existing.has(title)) {
     console.log(`ℹ️  Issue already exists: ${title}`);
+    continue;
+  }
+  if (dryRun) {
+    console.log(`[dry-run] would create issue: ${title}`);
     continue;
   }
   const issue = await octokit.rest.issues.create({
