@@ -214,3 +214,13 @@ test("integration: module blocks", () => {
     "MODULE_BLOCK_END"
   ]);
 });
+
+test("integration: using statement", () => {
+  const toks = tokenize("using x = foo();");
+  expect(toks[0].type).toBe("USING");
+});
+
+test("integration: await using statement", () => {
+  const toks = tokenize("await using y = bar();");
+  expect(toks[0].type).toBe("AWAIT_USING");
+});

@@ -104,9 +104,9 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Update documentation for decimal notation.
 
 ## 34. Explicit Resource Management
-- [ ] Tokenize `using` and `await using` constructs.
-- [ ] Add tests covering top-level and nested usage.
-- [ ] Document behavior in `docs/LEXER_SPEC.md`.
+- [x] Tokenize `using` and `await using` constructs.
+- [x] Add tests covering top-level and nested usage.
+- [x] Document behavior in `docs/LEXER_SPEC.md`.
 
 ## 35. Pattern Matching Tokens
 - [ ] Add `match` and `case` tokens for future pattern matching.

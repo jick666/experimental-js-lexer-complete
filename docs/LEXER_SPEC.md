@@ -75,6 +75,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `NumberReader` only parses base‑10 integers and decimals.
 - `BigIntReader` parses integer literals with a trailing `n`.
 - `DecimalLiteralReader` parses decimal literals like `123.4m` or `0d123.4`.
+- `UsingStatementReader` recognizes `using` and `await using` statements.
 - `HexReader` parses `0x` or `0X` prefixed hexadecimal integers.
 - `OctalReader` parses `0o` or `0O` prefixed octal integers.
 - `ExponentReader` parses numbers with `e` or `E` exponents.
@@ -239,4 +240,24 @@ module { let x = 1; }
 produces the tokens `[
   MODULE_BLOCK_START("module {"), KEYWORD("let"), IDENTIFIER("x"),
   OPERATOR("="), NUMBER("1"), PUNCTUATION(";"), MODULE_BLOCK_END("}")
+]`.
+
+## 20. Explicit Resource Management <a name="using"></a>
+The lexer recognizes the experimental `using` declarations for managing
+resources. When the keyword `using` appears at the start of a statement it
+emits a `USING` token. If the sequence is preceded by `await` separated by
+whitespace, the lexer emits an `AWAIT_USING` token containing the whole
+`await using` text.
+
+Example:
+
+```javascript
+using file = open();
+await using conn = connect();
+```
+
+produces the tokens `[
+  USING("using"), IDENTIFIER("file"),
+  AWAIT_USING("await using"), IDENTIFIER("conn"),
+  ...
 ]`.

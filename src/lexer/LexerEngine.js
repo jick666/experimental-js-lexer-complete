@@ -22,6 +22,7 @@ import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.j
 import { ShebangReader } from './ShebangReader.js';
 import { DoExpressionReader } from './DoExpressionReader.js';
 import { ModuleBlockReader } from './ModuleBlockReader.js';
+import { UsingStatementReader } from './UsingStatementReader.js';
 import { PrivateIdentifierReader } from './PrivateIdentifierReader.js';
 import { ImportAssertionReader } from './ImportAssertionReader.js';
 import { RecordAndTupleReader } from './RecordAndTupleReader.js';
@@ -59,6 +60,7 @@ export class LexerEngine {
         PrivateIdentifierReader,
         DoExpressionReader,
         ModuleBlockReader,
+        UsingStatementReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
@@ -88,6 +90,7 @@ export class LexerEngine {
         PrivateIdentifierReader,
         DoExpressionReader,
         ModuleBlockReader,
+        UsingStatementReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
@@ -117,6 +120,7 @@ export class LexerEngine {
         PrivateIdentifierReader,
         DoExpressionReader,
         ModuleBlockReader,
+        UsingStatementReader,
         ImportAssertionReader,
         RecordAndTupleReader,
         IdentifierReader,
