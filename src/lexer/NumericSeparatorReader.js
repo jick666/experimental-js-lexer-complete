@@ -1,31 +1,16 @@
+import { readDigitsWithUnderscores } from './utils.js';
+
 export function NumericSeparatorReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
   if (ch === null || ch < '0' || ch > '9') return null;
 
-  let value = '';
-  let underscoreSeen = false;
-  let lastUnderscore = false;
-
-  while (ch !== null && (ch >= '0' && ch <= '9' || ch === '_')) {
-    if (ch === '_') {
-      if (lastUnderscore) {
-        stream.index = startPos.index;
-        return null;
-      }
-      underscoreSeen = true;
-      lastUnderscore = true;
-    } else {
-      lastUnderscore = false;
-    }
-
-    value += ch;
-    stream.advance();
-    ch = stream.current();
-  }
+  const result = readDigitsWithUnderscores(stream, startPos);
+  if (!result) return null;
+  const { value, underscoreSeen, lastUnderscore } = result;
 
   if (!underscoreSeen || lastUnderscore) {
-    stream.index = startPos.index;
+    stream.setPosition(startPos);
     return null;
   }
 
