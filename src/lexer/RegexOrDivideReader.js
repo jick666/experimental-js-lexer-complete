@@ -1,6 +1,18 @@
 // §4.5 RegexOrDivideReader
 // Context-sensitive reader: decides whether a “/” starts a RegExp literal or is a divide operator.
 
+function isIdentifierStart(ch) {
+  return (
+    (ch >= 'A' && ch <= 'Z') ||
+    (ch >= 'a' && ch <= 'z') ||
+    ch === '_'
+  );
+}
+
+function isIdentifierPart(ch) {
+  return isIdentifierStart(ch) || (ch >= '0' && ch <= '9');
+}
+
 export function RegexOrDivideReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '/') return null;
@@ -73,14 +85,27 @@ export function RegexOrDivideReader(stream, factory) {
             body += stream.current();
             stream.advance();
           } else {
-            while (!stream.eof() && stream.current() !== '>') {
-              body += stream.current();
-              stream.advance();
+            let name = '';
+            if (!stream.eof() && isIdentifierStart(stream.current())) {
+              while (!stream.eof() && stream.current() !== '>') {
+                if (!isIdentifierPart(stream.current())) {
+                  const endPos = stream.getPosition();
+                  return factory('INVALID_REGEX', `/${body}${name}`, startPos, endPos);
+                }
+                name += stream.current();
+                body += stream.current();
+                stream.advance();
+              }
+            } else {
+              const endPos = stream.getPosition();
+              return factory('INVALID_REGEX', `/${body}`, startPos, endPos);
             }
-            if (stream.current() === '>') {
-              body += stream.current();
-              stream.advance();
+            if (stream.current() !== '>') {
+              const endPos = stream.getPosition();
+              return factory('INVALID_REGEX', `/${body}${name}`, startPos, endPos);
             }
+            body += stream.current();
+            stream.advance();
           }
           continue;
         }
