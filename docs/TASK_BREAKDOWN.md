@@ -109,6 +109,6 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document behavior in `docs/LEXER_SPEC.md`.
 
 ## 35. Pattern Matching Tokens
-- [ ] Add `match` and `case` tokens for future pattern matching.
-- [ ] Add tokenization tests.
-- [ ] Document reserved keywords.
+- [x] Add `match` and `case` tokens for future pattern matching.
+- [x] Add tokenization tests.
+- [x] Document reserved keywords.

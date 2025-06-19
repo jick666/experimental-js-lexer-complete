@@ -261,3 +261,19 @@ produces the tokens `[
   AWAIT_USING("await using"), IDENTIFIER("conn"),
   ...
 ]`.
+
+## 21. Pattern Matching Tokens <a name="pattern-matching"></a>
+The lexer reserves the keywords `match` and `case` for future pattern
+matching syntax. When these keywords appear outside of identifiers the lexer
+emits dedicated `MATCH` and `CASE` tokens.
+
+Example:
+
+```javascript
+match (x) { case 1: }
+```
+
+produces the tokens `[
+  MATCH("match"), PUNCTUATION("("), IDENTIFIER("x"), PUNCTUATION(")"),
+  PUNCTUATION("{"), CASE("case"), NUMBER("1"), PUNCTUATION(":"), PUNCTUATION("}")
+]`.

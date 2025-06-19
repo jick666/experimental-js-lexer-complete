@@ -26,6 +26,7 @@ import { UsingStatementReader } from './UsingStatementReader.js';
 import { PrivateIdentifierReader } from './PrivateIdentifierReader.js';
 import { ImportAssertionReader } from './ImportAssertionReader.js';
 import { RecordAndTupleReader } from './RecordAndTupleReader.js';
+import { PatternMatchReader } from './PatternMatchReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -63,6 +64,7 @@ export class LexerEngine {
         UsingStatementReader,
         ImportAssertionReader,
         RecordAndTupleReader,
+        PatternMatchReader,
         IdentifierReader,
         UnicodeIdentifierReader,
         UnicodeEscapeIdentifierReader,
@@ -93,6 +95,7 @@ export class LexerEngine {
         UsingStatementReader,
         ImportAssertionReader,
         RecordAndTupleReader,
+        PatternMatchReader,
         IdentifierReader,
         UnicodeIdentifierReader,
         UnicodeEscapeIdentifierReader,
@@ -123,6 +126,7 @@ export class LexerEngine {
         UsingStatementReader,
         ImportAssertionReader,
         RecordAndTupleReader,
+        PatternMatchReader,
         IdentifierReader,
         UnicodeIdentifierReader,
         UnicodeEscapeIdentifierReader,
