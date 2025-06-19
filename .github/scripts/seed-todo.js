@@ -2,17 +2,17 @@
 
 const fs = require('fs');
 const { Octokit } = require('@octokit/rest');
-const token = process.env.GITHUB_TOKEN_WORKFLOW;
-const repoFull = process.env.GITHUB_TOKEN_REPO;
+const token = process.env.GITHUB_TOKEN;
+const repoFull = process.env.GITHUB_REPOSITORY;
 const boardName = process.env.PROJECT_NAME || 'Experimental Lexer';
 
 if (!token) {
-  console.error('GITHUB_TOKEN_WORKFLOW env var required');
+  console.error('GITHUB_TOKEN env var required');
   process.exit(1);
 }
 
 if (!repoFull) {
-  console.error('GITHUB_TOKEN_REPO env var required');
+  console.error('GITHUB_REPOSITORY env var required');
   process.exit(1);
 }
 
@@ -20,10 +20,17 @@ const [owner, repo] = repoFull.split('/');
 const octokit = new Octokit({ auth: token });
 
 async function getTodoColumnId() {
-  const { data: projects } = await octokit.rest.projects.listForRepo({ owner, repo });
+  const { data: projects } = await octokit.request('GET /repos/{owner}/{repo}/projects', {
+    owner,
+    repo,
+    mediaType: { previews: ['inertia'] }
+  });
   const project = projects.find(p => p.name === boardName);
   if (!project) return null;
-  const { data: columns } = await octokit.rest.projects.listColumns({ project_id: project.id });
+  const { data: columns } = await octokit.request('GET /projects/{project_id}/columns', {
+    project_id: project.id,
+    mediaType: { previews: ['inertia'] }
+  });
   const column = columns.find(c => c.name === 'Todo');
   return column ? column.id : null;
 }
@@ -72,10 +79,11 @@ async function main() {
       });
       console.log(`Created issue: ${title} (#${issue.data.number})`);
       if (columnId) {
-        await octokit.rest.projects.createCard({
+        await octokit.request('POST /projects/columns/{column_id}/cards', {
           column_id: columnId,
           content_id: issue.data.id,
-          content_type: 'Issue'
+          content_type: 'Issue',
+          mediaType: { previews: ['inertia'] }
         });
       }
     } catch (err) {
