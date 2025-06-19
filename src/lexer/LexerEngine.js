@@ -10,21 +10,12 @@ import { baseReaders } from './defaultReaders.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
+import { pluginManager } from '../plugins/index.js';
 
 /**
  * LexerEngine orchestrates all token readers to produce a stream of Tokens.
  */
 export class LexerEngine {
-  static plugins = [];
-
-  static registerPlugin(plugin) {
-    this.plugins.push(plugin);
-  }
-
-  static clearPlugins() {
-    this.plugins = [];
-  }
-
   constructor(stream, { errorRecovery = false } = {}) {
     this.stream = stream;
     this.errorRecovery = errorRecovery;
@@ -44,17 +35,7 @@ export class LexerEngine {
     };
 
     // Apply registered plugins
-    for (const plugin of LexerEngine.plugins) {
-      if (plugin.modes) {
-        for (const [mode, readers] of Object.entries(plugin.modes)) {
-          if (!this.modes[mode]) this.modes[mode] = [];
-          this.modes[mode].push(...readers);
-        }
-      }
-      if (typeof plugin.init === 'function') {
-        plugin.init(this);
-      }
-    }
+    pluginManager.apply(this);
 
     this.lastToken = null;
   }
