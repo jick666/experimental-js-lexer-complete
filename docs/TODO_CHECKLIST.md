@@ -38,3 +38,10 @@
 - [ ] Add BindOperatorReader for `::` method binding
 - [ ] Extend RegexOrDivideReader to support Unicode sets with the `v` flag
 - [ ] Provide FlowTypePlugin for Flow-specific syntax
+
+##### Additional Lexical Improvements
+
+- [ ] Implement ByteOrderMarkReader for handling BOM at file start
+- [ ] Parse `//# sourceMappingURL=` comments for tool integration
+- [ ] Normalize all Unicode whitespace via UnicodeWhitespaceReader
+- [ ] Add ErrorRecoveryMode to skip malformed tokens gracefully
