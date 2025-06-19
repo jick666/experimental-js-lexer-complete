@@ -41,7 +41,7 @@
 
 ##### Additional Lexical Improvements
 
-- [ ] Implement ByteOrderMarkReader for handling BOM at file start
+- [x] Implement ByteOrderMarkReader for handling BOM at file start
 - [ ] Parse `//# sourceMappingURL=` comments for tool integration
 - [ ] Normalize all Unicode whitespace via UnicodeWhitespaceReader
 - [ ] Add ErrorRecoveryMode to skip malformed tokens gracefully
