@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import { Octokit } from '@octokit/rest';
 
-const token = process.env.GITHUB_TOKEN;
-const repoFull = process.env.GITHUB_REPOSITORY;
+const token = process.env.GITHUB_TOKEN_WORKFLOW;
+const repoFull = process.env.GITHUB_TOKEN_REPO;
 const boardName = process.env.PROJECT_NAME || 'Experimental Lexer';
 const columns = ['Todo', 'In Progress', 'Review', 'Done'];
 
 if (!token || !repoFull) {
-  console.error('GITHUB_TOKEN and GITHUB_REPOSITORY env vars required');
+  console.error('GITHUB_TOKEN_WORKFLOW and GITHUB_TOKEN_REPO env vars required');
   process.exit(1);
 }
 
