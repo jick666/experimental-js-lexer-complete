@@ -4,6 +4,8 @@
  * §4.4 BinaryReader
  * Parses binary integer literals like 0b1010 or 0B0101.
  */
+import { isBinaryDigit } from './NumericLiteralUtils.js';
+
 export function BinaryReader(stream, factory) {
   const startPos = stream.getPosition();
 
@@ -14,7 +16,7 @@ export function BinaryReader(stream, factory) {
 
   // Ensure there's at least one binary digit after the prefix
   const next = stream.peek(2);
-  if (next === null || (next !== '0' && next !== '1')) {
+  if (next === null || !isBinaryDigit(next)) {
     // not a valid binary literal
     return null;
   }
@@ -25,7 +27,7 @@ export function BinaryReader(stream, factory) {
   stream.advance(); // consume 'b' or 'B'
 
   // Consume all following binary digits
-  while (stream.current() === '0' || stream.current() === '1') {
+  while (isBinaryDigit(stream.current())) {
     value += stream.current();
     stream.advance();
   }

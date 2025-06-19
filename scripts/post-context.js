@@ -1,6 +1,5 @@
+#!/usr/bin/env node
 // .github/scripts/post-context.js
-
-!/usr/bin/env node
 /**
  * post-context.js
  *

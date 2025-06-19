@@ -1,7 +1,5 @@
 // §4.2 NumberReader
-function isDigit(ch) {
-  return ch !== null && ch >= '0' && ch <= '9';
-}
+import { isDigit } from './NumericLiteralUtils.js';
 
 export function NumberReader(stream, factory) {
   const startPos = stream.getPosition();

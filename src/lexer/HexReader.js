@@ -1,3 +1,5 @@
+import { isHexDigit } from './NumericLiteralUtils.js';
+
 export function HexReader(stream, factory) {
   const startPos = stream.getPosition();
   if (stream.current() !== '0') return null;
@@ -19,13 +21,4 @@ export function HexReader(stream, factory) {
 
   const endPos = stream.getPosition();
   return factory('NUMBER', value, startPos, endPos);
-}
-
-function isHexDigit(ch) {
-  return (
-    ch !== null &&
-    ((ch >= '0' && ch <= '9') ||
-      (ch >= 'a' && ch <= 'f') ||
-      (ch >= 'A' && ch <= 'F'))
-  );
 }

@@ -1,10 +1,12 @@
+import { isDigit } from './NumericLiteralUtils.js';
+
 export function ExponentReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
-  if (ch === null || ch < '0' || ch > '9') return null;
+  if (!isDigit(ch)) return null;
 
   let value = '';
-  while (ch !== null && ch >= '0' && ch <= '9') {
+  while (ch !== null && isDigit(ch)) {
     value += ch;
     stream.advance();
     ch = stream.current();
@@ -14,7 +16,7 @@ export function ExponentReader(stream, factory) {
     value += ch;
     stream.advance();
     ch = stream.current();
-    while (ch !== null && ch >= '0' && ch <= '9') {
+    while (ch !== null && isDigit(ch)) {
       value += ch;
       stream.advance();
       ch = stream.current();
@@ -36,12 +38,12 @@ export function ExponentReader(stream, factory) {
     ch = stream.current();
   }
 
-  if (ch === null || ch < '0' || ch > '9') {
+  if (!isDigit(ch)) {
     stream.setPosition(startPos);
     return null;
   }
 
-  while (ch !== null && ch >= '0' && ch <= '9') {
+  while (ch !== null && isDigit(ch)) {
     value += ch;
     stream.advance();
     ch = stream.current();

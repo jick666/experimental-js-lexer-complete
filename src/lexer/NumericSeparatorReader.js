@@ -1,13 +1,15 @@
+import { isDigit } from './NumericLiteralUtils.js';
+
 export function NumericSeparatorReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
-  if (ch === null || ch < '0' || ch > '9') return null;
+  if (!isDigit(ch)) return null;
 
   let value = '';
   let underscoreSeen = false;
   let lastUnderscore = false;
 
-  while (ch !== null && (ch >= '0' && ch <= '9' || ch === '_')) {
+  while (ch !== null && (isDigit(ch) || ch === '_')) {
     if (ch === '_') {
       if (lastUnderscore) {
         stream.index = startPos.index;

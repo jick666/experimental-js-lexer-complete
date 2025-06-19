@@ -16,16 +16,18 @@ export class CharStream {
   }
 
   current() {
-    return this.index < this.length ? this.input[this.index] || null : null;
+    const { index, input, length } = this;
+    return index < length ? input[index] ?? null : null;
   }
 
   peek(offset = 1) {
     const pos = this.index + offset;
-    return pos < this.length ? this.input[pos] || null : null;
+    return pos < this.length ? this.input[pos] ?? null : null;
   }
 
   advance() {
-    if (this.current() === '\n') {
+    const ch = this.input[this.index];
+    if (ch === '\n') {
       this.line++;
       this.column = 0;
     } else {
