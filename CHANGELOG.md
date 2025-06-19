@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Project scaffold for experimental-js-lexer
 - Spec, tests, CI, lint, promptMap, issue templates
+- Do expression support via `DoExpressionReader`
 
 ### Changed
 - N/A

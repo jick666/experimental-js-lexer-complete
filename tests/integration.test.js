@@ -134,3 +134,14 @@ test("integration: pipeline operator", () => {
     "IDENTIFIER"
   ]);
 });
+
+test("integration: do expressions", () => {
+  const toks = tokenize("do { do { 1 } }");
+  expect(toks.map(t => t.type)).toEqual([
+    "DO_BLOCK_START",
+    "DO_BLOCK_START",
+    "NUMBER",
+    "DO_BLOCK_END",
+    "DO_BLOCK_END"
+  ]);
+});

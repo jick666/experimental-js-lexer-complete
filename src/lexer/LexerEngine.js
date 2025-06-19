@@ -9,6 +9,7 @@ import { NumberReader } from './NumberReader.js';
 import { StringReader } from './StringReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { PipelineOperatorReader } from './PipelineOperatorReader.js';
+import { DoExpressionReader } from './DoExpressionReader.js';
 import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
@@ -42,29 +43,32 @@ export class LexerEngine {
     this.buffer = [];
 
     // Mapping of mode -> reader list. Order determines priority.
+    const baseReaders = [
+      CommentReader,
+      WhitespaceReader,
+      ShebangReader,
+      DoExpressionReader,
+      IdentifierReader,
+      UnicodeIdentifierReader,
+      UnicodeEscapeIdentifierReader,
+      HexReader,
+      BinaryReader,
+      OctalReader,
+      BigIntReader,
+      NumericSeparatorReader,
+      ExponentReader,
+      NumberReader,
+      StringReader,
+      RegexOrDivideReader,
+      PipelineOperatorReader,
+      OperatorReader,
+      PunctuationReader,
+      TemplateStringReader,
+      JSXReader
+    ];
     this.modes = {
-      default: [
-        CommentReader,
-        WhitespaceReader,
-        ShebangReader,
-        IdentifierReader,
-        UnicodeIdentifierReader,
-        UnicodeEscapeIdentifierReader,
-        HexReader,
-        BinaryReader,
-        OctalReader,
-        BigIntReader,
-        NumericSeparatorReader,
-        ExponentReader,
-        NumberReader,
-        StringReader,
-        RegexOrDivideReader,
-        PipelineOperatorReader,
-        OperatorReader,
-        PunctuationReader,
-        TemplateStringReader,
-        JSXReader
-      ],
+      default: baseReaders,
+      do_block: [...baseReaders],
       template_string: [TemplateStringReader],
       regex: [RegexOrDivideReader],
       jsx: [JSXReader]
