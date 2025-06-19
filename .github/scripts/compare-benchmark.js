@@ -1,38 +1,31 @@
 #!/usr/bin/env node
 /**
  * compare-benchmark.js <current.txt> <baseline.json>
- *
- * Fails (exit-code 1) if any file is slower than baseline × 0.9
+ * Fails CI if any throughput drops below 90 % of baseline.
  */
-import fs from 'fs';
+import fs from "fs";
 
 const [, , currentFile, baselineFile] = process.argv;
-
 if (!currentFile || !baselineFile) {
-  console.error('Usage: compare-benchmark.js <current.txt> <baseline.json>');
+  console.error("Usage: compare-benchmark.js <current.txt> <baseline.json>");
   process.exit(1);
 }
 
-const results = Object.fromEntries(
-  fs
-    .readFileSync(currentFile, 'utf8')
-    .trim()
-    .split('\n')
-    .map(line => {
-      const [file, mbps] = line.split(':').map(s => s.trim());
-      return [file, parseFloat(mbps)];
-    })
+const current = Object.fromEntries(
+  fs.readFileSync(currentFile, "utf8").trim().split("\n").map(l => {
+    const [file, mbps] = l.split(":").map(s => s.trim());
+    return [file, Number(mbps)];
+  })
 );
 
-const baseline = JSON.parse(fs.readFileSync(baselineFile, 'utf8'));
+const baseline = JSON.parse(fs.readFileSync(baselineFile, "utf8"));
 
-let failed = false;
-for (const [file, baseMbps] of Object.entries(baseline)) {
-  const cur = results[file];
-  if (cur !== undefined && cur < baseMbps * 0.9) {
-    console.error(`🔻  ${file}: ${cur.toFixed(2)} MB/s (baseline ${baseMbps})`);
-    failed = true;
+let fail = false;
+for (const [file, base] of Object.entries(baseline)) {
+  const cur = current[file];
+  if (cur !== undefined && cur < base * 0.9) {
+    console.error(`🔻  ${file}: ${cur.toFixed(2)} MB/s (baseline ${base})`);
+    fail = true;
   }
 }
-
-process.exit(failed ? 1 : 0);
+process.exit(fail ? 1 : 0);
