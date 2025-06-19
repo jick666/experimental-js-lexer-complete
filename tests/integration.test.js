@@ -134,3 +134,10 @@ test("integration: pipeline operator", () => {
     "IDENTIFIER"
   ]);
 });
+
+test("integration: private class fields and methods", () => {
+  const src = "class C { #x; #m() {} }";
+  const toks = tokenize(src);
+  expect(toks.map(t => t.type)).toContain("PRIVATE_IDENTIFIER");
+  expect(toks.find(t => t.type === "PRIVATE_IDENTIFIER").value).toBe("#x");
+});

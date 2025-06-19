@@ -142,3 +142,17 @@ do { 1 + 2 }
 ```
 
 produces the tokens `[DO_BLOCK_START("do {"), NUMBER("1"), OPERATOR("+"), NUMBER("2"), DO_BLOCK_END("}")]`.
+
+## 15. Private Identifiers <a name="private-identifiers"></a>
+Class elements starting with `#` are tokenized as `PRIVATE_IDENTIFIER`.
+The reader matches `#` followed by an identifier name consisting of
+letters, digits and underscores.
+
+Example:
+
+```
+class C { #x; }
+```
+
+yields tokens `[KEYWORD("class"), IDENTIFIER("C"), PUNCTUATION("{"),
+PRIVATE_IDENTIFIER("#x"), PUNCTUATION(";"), PUNCTUATION("}")]`.
