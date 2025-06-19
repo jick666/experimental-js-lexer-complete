@@ -18,6 +18,7 @@ import { WhitespaceReader } from './WhitespaceReader.js';
 import { UnicodeIdentifierReader } from './UnicodeIdentifierReader.js';
 import { UnicodeEscapeIdentifierReader } from './UnicodeEscapeIdentifierReader.js';
 import { ShebangReader } from './ShebangReader.js';
+import { DoExpressionReader } from './DoExpressionReader.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -47,6 +48,7 @@ export class LexerEngine {
         CommentReader,
         WhitespaceReader,
         ShebangReader,
+        DoExpressionReader,
         IdentifierReader,
         UnicodeIdentifierReader,
         UnicodeEscapeIdentifierReader,
@@ -69,6 +71,7 @@ export class LexerEngine {
       regex: [RegexOrDivideReader],
       jsx: [JSXReader]
     };
+    this.modes.do_block = this.modes.default;
 
     // Apply registered plugins
     for (const plugin of LexerEngine.plugins) {
