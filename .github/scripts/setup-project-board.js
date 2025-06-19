@@ -1,75 +1,58 @@
 #!/usr/bin/env node
+/**
+ * Ensures a project board named $PROJECT_NAME exists with the standard four
+ * columns.  Silently exits offline.
+ */
 import { Octokit } from '@octokit/rest';
 
-const token = process.env.GITHUB_TOKEN;
-const repoFull = process.env.GITHUB_REPOSITORY;
-const boardName = process.env.PROJECT_NAME || 'Experimental Lexer';
+const { GITHUB_TOKEN, GITHUB_REPOSITORY, PROJECT_NAME = 'Experimental Lexer' } =
+  process.env;
+
+if (!GITHUB_TOKEN || !GITHUB_REPOSITORY) {
+  console.log('ℹ️  No GitHub credentials – skipped project-board setup.');
+  process.exit(0);
+}
+
+const [owner, repo] = GITHUB_REPOSITORY.split('/');
+const octokit = new Octokit({ auth: GITHUB_TOKEN });
 const columns = ['Todo', 'In Progress', 'Review', 'Done'];
 
-if (!token || !repoFull) {
-  console.error('GITHUB_TOKEN and GITHUB_REPOSITORY env vars required');
-  process.exit(1);
-}
-
-const [owner, repo] = repoFull.split('/');
-const octokit = new Octokit({ auth: token });
-
-async function ensureBoard() {
-  // 1) List all project boards in the repo
-  const { data: projects } = await octokit.request(
-    'GET /repos/{owner}/{repo}/projects',
-    {
-      owner,
-      repo,
-      mediaType: { previews: ['inertia'] }
-    }
-  );
-
-  // 2) Find—or create—the board named `boardName`
-  let project = projects.find(p => p.name === boardName);
-  if (!project) {
-    const { data: created } = await octokit.request(
-      'POST /repos/{owner}/{repo}/projects',
-      {
+(async () => {
+  /* 1 – board */
+  const boards = await octokit.rest.projects.listForRepo({
+    owner,
+    repo,
+    mediaType: { previews: ['inertia'] }
+  });
+  let board = boards.data.find(p => p.name === PROJECT_NAME);
+  if (!board) {
+    board = (
+      await octokit.rest.projects.createForRepo({
         owner,
         repo,
-        name: boardName,
+        name: PROJECT_NAME,
         mediaType: { previews: ['inertia'] }
-      }
-    );
-    project = created;
-    console.log(`Created board: ${boardName}`);
-  } else {
-    console.log(`Board exists: ${boardName}`);
+      })
+    ).data;
+    console.log(`✓ created board ${PROJECT_NAME}`);
   }
 
-  // 3) Fetch existing columns on that project
-  const { data: existingCols } = await octokit.request(
-    'GET /projects/{project_id}/columns',
-    {
-      project_id: project.id,
+  /* 2 – columns */
+  const existing = (
+    await octokit.rest.projects.listColumns({
+      project_id: board.id,
       mediaType: { previews: ['inertia'] }
-    }
-  );
-  const existingNames = existingCols.map(c => c.name);
+    })
+  ).data.map(c => c.name);
 
-  // 4) Create any missing columns
-  for (const name of columns) {
-    if (!existingNames.includes(name)) {
-      await octokit.request(
-        'POST /projects/{project_id}/columns',
-        {
-          project_id: project.id,
-          name,
-          mediaType: { previews: ['inertia'] }
-        }
-      );
-      console.log(`Added column ${name}`);
+  for (const col of columns) {
+    if (!existing.includes(col)) {
+      await octokit.rest.projects.createColumn({
+        project_id: board.id,
+        name: col,
+        mediaType: { previews: ['inertia'] }
+      });
+      console.log(`  • added column ${col}`);
     }
   }
-}
-
-ensureBoard().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+})();
