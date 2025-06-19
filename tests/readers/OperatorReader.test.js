@@ -9,7 +9,7 @@ test("OperatorReader reads single and multi-char", () => {
 });
 
 test("OperatorReader reads new ECMAScript operators", () => {
-  const stream = new CharStream("?. ?? ??= &&= ||=");
+  const stream = new CharStream("?. ?? ??= ** **= &&= ||=");
   let token = OperatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
   expect(token.value).toBe("?.");
   stream.advance();
@@ -18,6 +18,12 @@ test("OperatorReader reads new ECMAScript operators", () => {
   stream.advance();
   token = OperatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
   expect(token.value).toBe("??=");
+  stream.advance();
+  token = OperatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.value).toBe("**");
+  stream.advance();
+  token = OperatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.value).toBe("**=");
   stream.advance();
   token = OperatorReader(stream, (t,v,s,e) => new Token(t,v,s,e));
   expect(token.value).toBe("&&=");

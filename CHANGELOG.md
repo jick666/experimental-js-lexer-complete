@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Optimized CharStream with length caching for faster lexing
+- Added support for `**` and `**=` operators
 
 ### Fixed
 - N/A
