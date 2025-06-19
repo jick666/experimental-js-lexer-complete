@@ -150,10 +150,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document usage for build tools.
 
 ## 42. Unicode Whitespace Consolidation
-- [ ] Extend `WhitespaceReader` to treat all Unicode spaces equivalently.
-- [ ] Normalize uncommon spaces like `\u2003` and `\u205F` to a single token type.
-- [ ] Add tests covering various Unicode whitespace characters.
-- [ ] Describe normalization rules in the spec.
+- [x] Extend `WhitespaceReader` to treat all Unicode spaces equivalently.
+- [x] Normalize uncommon spaces like `\u2003` and `\u205F` to a single token type.
+- [x] Add tests covering various Unicode whitespace characters.
+- [x] Describe normalization rules in the spec.
 
 ## 43. Error Recovery Mode
 - [ ] Add an optional lexer mode to skip malformed or unknown tokens.

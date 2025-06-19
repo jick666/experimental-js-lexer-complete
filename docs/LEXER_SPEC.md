@@ -323,3 +323,10 @@ are consumed by `SourceMappingURLReader`. The lexer emits a
 `SOURCE_MAPPING_URL` token whose value is the provided mapping URL. Both
 external map references and inline data URIs are supported.
 
+
+## 26. Unicode Whitespace <a name="unicode-whitespace"></a>
+The `UnicodeWhitespaceReader` groups any character with the Unicode `White_Space`
+property into a single `WHITESPACE` token. Consecutive characters—including
+rare spaces such as `\u2003` (EM SPACE) and `\u205F` (MEDIUM MATHEMATICAL
+SPACE)—are consumed together, and the token's value preserves the original
+characters.
