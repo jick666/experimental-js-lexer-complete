@@ -35,20 +35,31 @@ Adhering to these guidelines will help Codex agents collaborate effectively on t
 
 ## Agent Jobs
 
+All automation uses the labels defined in `.github/labeler.yml`:
+`todo`, `drift`, and `reader`. Commands such as `/run-agent` should be left as
+comments on issues or PRs to manually trigger the workflow.
+
 ### Triage Agent
-- **Triggers:** `issues` opened or labeled, and new `issue_comment` events.
-- **Inputs:** operates on issues labeled `todo`, `drift`, or `reader`.
-- **Outputs:** may close `todo` issues and open new `reader` issues when drift is detected.
-- **Dry-Run:** run `node .github/scripts/close-todo.js --dry-run` and `node .github/scripts/check-drift.js --dry-run` to test locally without API calls.
+- **Triggers:** `issues` (`opened`, `labeled`) and `issue_comment` (`created`).
+- **Inputs:** issues labeled `todo`, `drift`, or `reader`.
+- **Outputs:** closes completed `todo` issues and opens new `reader` issues when
+  drift is detected.
+- **Dry‑Run:** `node .github/scripts/close-todo.js --dry-run` and
+  `node .github/scripts/check-drift.js --dry-run`.
 
 ### Codegen Agent
-- **Triggers:** `pull_request` events and manual `workflow_dispatch`.
-- **Inputs:** current repository state plus the `OPENAI_API_KEY` and `GITHUB_TOKEN` secrets from the environment.
-- **Outputs:** commits automated updates on a new branch.
-- **Dry-Run:** run `npm run workflow` locally to verify lint, tests, and benchmarks. Commit any generated changes manually.
+- **Triggers:** `pull_request` (`opened`, `synchronize`) or `workflow_dispatch`.
+- **Inputs:** repository state plus `OPENAI_API_KEY` and `GITHUB_TOKEN` from the
+  environment.
+- **Outputs:** commits automated updates on a branch. The conflict agent opens
+  the pull request after verifying no divergence.
+- **Dry‑Run:** `node agentic-automation.js --dry-run`.
 
 ### Conflict Agent
-- **Triggers:** runs after the codegen agent.
+- **Triggers:** runs after the codegen agent before opening the PR.
 - **Inputs:** compares the recorded `main` branch SHA to detect divergence.
-- **Outputs:** aborts with an error if `main` has moved; otherwise opens a pull request.
-- **Dry-Run:** invoke the conflict check steps with `--dry-run` on the helper scripts; no PR will be opened.
+- **Outputs:** fails the workflow if `main` has moved so the branch can be
+  rebased.
+- **Dry‑Run:** run the conflict check steps with `--dry-run`; no PR will be
+  opened.
+

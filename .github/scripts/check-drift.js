@@ -11,8 +11,14 @@
 
 import fs from "fs";
 import { Octokit } from "@octokit/rest";
+import { LABELS } from "./constants.js";
+
+function log(level, msg) {
+  console.log(`[${new Date().toISOString()}] [${level}] ${msg}`);
+}
 
 const dryRun = process.argv.includes("--dry-run");
+log('info', `check-drift starting${dryRun ? ' (dry-run)' : ''}`);
 
 const {
   GITHUB_TOKEN: token,
@@ -21,7 +27,7 @@ const {
 } = process.env;
 
 if (!token || !repoFull) {
-  console.warn("ℹ️  check-drift: no GitHub creds – skipping.");
+  log("warn", "check-drift: no GitHub creds – skipping.");
   process.exit(0);
 }
 
@@ -37,7 +43,7 @@ const implReaders = [...engine.matchAll(/\b([A-Za-z]+Reader)\b/g)].map(m => m[1]
 const missing     = specReaders.filter(r => !implReaders.includes(r));
 
 if (missing.length === 0) {
-  console.log("✅ No drift detected – all spec readers implemented.");
+  log('info', 'No drift detected – all spec readers implemented.');
   process.exit(0);
 }
 
@@ -77,18 +83,26 @@ async function addCard(issueId) {
 for (const r of missing) {
   const title = `[Reader] ${r}`;
   if (existing.has(title)) {
-    console.log(`ℹ️  Issue already exists: ${title}`);
+    log('info', `Issue already exists: ${title}`);
     continue;
   }
   if (dryRun) {
-    console.log(`[dry-run] would create issue: ${title}`);
+    log('info', `[dry-run] would create issue: ${title}`);
     continue;
   }
-  const issue = await octokit.rest.issues.create({
-    owner, repo, title,
-    body: `Spec includes **${r}** but it is not yet implemented in the lexer.`,
-    labels: ["reader", "auto-generated"]
-  });
-  console.log(`🆕 Created #${issue.data.number} – ${title}`);
-  await addCard(issue.data.id);
+  try {
+    const issue = await octokit.rest.issues.create({
+      owner,
+      repo,
+      title,
+      body: `Spec includes **${r}** but it is not yet implemented in the lexer.`,
+      labels: [LABELS.READER, 'auto-generated']
+    });
+    log('info', `Created #${issue.data.number} – ${title}`);
+    await addCard(issue.data.id);
+  } catch (err) {
+    log('error', `Failed to create issue for ${r}: ${err.message}`);
+    process.exitCode = 1;
+  }
 }
+
