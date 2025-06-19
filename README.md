@@ -23,7 +23,8 @@ Track progress and self-assign tasks on the [GitHub Project Board](https://githu
 The `setup-project-board.js` helper ensures a board with `Todo`, `In Progress`,
 `Review`, and `Done` columns exists. Running the `seed-todo.js` script will
 create issues from `docs/TODO_CHECKLIST.md` and place them in the **Todo**
-column automatically.
+column automatically. These scripts rely on the `@octokit/rest` package,
+installed when running `npm install`.
 
 ## Code of Conduct
 
