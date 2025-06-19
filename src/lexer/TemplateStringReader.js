@@ -4,9 +4,15 @@
 // full raw value or null if the stream isn’t at a backtick.
 import { LexerError } from './LexerError.js';
 
-export function TemplateStringReader(stream, factory) {
+export function TemplateStringReader(stream, factory, engine) {
   const startPos = stream.getPosition();
   if (stream.current() !== '`') return null;
+
+  const isHTMLTagged =
+    engine &&
+    engine.lastToken &&
+    engine.lastToken.type === 'IDENTIFIER' &&
+    engine.lastToken.value === 'html';
 
   let value = '';
   // consume opening backtick
@@ -40,7 +46,12 @@ export function TemplateStringReader(stream, factory) {
       value += '`';
       stream.advance();
       const endPos = stream.getPosition();
-      return factory('TEMPLATE_STRING', value, startPos, endPos);
+      return factory(
+        isHTMLTagged ? 'HTML_TEMPLATE_STRING' : 'TEMPLATE_STRING',
+        value,
+        startPos,
+        endPos
+      );
     }
 
     // embedded expression `${ ... }`

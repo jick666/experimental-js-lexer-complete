@@ -35,6 +35,16 @@ test("nextToken auto-enables JSX mode", () => {
   expect(engine.currentMode()).toBe("default");
 });
 
+test("nextToken does not treat comparison as JSX", () => {
+  const engine = new LexerEngine(new CharStream("a < b"));
+  const t1 = engine.nextToken();
+  const t2 = engine.nextToken();
+  const t3 = engine.nextToken();
+  expect(t1.type).toBe("IDENTIFIER");
+  expect(t2.value).toBe("<");
+  expect(t3.type).toBe("IDENTIFIER");
+});
+
 test("nextToken rethrows reader errors", () => {
   const engine = new LexerEngine(new CharStream("/abc"));
   let err;

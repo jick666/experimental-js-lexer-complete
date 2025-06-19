@@ -117,8 +117,11 @@ export class LexerEngine {
       // 1. Mode switching for JSX
       let mode = this.currentMode();
       if (mode === 'default' && stream.current() === '<') {
-        this.pushMode('jsx');
-        mode = this.currentMode();
+        const next = stream.peek();
+        if (/[A-Za-z\/!?]|>/.test(next)) {
+          this.pushMode('jsx');
+          mode = this.currentMode();
+        }
       }
 
       const readers = this.modes[mode] || this.modes.default;
