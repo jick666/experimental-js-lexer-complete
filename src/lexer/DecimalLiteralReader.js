@@ -1,3 +1,5 @@
+import { readDigits } from './utils.js';
+
 export function DecimalLiteralReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
@@ -11,25 +13,18 @@ export function DecimalLiteralReader(stream, factory) {
     let value = '0' + stream.peek();
     stream.advance(); // 0
     stream.advance(); // d or D
+    value += readDigits(stream);
     ch = stream.current();
-    while (ch !== null && ch >= '0' && ch <= '9') {
-      value += ch;
-      stream.advance();
-      ch = stream.current();
-    }
     if (ch === '.') {
       value += '.';
       stream.advance();
-      ch = stream.current();
-      if (ch === null || ch < '0' || ch > '9') {
+      const digits = readDigits(stream);
+      if (digits.length === 0) {
         stream.setPosition(startPos);
         return null;
       }
-      while (ch !== null && ch >= '0' && ch <= '9') {
-        value += ch;
-        stream.advance();
-        ch = stream.current();
-      }
+      value += digits;
+      ch = stream.current();
     }
     const endPos = stream.getPosition();
     return factory('DECIMAL', value, startPos, endPos);
@@ -37,25 +32,18 @@ export function DecimalLiteralReader(stream, factory) {
 
   // suffix form 123.45m or 123m
   if (ch !== null && ch >= '0' && ch <= '9') {
-    let value = '';
-    while (ch !== null && ch >= '0' && ch <= '9') {
-      value += ch;
-      stream.advance();
-      ch = stream.current();
-    }
+    let value = readDigits(stream);
+    ch = stream.current();
     if (ch === '.') {
       value += '.';
       stream.advance();
-      ch = stream.current();
-      if (ch === null || ch < '0' || ch > '9') {
+      const digits = readDigits(stream);
+      if (digits.length === 0) {
         stream.setPosition(startPos);
         return null;
       }
-      while (ch !== null && ch >= '0' && ch <= '9') {
-        value += ch;
-        stream.advance();
-        ch = stream.current();
-      }
+      value += digits;
+      ch = stream.current();
     }
     if (ch === 'm' || ch === 'M') {
       value += ch;

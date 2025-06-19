@@ -20,3 +20,14 @@ export function readDigitsWithUnderscores(stream, startPos) {
   }
   return { value, underscoreSeen, lastUnderscore };
 }
+
+export function readDigits(stream) {
+  let value = '';
+  let ch = stream.current();
+  while (ch !== null && ch >= '0' && ch <= '9') {
+    value += ch;
+    stream.advance();
+    ch = stream.current();
+  }
+  return value;
+}
