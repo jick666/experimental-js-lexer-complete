@@ -29,5 +29,5 @@
  - [x] Implement HTML comment reader for `<!--` and `-->`
 - [x] Add ModuleBlockReader for `module { ... }` blocks
 - [x] Support decimal literals like `123.45m` or `0d123.45`
-- [ ] Tokenize `using` and `await using` statements
+- [x] Tokenize `using` and `await using` statements
 - [ ] Add tokens for pattern matching `match`/`case` syntax
