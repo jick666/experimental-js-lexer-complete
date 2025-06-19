@@ -33,10 +33,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
  - [x] Document new syntax in `docs/LEXER_SPEC.md`.
 
 ## 22. Do Expressions
-- [ ] Add `DoExpressionReader` for `do { ... }` blocks.
-- [ ] Handle nested `do` blocks with the state stack.
-- [ ] Test token sequence for simple examples.
-- [ ] Document behavior and edge cases.
+- [x] Add `DoExpressionReader` for `do { ... }` blocks.
+- [x] Handle nested `do` blocks with the state stack.
+- [x] Test token sequence for simple examples.
+- [x] Document behavior and edge cases.
 
 ## 23. TypeScript Plugin
 - [ ] Create `TypeScriptPlugin` under `src/plugins/typescript`.
