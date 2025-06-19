@@ -85,6 +85,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `UnicodeEscapeIdentifierReader` reads identifiers containing Unicode escape sequences like `\u{1F600}`.
 - `ByteOrderMarkReader` handles a leading `\uFEFF` byte order mark and emits a `BOM` token.
 - `ShebangReader` consumes `#!` headers at the start of a file as `COMMENT` tokens.
+- `SourceMappingURLReader` recognizes `//# sourceMappingURL=` comments and emits a `SOURCE_MAPPING_URL` token with the mapping value.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
 - `JSXReader` ignores `<` inside `{}` expressions and supports self-closing tags.
@@ -315,4 +316,10 @@ produces the tokens `[
 If a file begins with the Unicode byte order mark (`\uFEFF`), the lexer emits a
 `BOM` token and advances past it before processing the rest of the input. The
 token's value is the literal BOM character.
+
+## 25. Source Mapping Comments <a name="source-maps"></a>
+Comments of the form `//# sourceMappingURL=...` or `/*# sourceMappingURL=... */`
+are consumed by `SourceMappingURLReader`. The lexer emits a
+`SOURCE_MAPPING_URL` token whose value is the provided mapping URL. Both
+external map references and inline data URIs are supported.
 
