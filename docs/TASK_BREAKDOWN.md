@@ -85,3 +85,30 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [ ] Validate property names using Unicode property data.
 - [ ] Provide tests covering positive and negative property escapes.
 - [ ] Document supported properties and limitations.
+
+## 31. HTML Comment Support
+- [ ] Add `HTMLCommentReader` for `<!--` and `-->`.
+- [ ] Allow HTML-style comments at script boundaries.
+- [ ] Add unit tests for start and end comments.
+- [ ] Document in `docs/LEXER_SPEC.md`.
+
+## 32. Module Block Tokens
+- [ ] Create `ModuleBlockReader` for `module { }` syntax.
+- [ ] Support nested module blocks.
+- [ ] Add token type definitions and tests.
+- [ ] Document new tokens.
+
+## 33. Decimal Literal Reader
+- [ ] Implement `DecimalLiteralReader` for `123.45m` or `0d123.45`.
+- [ ] Add tokens and numeric tests.
+- [ ] Update documentation for decimal notation.
+
+## 34. Explicit Resource Management
+- [ ] Tokenize `using` and `await using` constructs.
+- [ ] Add tests covering top-level and nested usage.
+- [ ] Document behavior in `docs/LEXER_SPEC.md`.
+
+## 35. Pattern Matching Tokens
+- [ ] Add `match` and `case` tokens for future pattern matching.
+- [ ] Add tokenization tests.
+- [ ] Document reserved keywords.
