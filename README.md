@@ -1,134 +1,40 @@
 # experimental-js-lexer
 
-A modular, adaptive, experimental JavaScript lexer designed for autonomous development by OpenAI Codex agents.
+A modular, adaptive JavaScript lexer designed for autonomous development by OpenAI Codex agents.
+
+---
 
 ## Quick Start
-
-See `QUICK_START.md` for setup and development guidelines.
-
-### Pre-commit
-Run `npm install` once to set up Husky hooks. Commits will automatically run
-`npm run lint` and `npm test` before being created.
-
-### Workflow Helper
-Use the convenience script to sync the project board, run linting, tests, and benchmarks in one go:
-
 ```bash
-npm run workflow
+npm install
+npm run ci          # lint + tests + coverage
 ```
 
-For large optimization sprints, run `node .github/scripts/close-todo.js` and `node .github/scripts/check-drift.js` first to sync open issues.
+Lex a snippet directly:
+```bash
+node index.js "let x = 42;"
+```
+
+---
 
 ## Project Board
-
-Track progress and self-assign tasks on the [GitHub Project Board](https://github.com/your-org/experimental-js-lexer/projects/1).
-The `setup-project-board.js` helper ensures a board with `Todo`, `In Progress`,
-`Review`, and `Done` columns exists. Running the `seed-todo.js` script will
-create issues from `docs/TODO_CHECKLIST.md` and place them in the **Todo**
-column automatically. These scripts rely on the `@octokit/rest` package,
-installed when running `npm install`.
-
-## Code of Conduct
-
-Please read `CODE_OF_CONDUCT.md` to understand expectations for participation.
-
-## Changelog
-
-All notable changes are tracked in `CHANGELOG.md`.
+Run
+```bash
+npm run sync:project
+```
+to (re-)create the GitHub project board and seed TODO issues.
 
 ## Benchmarks
-
-Measure lexing throughput on the sample files in `tests/fixtures`:
-
 ```bash
-node tests/benchmarks/lexer.bench.js
+npm run bench
 ```
-On a standard 4‑core machine running Node 18, the fixtures process around
-**3–4 MB/s**.
+Baseline numbers live in `.benchmarks/baseline.json`.
 
 ## Integration Hooks
-
-For editor integrations or other tooling that requires incremental lexing,
-use the `IncrementalLexer` exported from `index.js`. Tokens will be emitted
-as new source text is fed into the lexer, enabling real-time syntax
-highlighting or analysis.
-
-```javascript
-import { IncrementalLexer } from 'experimental-js-lexer';
-
-const collected = [];
-const lexer = new IncrementalLexer({ onToken: t => collected.push(t.type) });
-
-lexer.feed('let x');
-lexer.feed(' = 1;');
-
-console.log(collected);
-// ['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'NUMBER', 'PUNCTUATION']
-```
-
-For editors that prefer a standard Node stream interface, use the
-`createTokenStream` helper:
-
-```javascript
-import { createTokenStream } from 'experimental-js-lexer';
-
-const stream = createTokenStream('let x = 1;');
-stream.on('data', tok => {
-  console.log(tok.type);
-});
-```
-
-See `docs/VS_CODE_EXAMPLE.md` for a more complete VS Code integration example.
-
-### Persisting Lexer State
-
-Both `IncrementalLexer` and `BufferedIncrementalLexer` support `saveState()` and
-`restoreState(state)` for resuming lexing without reprocessing the entire
-source.
-
-```javascript
-const lexer = new IncrementalLexer();
-lexer.feed('let x');
-const snapshot = lexer.saveState();
-
-const resumed = new IncrementalLexer();
-resumed.restoreState(snapshot);
-resumed.feed(' = 1;');
-```
+See **`docs/VS_CODE_EXAMPLE.md`** for streaming-token examples.
 
 ## Plugin API
+Custom readers / plugins can be registered at runtime – check **`docs/PLUGIN_API.md`**.
 
-Custom token readers can be installed at runtime. Register a plugin before
-creating a lexer instance:
-
-```javascript
-import { registerPlugin, tokenize } from 'experimental-js-lexer';
-import { MyPlugin } from './my-plugin.js';
-
-registerPlugin(MyPlugin);
-console.log(tokenize('#')); // tokens include MY custom types
-```
-
-The repository includes a `TypeScriptPlugin` that adds basic support for
-decorators, type annotations and generic parameters:
-
-```javascript
-import { TypeScriptPlugin } from './src/plugins/typescript/TypeScriptPlugin.js';
-registerPlugin(TypeScriptPlugin);
-```
-
-Similarly you can enable Flow type annotations:
-
-```javascript
-import { FlowTypePlugin } from './src/plugins/flow/FlowTypePlugin.js';
-registerPlugin(FlowTypePlugin);
-```
-
-See `docs/PLUGIN_API.md` for details on authoring plugins.
-
-## Auto-Merge Workflow
-
-Pull requests labeled `reader` are automatically merged once all CI checks
-are successful and at least one approving review has been submitted. The
-`Auto-Merge Reader PRs` GitHub action performs the squash merge when these
-conditions are met.
+## Auto-Merge
+Any PR labeled **`reader`** is merged automatically once CI passes and one approver reviews.

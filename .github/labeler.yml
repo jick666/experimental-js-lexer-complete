@@ -1,0 +1,5 @@
+#  .github/labeler.yml
+
+reader:
+  - 'src/lexer/**/*Reader.js'
+  - 'src/plugins/**/*.js'

@@ -1,34 +1,42 @@
-# Agent Workflow Guide
+# Agent Workflow Guide 🚀
 
-This repository is optimized for iterative development by Codex agents.
+This repository is tuned for **autonomous, high-quality iteration** by OpenAI Codex agents.
 
-## Local Setup
-1. Install dependencies with `npm install` if not already present.
-2. Use Node.js 18 or higher.
+---
 
-## Workflow Steps
-1. Pick the highest priority unchecked item in `docs/TODO_CHECKLIST.md`.
-2. Review the matching section in `docs/TASK_BREAKDOWN.md` for granular subtasks.
-3. Consult `docs/LEXER_SPEC.md` and other docs for background.
-4. Implement code changes in `src/` and update or add tests under `tests/`.
-5. Before every commit, run:
-   ```bash
-   npm run lint && npm test -- --coverage
-   ```
-   Ensure test coverage stays above 90%.
-5. (Optional) Run **all** checks & board-sync in one go:
+## 1 · Local Setup
+1. **Node 18+** required.  
+2. Install once:
 
-   ```bash
-   npm run workflow   # requires GitHub creds; otherwise just lint & tests run
-   ```
 
-## Commit Guidelines
-- Use [Conventional Commits](https://www.conventionalcommits.org) (`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`).
-- Keep commits focused and small.
+## 2 · Daily Loop
+Step	What to do	Why it matters
+1	Select the next unchecked box in docs/TODO_CHECKLIST.md.	Keeps work aligned with project priorities.
+2	Read the matching section(s) in docs/LEXER_SPEC.md, docs/PLUGIN_API.md, etc.	Guarantees spec-compliant changes.
+3	Implement code in src/, tests in tests/.	Source–test co-location.
+4	Before every commit run:
+npm run check	Lint ✓ Tests ✓ ≥90 % coverage ✓ ≤10 % benchmark regression ✓
+5	Push a branch and open a PR.	Continuous integration kicks in.
+6	No manual labels needed – the labeler bot tags reader automatically.	Triggers auto-merge once CI passes + one review.
 
-## Pull Requests
-- Open a PR once your commits are ready.
-- Label the PR with `reader` so the auto‑merge workflow can process it.
-- CI (lint, tests, coverage) must pass and at least one approving review is required.
+## 3 · Commit Conventions
+Follow Conventional Commits:
 
-Adhering to these guidelines will help Codex agents collaborate effectively on this project.
+feat:     add <ReaderName>  
+fix:      correct <bug>  
+docs:     update spec / README  
+refactor: internal change, no behaviour impact  
+test:     add or improve tests  
+chore:    tooling, CI, meta
+Small, focused commits help future agents reason about changes.
+
+##  4 · Gotchas & Tips
+Coverage dip? add tests or refactor existing ones – CI blocks < 90 %.
+
+Benchmark fail? optimise or justify in the PR description.
+
+Need context? Every PR gets an auto-comment quoting the relevant spec lines.
+
+Unsure what to do next? run npm run next-task for the highest-priority TODO.
+
+Happy hacking! 🎉

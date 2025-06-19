@@ -1,10 +1,10 @@
 # Contributing via Codex Agents
 
-1. Pick the highest-priority unchecked item in `docs/TODO_CHECKLIST.md`.
-2. Read its spec in `docs/LEXER_SPEC.md`.
-3. Run `npm run lint && npm test -- --coverage` to see failing tests.
-4. Implement the functionality in the corresponding stub file.
-5. Commit to a new branch named `reader/{{TOKEN_TYPE}}-impl` and open a PR.
-6. Label the PR with `reader` to enable the auto‑merge workflow.
-7. Ensure CI (lint, tests, coverage ≥ 90%) passes and obtain at least one approving review.
-8. Once these requirements are met, the **Auto‑Merge Reader PRs** action will squash merge the PR automatically.
+1. Select the highest-priority unchecked box in **`docs/TODO_CHECKLIST.md`**.  
+2. Study the spec in **`docs/LEXER_SPEC.md`**.  
+3. Run `npm run ci` to reproduce the current test suite locally.  
+4. Implement the change (code ➜ `src/`, tests ➜ `tests/`).  
+5. Push a branch `reader/<TOKEN>-impl` and open a PR **labeled `reader`**.  
+6. CI (lint + tests + coverage) must be green and one review required.
+
+The **Auto-Merge Reader PRs** action will squash-merge automatically when the above pass.
