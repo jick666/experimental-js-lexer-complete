@@ -2,6 +2,7 @@ import { CharStream } from '../lexer/CharStream.js';
 import { LexerEngine } from '../lexer/LexerEngine.js';
 import { Token } from '../lexer/Token.js';
 import { saveState, restoreState } from './stateUtils.js';
+import { tokenIterator } from './tokenUtils.js';
 
 /**
  * IncrementalLexer allows feeding code chunks and emits tokens as they are produced.
@@ -22,23 +23,9 @@ export class IncrementalLexer {
    */
   feed(chunk) {
     this.stream.append(chunk);
-    let token;
-    let trivia = [];
-    while ((token = this.engine.nextToken()) !== null) {
-      if (token.type === 'WHITESPACE') {
-        trivia.push(token);
-        continue;
-      }
-      token.trivia.leading = trivia;
-      if (this.tokens.length > 0) {
-        this.tokens[this.tokens.length - 1].trivia.trailing = trivia;
-      }
-      trivia = [];
+    for (const token of tokenIterator(this.engine)) {
       this.tokens.push(token);
       this.onToken(token);
-    }
-    if (this.tokens.length > 0) {
-      this.tokens[this.tokens.length - 1].trivia.trailing = trivia;
     }
   }
 

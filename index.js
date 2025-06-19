@@ -4,6 +4,7 @@ import { LexerEngine } from "./src/lexer/LexerEngine.js";
 import { IncrementalLexer } from "./src/integration/IncrementalLexer.js";
 import { BufferedIncrementalLexer } from "./src/integration/BufferedIncrementalLexer.js";
 import { createTokenStream } from "./src/integration/TokenStream.js";
+import { tokenIterator } from "./src/integration/tokenUtils.js";
 import { fileURLToPath } from "url";
 
 /**
@@ -16,24 +17,10 @@ export function tokenize(code, { verbose = false, errorRecovery = false } = {}) 
   const stream = new CharStream(code);
   const lexer = new LexerEngine(stream, { errorRecovery });
   const tokens = [];
-  let trivia = [];
-  let prev = null;
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    const tok = lexer.nextToken();
-    if (tok === null) break;
-    if (tok.type === 'WHITESPACE') {
-      trivia.push(tok);
-      continue;
-    }
-    tok.trivia.leading = trivia;
-    if (prev) prev.trivia.trailing = trivia;
-    trivia = [];
+  for (const tok of tokenIterator(lexer)) {
     tokens.push(tok);
-    prev = tok;
     if (verbose) console.log(tok);
   }
-  if (prev) prev.trivia.trailing = trivia;
   return tokens;
 }
 
