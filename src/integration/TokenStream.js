@@ -10,14 +10,28 @@ import { LexerEngine } from '../lexer/LexerEngine.js';
 export function createTokenStream(code) {
   const stream = new CharStream(code);
   const engine = new LexerEngine(stream);
+  let trivia = [];
+  let prev = null;
   return new Readable({
     objectMode: true,
     read() {
-      const tok = engine.nextToken();
-      if (tok) {
+      while (true) {
+        const tok = engine.nextToken();
+        if (!tok) {
+          if (prev) prev.trivia.trailing = trivia;
+          this.push(null);
+          return;
+        }
+        if (tok.type === 'WHITESPACE') {
+          trivia.push(tok);
+          continue;
+        }
+        tok.trivia.leading = trivia;
+        if (prev) prev.trivia.trailing = trivia;
+        trivia = [];
+        prev = tok;
         this.push(tok);
-      } else {
-        this.push(null);
+        break;
       }
     }
   });
