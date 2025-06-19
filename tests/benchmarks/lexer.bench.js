@@ -1,18 +1,19 @@
 import { dirname, join, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { readdirSync, readFileSync } from 'fs';
+import { performance } from 'perf_hooks';
 import { tokenize } from '../../index.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function benchmark(filePath, iterations = 50) {
   const code = readFileSync(filePath, 'utf8');
-  const start = process.hrtime.bigint();
+  const start = performance.now();
   for (let i = 0; i < iterations; i++) {
     tokenize(code);
   }
-  const durationNs = Number(process.hrtime.bigint() - start);
-  const seconds = durationNs / 1e9;
+  const durationMs = performance.now() - start;
+  const seconds = durationMs / 1000;
   const bytes = Buffer.byteLength(code) * iterations;
   const mbps = bytes / (1024 * 1024) / seconds;
   console.log(`${basename(filePath)}: ${mbps.toFixed(2)} MB/s`);

@@ -18,6 +18,8 @@ export class IncrementalLexer {
    */
   feed(chunk) {
     this.stream.input += chunk;
+    this.stream.length = this.stream.input.length;
+    this.stream.currentChar = this.stream.input[this.stream.index] || null;
     let token;
     let trivia = [];
     while ((token = this.engine.nextToken()) !== null) {

@@ -42,6 +42,11 @@ Measure lexing throughput on the sample files in `tests/fixtures`:
 node tests/benchmarks/lexer.bench.js
 ```
 
+Baseline results on Node 18 (GitHub Actions `ubuntu-latest`):
+
+- `lexer_engine.js`: **55 MB/s**
+- `template_string_reader.js`: **110 MB/s**
+
 ## Integration Hooks
 
 For editor integrations or other tooling that requires incremental lexing,
