@@ -279,3 +279,19 @@ produces the tokens `[
   PUNCTUATION("}")
 ]`.
 
+## 22. Function.sent <a name="function-sent"></a>
+Generator functions may access the `function.sent` meta property to
+retrieve the value supplied by the most recent `next()` call. When the
+lexer encounters the exact sequence `function.sent` it emits a
+`FUNCTION_SENT` token.
+
+Example:
+
+```javascript
+function.sent;
+```
+
+produces the tokens `[
+  FUNCTION_SENT("function.sent"), PUNCTUATION(";")
+]`.
+

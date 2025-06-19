@@ -114,10 +114,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document reserved keywords.
 
 ## 36. Function.sent Meta Property
-- [ ] Create `FunctionSentReader` to recognize `function.sent`.
-- [ ] Register the reader in default mode for generator functions.
-- [ ] Write unit tests covering `function.sent` usage.
-- [ ] Document the new token in `docs/LEXER_SPEC.md`.
+- [x] Create `FunctionSentReader` to recognize `function.sent`.
+- [x] Register the reader in default mode for generator functions.
+- [x] Write unit tests covering `function.sent` usage.
+- [x] Document the new token in `docs/LEXER_SPEC.md`.
 
 ## 37. Bind Operator
 - [ ] Implement `BindOperatorReader` emitting `BIND_OPERATOR` for `::`.
