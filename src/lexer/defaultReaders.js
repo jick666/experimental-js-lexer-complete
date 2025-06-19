@@ -32,10 +32,13 @@ import { ImportAssertionReader } from './ImportAssertionReader.js';
 import { RecordAndTupleReader } from './RecordAndTupleReader.js';
 import { FunctionSentReader } from './FunctionSentReader.js';
 
-export const baseReaders = [
+export const preReaders = [
   HTMLCommentReader,
   SourceMappingURLReader,
   CommentReader,
+];
+
+export const baseReaders = [
   UnicodeWhitespaceReader,
   ByteOrderMarkReader,
   ShebangReader,

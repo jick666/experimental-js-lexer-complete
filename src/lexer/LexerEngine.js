@@ -2,11 +2,8 @@
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
 import { JSXReader } from './JSXReader.js';
-import { CommentReader } from './CommentReader.js';
-import { HTMLCommentReader } from './HTMLCommentReader.js';
-import { SourceMappingURLReader } from './SourceMappingURLReader.js';
 // Consolidated list of default readers
-import { baseReaders } from './defaultReaders.js';
+import { baseReaders, preReaders } from './defaultReaders.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
@@ -31,6 +28,7 @@ export class LexerEngine {
     this.stateStack = ['default'];
     this.buffer = [];
     this.disableJsx = false;
+    this.preReaders = [...preReaders];
 
     // Mapping of mode -> reader list. Order determines priority.
     const shared = [...baseReaders];
@@ -83,21 +81,13 @@ export class LexerEngine {
       new Token(type, value, start, end, stream.sourceURL);
 
     while (!stream.eof()) {
-      // 0. Emit comments
-      const htmlComment = HTMLCommentReader(stream, factory, this);
-      if (htmlComment) {
-        this.lastToken = htmlComment;
-        return htmlComment;
-      }
-      const sourceMap = SourceMappingURLReader(stream, factory, this);
-      if (sourceMap) {
-        this.lastToken = sourceMap;
-        return sourceMap;
-      }
-      const comment = CommentReader(stream, factory, this);
-      if (comment) {
-        this.lastToken = comment;
-        return comment;
+      // 0. Emit pre-reader tokens (e.g., comments)
+      for (const Reader of this.preReaders) {
+        const tok = Reader(stream, factory, this);
+        if (tok) {
+          this.lastToken = tok;
+          return tok;
+        }
       }
 
       // 1. Mode switching for JSX
