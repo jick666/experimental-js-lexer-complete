@@ -93,10 +93,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document in `docs/LEXER_SPEC.md`.
 
 ## 32. Module Block Tokens
-- [ ] Create `ModuleBlockReader` for `module { }` syntax.
-- [ ] Support nested module blocks.
-- [ ] Add token type definitions and tests.
-- [ ] Document new tokens.
+- [x] Create `ModuleBlockReader` for `module { }` syntax.
+- [x] Support nested module blocks.
+- [x] Add token type definitions and tests.
+- [x] Document new tokens.
 
 ## 33. Decimal Literal Reader
 - [ ] Implement `DecimalLiteralReader` for `123.45m` or `0d123.45`.

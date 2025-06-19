@@ -220,3 +220,22 @@ produces the tokens `[
   COMMENT("<!-- hidden -->"), WHITESPACE("\n"), KEYWORD("let"), IDENTIFIER("x"),
   OPERATOR("="), NUMBER("1"), PUNCTUATION(";")
 ]`.
+
+## 19. Module Blocks <a name="module-blocks"></a>
+Module blocks start with the keyword `module` followed by an opening brace.
+When this sequence is encountered the lexer emits a `MODULE_BLOCK_START` token
+and pushes a `module_block` mode. Braces inside the block increment and
+ decrement an internal counter so nested blocks are supported. When the
+matching closing brace is reached a `MODULE_BLOCK_END` token is emitted and the
+mode is popped.
+
+Example:
+
+```javascript
+module { let x = 1; }
+```
+
+produces the tokens `[
+  MODULE_BLOCK_START("module {"), KEYWORD("let"), IDENTIFIER("x"),
+  OPERATOR("="), NUMBER("1"), PUNCTUATION(";"), MODULE_BLOCK_END("}")
+]`.
