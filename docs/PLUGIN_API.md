@@ -88,3 +88,14 @@ import { FlowTypePlugin } from './src/plugins/flow/FlowTypePlugin.js';
 
 registerPlugin(FlowTypePlugin);
 ```
+
+## ImportMeta Plugin
+
+The `ImportMetaPlugin` adds readers for the `import.meta` meta property and
+simple dynamic `import()` calls.
+
+```javascript
+import { ImportMetaPlugin } from './src/plugins/importmeta/ImportMetaPlugin.js';
+
+registerPlugin(ImportMetaPlugin);
+```
