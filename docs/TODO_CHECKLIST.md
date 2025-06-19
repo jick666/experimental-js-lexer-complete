@@ -21,6 +21,8 @@
 
 ### Future Lexical Enhancement Tasks
 
- - [x] Implement PrivateIdentifierReader for `#private` fields
+- [x] Implement PrivateIdentifierReader for `#private` fields
 - [ ] Support named capture groups in regular expressions
 - [ ] Recognize import assertion syntax after `import` statements
+- [ ] Add RecordAndTupleReader for `#[...]` and `#{...}` syntax
+- [ ] Support Unicode property escapes `\p{}` and `\P{}` in regular expressions
