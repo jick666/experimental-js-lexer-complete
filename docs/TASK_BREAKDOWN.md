@@ -57,10 +57,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Add tests covering lexing resume functionality.
 
 ## 26. Private Identifiers
-- [ ] Add `PrivateIdentifierReader` for tokens like `#field`.
-- [ ] Insert the reader early in `LexerEngine`'s default mode.
-- [ ] Write unit tests covering class fields and methods.
-- [ ] Document new `PRIVATE_IDENTIFIER` token in `docs/LEXER_SPEC.md`.
+- [x] Add `PrivateIdentifierReader` for tokens like `#field`.
+- [x] Insert the reader early in `LexerEngine`'s default mode.
+- [x] Write unit tests covering class fields and methods.
+- [x] Document new `PRIVATE_IDENTIFIER` token in `docs/LEXER_SPEC.md`.
 
 ## 27. Regex Named Capture Groups
 - [ ] Extend `RegexOrDivideReader` to recognize `(?<name>...)` syntax.
