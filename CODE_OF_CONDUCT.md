@@ -1,33 +1,13 @@
-# Contributor Covenant Code of Conduct
+## Code of Conduct
 
-## Our Pledge
+Please read `CODE_OF_CONDUCT.md` to understand expectations for participation.
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body size,
-visible or invisible disability, ethnicity, sex characteristics, gender identity
-and expression, level of experience, education, socio-economic status, nationality,
-personal appearance, race, religion, or sexual identity and orientation.
+## Changelog
 
-## Our Standards
+All notable changes are tracked in `CHANGELOG.md`.
 
-Examples of behavior that contributes to a positive environment include:
+## Benchmarks
 
-- Using welcoming and inclusive language
-- Being respectful of differing viewpoints and experiences
-- Showing empathy toward other community members
+Measure lexing throughput on the sample files in `tests/fixtures`:
 
-Examples of unacceptable behavior include:
-
-- Harassment, discrimination, or exclusionary language
-- Personal attacks or insults
-- Posting private or identifying information without consent
-
-## Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project maintainers at [EMAIL ADDRESS]. All complaints
-will be reviewed and investigated promptly and fairly.
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage].
-
-[homepage]: https://www.contributor-covenant.org
+node tests/benchmarks/lexer.bench.js
