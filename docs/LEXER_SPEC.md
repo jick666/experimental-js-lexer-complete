@@ -163,3 +163,21 @@ produces the tokens `[
   PRIVATE_IDENTIFIER("#method"), PUNCTUATION("("), PUNCTUATION(")"),
   PUNCTUATION("{"), PUNCTUATION("}"), PUNCTUATION("}")
 ]`.
+
+## 16. Import Assertions <a name="import-assertions"></a>
+Import statements may include an `assert` clause to provide metadata about the
+module being imported. The lexer recognizes the sequence `assert { ... }` (or
+`assert: { ... }` inside dynamic import options) as a single
+`IMPORT_ASSERTION` token containing the entire clause.
+
+Example:
+
+```
+import data from "./d.json" assert { type: "json" };
+```
+
+produces the tokens `[
+  KEYWORD("import"), IDENTIFIER("data"), IDENTIFIER("from"),
+  STRING("./d.json"), IMPORT_ASSERTION("assert { type: \"json\" }"),
+  PUNCTUATION(";")
+]`.

@@ -152,3 +152,32 @@ test("integration: private identifiers", () => {
   ]);
 });
 
+test("integration: import assertions", () => {
+  const src = 'import data from "./d.json" assert { type: "json" };';
+  const toks = tokenize(src);
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "IDENTIFIER",
+    "STRING",
+    "IMPORT_ASSERTION",
+    "PUNCTUATION"
+  ]);
+});
+
+test("integration: dynamic import assertions", () => {
+  const src = 'import("./d.json", { assert: { type: "json" } });';
+  const toks = tokenize(src);
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "PUNCTUATION",
+    "STRING",
+    "PUNCTUATION",
+    "PUNCTUATION",
+    "IMPORT_ASSERTION",
+    "PUNCTUATION",
+    "PUNCTUATION",
+    "PUNCTUATION"
+  ]);
+});
+
