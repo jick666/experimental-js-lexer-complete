@@ -117,6 +117,13 @@ import { TypeScriptPlugin } from './src/plugins/typescript/TypeScriptPlugin.js';
 registerPlugin(TypeScriptPlugin);
 ```
 
+Similarly you can enable Flow type annotations:
+
+```javascript
+import { FlowTypePlugin } from './src/plugins/flow/FlowTypePlugin.js';
+registerPlugin(FlowTypePlugin);
+```
+
 See `docs/PLUGIN_API.md` for details on authoring plugins.
 
 ## Auto-Merge Workflow

@@ -132,10 +132,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document support in regex section.
 
 ## 39. Flow Type Plugin
-- [ ] Provide `FlowTypePlugin` with readers for Flow annotations.
-- [ ] Allow enabling Flow mode without interfering with JSX.
-- [ ] Document plugin usage and examples.
-- [ ] Add unit tests for Flow-specific tokens.
+- [x] Provide `FlowTypePlugin` with readers for Flow annotations.
+- [x] Allow enabling Flow mode without interfering with JSX.
+- [x] Document plugin usage and examples.
+- [x] Add unit tests for Flow-specific tokens.
 
 ## 40. Byte Order Mark Handling
 - [ ] Implement `ByteOrderMarkReader` for files starting with `\uFEFF`.
