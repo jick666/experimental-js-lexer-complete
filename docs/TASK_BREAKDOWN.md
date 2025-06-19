@@ -87,10 +87,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document supported properties and limitations.
 
 ## 31. HTML Comment Support
-- [ ] Add `HTMLCommentReader` for `<!--` and `-->`.
-- [ ] Allow HTML-style comments at script boundaries.
-- [ ] Add unit tests for start and end comments.
-- [ ] Document in `docs/LEXER_SPEC.md`.
+- [x] Add `HTMLCommentReader` for `<!--` and `-->`.
+- [x] Allow HTML-style comments at script boundaries.
+- [x] Add unit tests for start and end comments.
+- [x] Document in `docs/LEXER_SPEC.md`.
 
 ## 32. Module Block Tokens
 - [ ] Create `ModuleBlockReader` for `module { }` syntax.

@@ -203,3 +203,20 @@ produces the tokens `[
   RECORD_START("#{"), IDENTIFIER("a"), NUMBER("1"), PUNCTUATION("}"),
   TUPLE_START("#["), NUMBER("1"), PUNCTUATION("]")
 ]`.
+
+## 18. HTML Comments <a name="html-comments"></a>
+When `<!--` or `-->` appears at the start of a line, it is treated like a
+single-line comment. The lexer consumes the rest of the line and emits a
+`COMMENT` token containing the text of the comment.
+
+Example:
+
+```
+<!-- hidden -->
+let x = 1;
+```
+
+produces the tokens `[
+  COMMENT("<!-- hidden -->"), WHITESPACE("\n"), KEYWORD("let"), IDENTIFIER("x"),
+  OPERATOR("="), NUMBER("1"), PUNCTUATION(";")
+]`.
