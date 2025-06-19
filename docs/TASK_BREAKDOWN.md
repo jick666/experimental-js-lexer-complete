@@ -27,10 +27,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document how to build and register plugins.
 
 ## 21. Pipeline Operator
-- [ ] Define `PIPELINE_OPERATOR` token type.
-- [ ] Implement `PipelineOperatorReader` to emit this token.
-- [ ] Add unit tests ensuring `a |> b` tokenizes correctly.
-- [ ] Document new syntax in `docs/LEXER_SPEC.md`.
+ - [x] Define `PIPELINE_OPERATOR` token type.
+ - [x] Implement `PipelineOperatorReader` to emit this token.
+ - [x] Add unit tests ensuring `a |> b` tokenizes correctly.
+ - [x] Document new syntax in `docs/LEXER_SPEC.md`.
 
 ## 22. Do Expressions
 - [ ] Add `DoExpressionReader` for `do { ... }` blocks.

@@ -8,6 +8,7 @@ import { ExponentReader } from './ExponentReader.js';
 import { NumberReader } from './NumberReader.js';
 import { StringReader } from './StringReader.js';
 import { RegexOrDivideReader } from './RegexOrDivideReader.js';
+import { PipelineOperatorReader } from './PipelineOperatorReader.js';
 import { OperatorReader } from './OperatorReader.js';
 import { PunctuationReader } from './PunctuationReader.js';
 import { TemplateStringReader } from './TemplateStringReader.js';
@@ -58,6 +59,7 @@ export class LexerEngine {
         NumberReader,
         StringReader,
         RegexOrDivideReader,
+        PipelineOperatorReader,
         OperatorReader,
         PunctuationReader,
         TemplateStringReader,

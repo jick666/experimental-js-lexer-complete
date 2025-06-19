@@ -13,7 +13,7 @@
 
 ### New Feature & Optimization Tasks
 
-- [ ] Implement PipelineOperatorReader for `|>` expressions
+ - [x] Implement PipelineOperatorReader for `|>` expressions
 - [ ] Implement DoExpressionReader to support `do { }` syntax
 - [ ] Add TypeScriptPlugin providing decorators and type annotations
 - [ ] Benchmark lexer speed and optimize CharStream caching
