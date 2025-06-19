@@ -16,9 +16,9 @@ jobs:
       - run: npm install
       - run: node .github/scripts/setup-project-board.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_WORKFLOW }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
       - run: node .github/scripts/seed-todo.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_WORKFLOW }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

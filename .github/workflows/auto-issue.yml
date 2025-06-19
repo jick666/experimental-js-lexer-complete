@@ -11,4 +11,4 @@ jobs:
         with: { node-version: '16' }
       - run: node .github/scripts/seed-todo.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_WORKFLOW }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

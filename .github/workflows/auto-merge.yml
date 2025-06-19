@@ -22,7 +22,7 @@ jobs:
       - name: Automerge
         uses: pascalgn/automerge-action@v0.14.3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN_WORKFLOW }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Close completed TODOs
         run: node .github/scripts/close-todo.js
