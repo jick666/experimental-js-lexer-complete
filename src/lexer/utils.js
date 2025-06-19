@@ -1,3 +1,7 @@
+export function isDecimalDigit(ch) {
+  return ch !== null && ch >= '0' && ch <= '9';
+}
+
 export function readDigitsWithUnderscores(stream, startPos) {
   let value = '';
   let underscoreSeen = false;

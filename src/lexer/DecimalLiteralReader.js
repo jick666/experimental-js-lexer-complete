@@ -1,3 +1,5 @@
+import { isDecimalDigit } from './utils.js';
+
 export function DecimalLiteralReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
@@ -6,13 +8,13 @@ export function DecimalLiteralReader(stream, factory) {
   if (ch === '0' && (stream.peek() === 'd' || stream.peek() === 'D')) {
     // ensure digits after prefix
     const firstDigit = stream.peek(2);
-    if (firstDigit === null || firstDigit < '0' || firstDigit > '9') return null;
+    if (!isDecimalDigit(firstDigit)) return null;
 
     let value = '0' + stream.peek();
     stream.advance(); // 0
     stream.advance(); // d or D
     ch = stream.current();
-    while (ch !== null && ch >= '0' && ch <= '9') {
+    while (ch !== null && isDecimalDigit(ch)) {
       value += ch;
       stream.advance();
       ch = stream.current();
@@ -21,11 +23,11 @@ export function DecimalLiteralReader(stream, factory) {
       value += '.';
       stream.advance();
       ch = stream.current();
-      if (ch === null || ch < '0' || ch > '9') {
+      if (!isDecimalDigit(ch)) {
         stream.setPosition(startPos);
         return null;
       }
-      while (ch !== null && ch >= '0' && ch <= '9') {
+      while (ch !== null && isDecimalDigit(ch)) {
         value += ch;
         stream.advance();
         ch = stream.current();
@@ -36,9 +38,9 @@ export function DecimalLiteralReader(stream, factory) {
   }
 
   // suffix form 123.45m or 123m
-  if (ch !== null && ch >= '0' && ch <= '9') {
+  if (isDecimalDigit(ch)) {
     let value = '';
-    while (ch !== null && ch >= '0' && ch <= '9') {
+    while (ch !== null && isDecimalDigit(ch)) {
       value += ch;
       stream.advance();
       ch = stream.current();
@@ -47,11 +49,11 @@ export function DecimalLiteralReader(stream, factory) {
       value += '.';
       stream.advance();
       ch = stream.current();
-      if (ch === null || ch < '0' || ch > '9') {
+      if (!isDecimalDigit(ch)) {
         stream.setPosition(startPos);
         return null;
       }
-      while (ch !== null && ch >= '0' && ch <= '9') {
+      while (ch !== null && isDecimalDigit(ch)) {
         value += ch;
         stream.advance();
         ch = stream.current();
