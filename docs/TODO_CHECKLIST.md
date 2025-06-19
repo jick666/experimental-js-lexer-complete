@@ -17,4 +17,4 @@
 - [x] Implement DoExpressionReader to support `do { }` syntax
 - [x] Add TypeScriptPlugin providing decorators and type annotations
 - [x] Benchmark lexer speed and optimize CharStream caching
-- [ ] Document incremental lexer state persistence
+- [x] Document incremental lexer state persistence

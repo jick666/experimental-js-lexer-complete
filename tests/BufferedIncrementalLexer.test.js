@@ -52,3 +52,22 @@ test('buffers incomplete template string with expression across feeds', () => {
   lexer.feed('+2}`;');
   expect(types).toEqual(['KEYWORD', 'IDENTIFIER', 'OPERATOR', 'TEMPLATE_STRING', 'PUNCTUATION']);
 });
+
+test('saveState/restoreState resumes buffered lexing', () => {
+  const lexer = new BufferedIncrementalLexer();
+  lexer.feed('const s = "hel');
+  const state = lexer.saveState();
+
+  const resumed = new BufferedIncrementalLexer();
+  resumed.restoreState(state);
+  resumed.feed('lo";');
+
+  const types = resumed.getTokens().map(t => t.type);
+  expect(types).toEqual([
+    'KEYWORD',
+    'IDENTIFIER',
+    'OPERATOR',
+    'STRING',
+    'PUNCTUATION'
+  ]);
+});

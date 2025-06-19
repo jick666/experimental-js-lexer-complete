@@ -33,3 +33,22 @@ test('feeding whitespace only produces no tokens', () => {
   lexer.feed('   ');
   expect(lexer.getTokens()).toEqual([]);
 });
+
+test('saveState/restoreState resumes lexing', () => {
+  const lexer = new IncrementalLexer();
+  lexer.feed('let x');
+  const state = lexer.saveState();
+
+  const resumed = new IncrementalLexer();
+  resumed.restoreState(state);
+  resumed.feed(' = 1;');
+
+  const types = resumed.getTokens().map(t => t.type);
+  expect(types).toEqual([
+    'KEYWORD',
+    'IDENTIFIER',
+    'OPERATOR',
+    'NUMBER',
+    'PUNCTUATION'
+  ]);
+});
