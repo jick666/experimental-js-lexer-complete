@@ -181,3 +181,16 @@ test("integration: dynamic import assertions", () => {
   ]);
 });
 
+test("integration: record and tuple literals", () => {
+  const toks = tokenize("#{a:1} #[1]");
+  expect(toks.map(t => t.type)).toEqual([
+    "RECORD_START",
+    "IDENTIFIER",
+    "NUMBER",
+    "PUNCTUATION",
+    "TUPLE_START",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+});
+

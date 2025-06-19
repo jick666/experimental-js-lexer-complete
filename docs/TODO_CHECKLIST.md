@@ -24,7 +24,7 @@
 - [x] Implement PrivateIdentifierReader for `#private` fields
 - [x] Support named capture groups in regular expressions
 - [x] Recognize import assertion syntax after `import` statements
-- [ ] Add RecordAndTupleReader for `#[...]` and `#{...}` syntax
+- [x] Add RecordAndTupleReader for `#[...]` and `#{...}` syntax
 - [ ] Support Unicode property escapes `\p{}` and `\P{}` in regular expressions
 - [ ] Implement HTML comment reader for `<!--` and `-->`
 - [ ] Add ModuleBlockReader for `module { ... }` blocks

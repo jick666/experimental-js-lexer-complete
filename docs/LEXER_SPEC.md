@@ -181,3 +181,22 @@ produces the tokens `[
   STRING("./d.json"), IMPORT_ASSERTION("assert { type: \"json\" }"),
   PUNCTUATION(";")
 ]`.
+
+## 17. Record and Tuple Literals <a name="record-tuple"></a>
+Record (`#{}`) and tuple (`#[ ]`) literals start with `#` followed by
+`{` or `[`.
+When these sequences are encountered, the lexer emits a `RECORD_START`
+or `TUPLE_START` token. The closing delimiters are the normal `}` and
+`]` punctuation tokens.
+
+Example:
+
+```
+#{ a: 1 }
+#[1]
+```
+
+produces the tokens `[
+  RECORD_START("#{"), IDENTIFIER("a"), NUMBER("1"), PUNCTUATION("}"),
+  TUPLE_START("#["), NUMBER("1"), PUNCTUATION("]")
+]`.
