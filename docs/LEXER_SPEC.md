@@ -70,6 +70,8 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Unicode property escapes using `\p{}` and `\P{}` are validated against
   canonical Unicode property names and values. Unknown properties result
   in an `INVALID_REGEX` token.
+- When the `v` flag is present, nested Unicode sets like `[\p{Script=Latin}--[a-z]]`
+  are tokenized correctly with balanced bracket tracking.
 - Template strings track nested `${ ... }` braces and handle escapes.
 - `HTML_TEMPLATE_STRING` tokens are returned for `html`-tagged templates.
 - `NumberReader` only parses base‑10 integers and decimals.

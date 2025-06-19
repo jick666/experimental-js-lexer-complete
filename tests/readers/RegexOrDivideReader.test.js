@@ -207,3 +207,18 @@ test("RegexOrDivideReader rejects unknown Unicode property", () => {
   const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
   expect(token.type).toBe("INVALID_REGEX");
 });
+
+test("RegexOrDivideReader handles Unicode sets with v flag", () => {
+  const src = "/[\\p{Script=Latin}--[a-z]]/v";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("REGEX");
+  expect(token.value).toBe(src);
+});
+
+test("RegexOrDivideReader rejects unterminated nested character classes", () => {
+  const src = "/[a[b]/v";
+  const stream = new CharStream(src);
+  const token = RegexOrDivideReader(stream, (t,v,s,e) => new Token(t,v,s,e));
+  expect(token.type).toBe("INVALID_REGEX");
+});

@@ -36,7 +36,7 @@
 
 - [x] Implement FunctionSentReader for `function.sent` meta property
 - [x] Add BindOperatorReader for `::` method binding
-- [ ] Extend RegexOrDivideReader to support Unicode sets with the `v` flag
+ - [x] Extend RegexOrDivideReader to support Unicode sets with the `v` flag
 - [ ] Provide FlowTypePlugin for Flow-specific syntax
 
 ##### Additional Lexical Improvements
