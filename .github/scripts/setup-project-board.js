@@ -15,7 +15,7 @@ const [owner, repo] = repoFull.split('/');
 const octokit = new Octokit({ auth: token });
 
 async function ensureBoard() {
-  // 1. List (or create) the project board
+  // 1) List all project boards in the repo
   const { data: projects } = await octokit.request(
     'GET /repos/{owner}/{repo}/projects',
     {
@@ -25,6 +25,7 @@ async function ensureBoard() {
     }
   );
 
+  // 2) Find—or create—the board named `boardName`
   let project = projects.find(p => p.name === boardName);
   if (!project) {
     const { data: created } = await octokit.request(
@@ -42,7 +43,7 @@ async function ensureBoard() {
     console.log(`Board exists: ${boardName}`);
   }
 
-  // 2. Ensure all columns exist
+  // 3) Fetch existing columns on that project
   const { data: existingCols } = await octokit.request(
     'GET /projects/{project_id}/columns',
     {
@@ -52,6 +53,7 @@ async function ensureBoard() {
   );
   const existingNames = existingCols.map(c => c.name);
 
+  // 4) Create any missing columns
   for (const name of columns) {
     if (!existingNames.includes(name)) {
       await octokit.request(
