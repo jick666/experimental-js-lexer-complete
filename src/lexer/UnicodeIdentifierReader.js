@@ -1,5 +1,5 @@
-const ID_START_RE = /[\p{ID_Start}$_]/u;
-const ID_CONTINUE_RE = /[\p{ID_Continue}$_\u200C\u200D]/u;
+const ID_START_RE = /[\p{ID_Start}\p{Math}\p{Emoji}$_]/u;
+const ID_CONTINUE_RE = /[\p{ID_Continue}\p{Math}\p{Emoji}$_\u200C\u200D]/u;
 
 export function UnicodeIdentifierReader(stream, factory) {
   const startPos = stream.getPosition();

@@ -71,6 +71,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `OctalReader` parses `0o` or `0O` prefixed octal integers.
 - `ExponentReader` parses numbers with `e` or `E` exponents.
 - `UnicodeIdentifierReader` reads identifiers starting with non-ASCII Unicode characters.
+- `UnicodeEscapeIdentifierReader` reads identifiers containing Unicode escape sequences like `\u{1F600}`.
 - `ShebangReader` consumes `#!` headers at the start of a file as `COMMENT` tokens.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
