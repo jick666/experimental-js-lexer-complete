@@ -1,10 +1,14 @@
 #!/usr/bin/env node
+// agentic-automation.js
+// Coordinates autonomous agents purely via GitHub and local tests –
+// no direct OpenAI/Codex API calls are made.
 import { execSync } from 'child_process';
 import { Octokit }    from '@octokit/rest';
 
 const dryRun = process.argv.includes('--dry-run');
+// unique branch per task / day, ensures agents don't clash
 const TASK_ID = process.env.TASK_ID || 'task';
-const date    = new Date().toISOString().slice(0,10).replace(/-/g,'');
+const date    = new Date().toISOString().slice(0,10).replace(/-/g, '');
 const branch  = `agent/${date}-${TASK_ID}`;
 
 function run(cmd) {
@@ -34,11 +38,13 @@ function rebaseMain() {
 }
 
 function runChecks() {
+  // ensure lint and tests (with coverage) pass before proceeding
   run('npm run lint');
-  run('npm test');
+  run('npm test -- --coverage');
 }
 
 async function openPr() {
+  // uses the repo's GITHUB_TOKEN to open a PR via the GitHub REST API
   const repoFull = process.env.GITHUB_REPOSITORY;
   const token    = process.env.GITHUB_TOKEN;
   if (!repoFull || !token) {
