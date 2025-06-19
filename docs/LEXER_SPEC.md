@@ -65,6 +65,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - Character classes inside regex literals are parsed, ignoring `/` characters
   until the closing `]`.
 - Template strings track nested `${ ... }` braces and handle escapes.
+- `HTML_TEMPLATE_STRING` tokens are returned for `html`-tagged templates.
 - `NumberReader` only parses base‑10 integers and decimals.
 - `BigIntReader` parses integer literals with a trailing `n`.
 - `HexReader` parses `0x` or `0X` prefixed hexadecimal integers.
@@ -74,6 +75,7 @@ Each is a pure function `(stream, factory) => Token|null`:
 - `ShebangReader` consumes `#!` headers at the start of a file as `COMMENT` tokens.
 - `StringReader` parses single- or double-quoted strings with escapes and errors on unterminated input.
 - `JSXReader` tokenizes raw JSX elements between `<` and `>`.
+- `JSXReader` ignores `<` inside `{}` expressions and supports self-closing tags.
 
 ## 11. Usage Examples <a name="examples"></a>
 Run the CLI directly:

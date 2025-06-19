@@ -16,6 +16,15 @@ test("TemplateStringReader reads template with interpolation", () => {
   expect(stream.getPosition().index).toBe(src.length);
 });
 
+test("TemplateStringReader produces HTML_TEMPLATE_STRING when tagged", () => {
+  const src = "`<div>${x}</div>`";
+  const stream = new CharStream(src);
+  const engine = { lastToken: new Token("IDENTIFIER", "html", { index: 0 }, { index: 4 }) };
+  const tok = TemplateStringReader(stream, (t, v, s, e) => new Token(t, v, s, e), engine);
+  expect(tok.type).toBe("HTML_TEMPLATE_STRING");
+  expect(tok.value).toBe(src);
+});
+
 test("TemplateStringReader returns null for non-backtick start", () => {
   const stream = new CharStream("'not template'");
   const result = TemplateStringReader(
