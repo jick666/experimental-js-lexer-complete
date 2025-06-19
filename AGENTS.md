@@ -22,6 +22,20 @@ This repository is optimized for iterative development by Codex agents.
    npm run workflow   # requires GitHub creds; otherwise just lint & tests run
    ```
 
+## Automation Triggers
+Agents respond to GitHub events via `.github/workflows/agent-workflow.yml`.
+
+- **triage-agent** – runs on issue creation or comments. It closes completed
+  reader TODOs and checks for spec drift.
+- **codegen-agent** – runs on pull requests or manual dispatch to generate code
+  via `agentic-automation.js`.
+- **conflict-agent** – verifies `main` hasn’t advanced before a PR is opened.
+
+Add the `reader` label or comment `/run-agent` on an issue to kick things off.
+
+All helper scripts accept a `--dry-run` flag so agents can test without making
+real API calls.
+
 ## Commit Guidelines
 - Use [Conventional Commits](https://www.conventionalcommits.org) (`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`).
 - Keep commits focused and small.

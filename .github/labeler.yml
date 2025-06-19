@@ -1,0 +1,6 @@
+labels:
+  todo: todo
+  drift: drift
+  reader: reader
+commands:
+  run-agent: "/run-agent"

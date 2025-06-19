@@ -13,7 +13,7 @@ jobs:
       - run: npm ci
       - run: node tests/benchmarks/lexer.bench.js > bench.txt
       - run: node .github/scripts/compare-benchmark.js bench.txt .benchmarks/baseline.json
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: bench-output
           path: bench.txt
