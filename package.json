@@ -10,12 +10,12 @@
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest.config.cjs --coverage",
     "bench": "node tests/benchmarks/lexer.bench.js",
     "build": "echo \"Nothing to build\"",
-    "prepare": "node scripts/prepare-husky.cjs",
+    "prepare": "node .github/scripts/prepare-husky.cjs",
     "build:extension": "npm --prefix extension install && npm --prefix extension run build",
     "publish:extension": "npm --prefix extension install && npm --prefix extension run publish",
-    "workflow": "bash scripts/run-workflow.sh",
-    "next-task": "node scripts/next-task.cjs",
-    "repo-info": "node scripts/repo-info.cjs"
+    "workflow": "bash .github/scripts/run-workflow.sh",
+    "next-task": "node .github/scripts/next-task.cjs",
+    "repo-info": "node .github/scripts/repo-info.cjs"
   },
   "keywords": [
     "lexer",

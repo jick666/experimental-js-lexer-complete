@@ -11,8 +11,8 @@ Run `npm install` once to set up Husky hooks. Commits will automatically run
 `npm run lint` and `npm test` before being created.
 
 ### Workflow Helper
-Use the convenience script to run linting, tests, and benchmarks in one go:
-
+Use the convenience script to run linting, tests, and benchmarks in one go.
+All automation scripts and CI workflows live under `.github/`.
 ```bash
 npm run workflow
 ```

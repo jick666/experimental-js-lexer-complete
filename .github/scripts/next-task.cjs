@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// scripts/next-task.cjs
+// .github/scripts/next-task.cjs
 // Print the highest priority unchecked task from docs/TODO_CHECKLIST.md
 const fs = require('fs');
 const path = require('path');

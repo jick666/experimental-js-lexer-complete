@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// scripts/prepare-husky.cjs
+// .github/scripts/prepare-husky.cjs
 
 const { execSync } = require('child_process');
 
