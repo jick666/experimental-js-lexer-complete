@@ -99,9 +99,9 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document new tokens.
 
 ## 33. Decimal Literal Reader
-- [ ] Implement `DecimalLiteralReader` for `123.45m` or `0d123.45`.
-- [ ] Add tokens and numeric tests.
-- [ ] Update documentation for decimal notation.
+- [x] Implement `DecimalLiteralReader` for `123.45m` or `0d123.45`.
+- [x] Add tokens and numeric tests.
+- [x] Update documentation for decimal notation.
 
 ## 34. Explicit Resource Management
 - [ ] Tokenize `using` and `await using` constructs.

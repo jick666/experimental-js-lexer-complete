@@ -28,6 +28,6 @@
 - [x] Support Unicode property escapes `\p{}` and `\P{}` in regular expressions
  - [x] Implement HTML comment reader for `<!--` and `-->`
 - [x] Add ModuleBlockReader for `module { ... }` blocks
-- [ ] Support decimal literals like `123.45m` or `0d123.45`
+- [x] Support decimal literals like `123.45m` or `0d123.45`
 - [ ] Tokenize `using` and `await using` statements
 - [ ] Add tokens for pattern matching `match`/`case` syntax
