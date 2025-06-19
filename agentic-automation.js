@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+/**
+ * Agent automation script coordinating multiple agents.
+ * All actions rely solely on Git and local tests – no OpenAI API calls.
+ */
 import { execSync } from 'child_process';
 import { Octokit }    from '@octokit/rest';
 
@@ -38,6 +42,7 @@ function runChecks() {
   run('npm test');
 }
 
+// Create a PR using GitHub REST API via the provided token.
 async function openPr() {
   const repoFull = process.env.GITHUB_REPOSITORY;
   const token    = process.env.GITHUB_TOKEN;
