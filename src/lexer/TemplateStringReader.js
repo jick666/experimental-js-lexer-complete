@@ -24,17 +24,11 @@ export function TemplateStringReader(stream, factory, engine) {
 
     // handle escape sequences
     if (ch === '\\') {
-      const escStart = stream.getPosition();
       value += ch;
       stream.advance();
       if (stream.eof()) {
-        return new LexerError(
-          'BadEscape',
-          'Bad escape sequence in template literal',
-          escStart,
-          stream.getPosition(),
-          stream.input
-        );
+        const endPos = stream.getPosition();
+        return factory('INVALID_TEMPLATE_STRING', value, startPos, endPos);
       }
       value += stream.current();
       stream.advance();

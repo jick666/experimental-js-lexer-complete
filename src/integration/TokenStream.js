@@ -15,6 +15,7 @@ export function createTokenStream(code) {
   return new Readable({
     objectMode: true,
     read() {
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const tok = engine.nextToken();
         if (!tok) {

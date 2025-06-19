@@ -2,7 +2,6 @@ import { jest } from "@jest/globals";
 import { CharStream } from "../src/lexer/CharStream.js";
 import { LexerEngine } from "../src/lexer/LexerEngine.js";
 
-import { LexerError } from "../src/lexer/LexerError.js";
 test("LexerEngine pushMode and popMode manage state stack", () => {
   const engine = new LexerEngine(new CharStream(""));
   expect(engine.currentMode()).toBe("default");
@@ -40,21 +39,19 @@ test("nextToken does not treat comparison as JSX", () => {
   const t1 = engine.nextToken();
   const t2 = engine.nextToken();
   const t3 = engine.nextToken();
+  const t4 = engine.nextToken();
+  const t5 = engine.nextToken();
   expect(t1.type).toBe("IDENTIFIER");
-  expect(t2.value).toBe("<");
-  expect(t3.type).toBe("IDENTIFIER");
+  expect(t2.type).toBe("WHITESPACE");
+  expect(t3.value).toBe("<");
+  expect(t4.type).toBe("WHITESPACE");
+  expect(t5.type).toBe("IDENTIFIER");
 });
 
-test("nextToken rethrows reader errors", () => {
+test("nextToken returns INVALID_REGEX token instead of throwing", () => {
   const engine = new LexerEngine(new CharStream("/abc"));
-  let err;
-  try {
-    engine.nextToken();
-  } catch (e) {
-    err = e;
-  }
-  expect(err).toBeInstanceOf(LexerError);
-  expect(err.type).toBe("UnterminatedRegex");
+  const tok = engine.nextToken();
+  expect(tok.type).toBe("INVALID_REGEX");
 });
 
 test("peek returns upcoming tokens without consuming", () => {

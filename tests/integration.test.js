@@ -23,8 +23,9 @@ test("integration: trailing whitespace does not produce null token", () => {
   ]);
 });
 
-test("integration: tokenize throws on unterminated regex", () => {
-  expect(() => tokenize("/abc")).toThrow();
+test("integration: tokenize returns INVALID_REGEX token on unterminated regex", () => {
+  const toks = tokenize("/abc");
+  expect(toks[0].type).toBe("INVALID_REGEX");
 });
 
 test("integration: tokenize throws on unterminated template", () => {
