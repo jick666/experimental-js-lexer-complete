@@ -55,7 +55,7 @@ export function RegexOrDivideReader(stream, factory) {
 
   let body = '';
   let escaped = false;
-  let inCharClass = false;
+  let charClassDepth = 0;
   while (!stream.eof()) {
     const ch = stream.current();
     if (!escaped) {
@@ -112,11 +112,19 @@ export function RegexOrDivideReader(stream, factory) {
         }
       }
 
-      if (inCharClass) {
-        if (ch === ']') inCharClass = false;
+      if (charClassDepth > 0) {
+        if (ch === '[') {
+          charClassDepth++;
+        } else if (ch === ']') {
+          charClassDepth--;
+          if (charClassDepth < 0) {
+            const endPos = stream.getPosition();
+            return factory('INVALID_REGEX', `/${body}`, startPos, endPos);
+          }
+        }
       } else {
         if (ch === '[') {
-          inCharClass = true;
+          charClassDepth = 1;
         } else if (ch === '/') {
           break;
         } else if (
@@ -167,8 +175,8 @@ export function RegexOrDivideReader(stream, factory) {
     stream.advance();
   }
 
-  if (stream.current() !== '/') {
-    // Unterminated regex - return invalid token for recovery
+  if (charClassDepth !== 0 || stream.current() !== '/') {
+    // Unterminated regex or character class
     const endPos = stream.getPosition();
     return factory('INVALID_REGEX', `/${body}`, startPos, endPos);
   }

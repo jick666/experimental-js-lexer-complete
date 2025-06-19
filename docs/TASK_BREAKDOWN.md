@@ -126,10 +126,10 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Document operator semantics.
 
 ## 38. RegExp Unicode Sets
-- [ ] Extend `RegexOrDivideReader` to parse Unicode sets under the `v` flag.
-- [ ] Validate set operations and nested character classes.
-- [ ] Add tests using expressions like `[\p{Script=Latin}--[a-z]]/v`.
-- [ ] Document support in regex section.
+- [x] Extend `RegexOrDivideReader` to parse Unicode sets under the `v` flag.
+- [x] Validate set operations and nested character classes.
+- [x] Add tests using expressions like `[\p{Script=Latin}--[a-z]]/v`.
+- [x] Document support in regex section.
 
 ## 39. Flow Type Plugin
 - [ ] Provide `FlowTypePlugin` with readers for Flow annotations.
