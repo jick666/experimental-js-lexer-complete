@@ -11,7 +11,6 @@ GitHub Actions workflows live in the `workflows/` folder:
 - `agent-pr.yml` – posts a comment to kick off an agent when an issue is labeled `reader`.
 - `benchmarks.yml` – nightly benchmark runs.
 - `drift-check.yml` – checks that implemented readers match the specification.
-- `generate-tests.yml` – regenerates tests when the spec changes.
 - `publish-vscode.yml` – publishes the VS Code extension on releases.
 - `release.yml` – performs semantic releases from `main`.
 - `stale.yml` – marks inactive issues and PRs as stale.
@@ -26,5 +25,4 @@ Helper scripts used by workflows and local development are in `scripts/`:
 - `repo-info.cjs` – display repository info and open tasks.
 - `check-drift.js` – open issues for spec/implementation drift.
 - `compare-benchmark.js` – fail CI on benchmark regressions.
-- `generate-tests.js` – placeholder for test generation from the spec.
 
