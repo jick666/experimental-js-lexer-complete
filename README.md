@@ -78,6 +78,22 @@ stream.on('data', tok => {
 
 See `docs/VS_CODE_EXAMPLE.md` for a more complete VS Code integration example.
 
+### Persisting Lexer State
+
+Both `IncrementalLexer` and `BufferedIncrementalLexer` support `saveState()` and
+`restoreState(state)` for resuming lexing without reprocessing the entire
+source.
+
+```javascript
+const lexer = new IncrementalLexer();
+lexer.feed('let x');
+const snapshot = lexer.saveState();
+
+const resumed = new IncrementalLexer();
+resumed.restoreState(snapshot);
+resumed.feed(' = 1;');
+```
+
 ## Plugin API
 
 Custom token readers can be installed at runtime. Register a plugin before

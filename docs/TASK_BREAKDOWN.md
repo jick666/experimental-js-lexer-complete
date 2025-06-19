@@ -52,6 +52,6 @@ This document outlines detailed subtasks for each remaining objective in `TODO_C
 - [x] Update changelog with performance metrics.
 
 ## 25. Incremental Lexer Persistence
-- [ ] Document how to save and restore lexer state.
-- [ ] Provide example code snippet in `README.md`.
-- [ ] Add tests covering lexing resume functionality.
+- [x] Document how to save and restore lexer state.
+- [x] Provide example code snippet in `README.md`.
+- [x] Add tests covering lexing resume functionality.
