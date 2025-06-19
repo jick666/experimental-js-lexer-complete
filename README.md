@@ -89,6 +89,14 @@ registerPlugin(MyPlugin);
 console.log(tokenize('#')); // tokens include MY custom types
 ```
 
+The repository includes a `TypeScriptPlugin` that adds basic support for
+decorators, type annotations and generic parameters:
+
+```javascript
+import { TypeScriptPlugin } from './src/plugins/typescript/TypeScriptPlugin.js';
+registerPlugin(TypeScriptPlugin);
+```
+
 See `docs/PLUGIN_API.md` for details on authoring plugins.
 
 ## Auto-Merge Workflow

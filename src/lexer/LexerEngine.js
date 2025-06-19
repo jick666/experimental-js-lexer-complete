@@ -41,6 +41,7 @@ export class LexerEngine {
     this.stream = stream;
     this.stateStack = ['default'];
     this.buffer = [];
+    this.disableJsx = false;
 
     // Mapping of mode -> reader list. Order determines priority.
     this.modes = {
@@ -143,7 +144,7 @@ export class LexerEngine {
 
       // 1. Mode switching for JSX
       let mode = this.currentMode();
-      if (mode === 'default' && stream.current() === '<') {
+      if (mode === 'default' && !this.disableJsx && stream.current() === '<') {
         const next = stream.peek();
         if (/[A-Za-z/!?]|>/.test(next)) {
           this.pushMode('jsx');
