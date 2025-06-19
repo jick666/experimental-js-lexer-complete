@@ -45,7 +45,7 @@ Adhering to these guidelines will help Codex agents collaborate effectively on t
 - **Triggers:** `pull_request` events and manual `workflow_dispatch`.
 - **Inputs:** current repository state plus the `OPENAI_API_KEY` and `GITHUB_TOKEN` secrets from the environment.
 - **Outputs:** commits automated updates on a new branch.
-- **Dry-Run:** execute `node agentic-automation.js` manually. Skip pushing changes to test by omitting the commit step or adding `--dry-run` to the helper scripts it calls.
+- **Dry-Run:** run `npm run workflow` locally to verify lint, tests, and benchmarks. Commit any generated changes manually.
 
 ### Conflict Agent
 - **Triggers:** runs after the codegen agent.
