@@ -69,3 +69,58 @@ test("integration: numeric separator with exponent splits tokens", () => {
     "PUNCTUATION"
   ]);
 });
+
+test("integration: binary literal", () => {
+  const toks = tokenize("let n = 0b1010;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+  expect(toks[3].value).toBe("0b1010");
+});
+
+test("integration: octal literal", () => {
+  const toks = tokenize("let n = 0o755;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+  expect(toks[3].value).toBe("0o755");
+});
+
+test("integration: exponent literal", () => {
+  const toks = tokenize("let n = 1e3;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+  expect(toks[3].value).toBe("1e3");
+});
+
+test("integration: unicode identifiers", () => {
+  const toks = tokenize("let πδ = 1;");
+  expect(toks.map(t => t.type)).toEqual([
+    "KEYWORD",
+    "IDENTIFIER",
+    "OPERATOR",
+    "NUMBER",
+    "PUNCTUATION"
+  ]);
+  expect(toks[1].value).toBe("πδ");
+});
+
+test("integration: shebang comment", () => {
+  const src = "#!/usr/bin/env node\nlet a = 1;";
+  const toks = tokenize(src);
+  expect(toks[0].type).toBe("COMMENT");
+  expect(toks[0].value).toBe("#!/usr/bin/env node");
+});
