@@ -1,22 +1,15 @@
+import { consumeKeyword } from './utils.js';
+
 export function ImportCallReader(stream, factory) {
   const startPos = stream.getPosition();
-  if (!stream.input.startsWith('import(', startPos.index)) return null;
-
-  const saved = stream.getPosition();
-  for (const ch of 'import') {
-    if (stream.current() !== ch) {
-      stream.setPosition(saved);
-      return null;
-    }
-    stream.advance();
-  }
+  const endPos = consumeKeyword(stream, 'import');
+  if (!endPos) return null;
 
   // confirm '(' but don't consume
   if (stream.current() !== '(') {
-    stream.setPosition(saved);
+    stream.setPosition(startPos);
     return null;
   }
 
-  const endPos = stream.getPosition();
   return factory('IMPORT_CALL', 'import', startPos, endPos);
 }

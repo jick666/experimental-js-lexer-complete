@@ -52,3 +52,33 @@ export function readNumberLiteral(stream, startPos, requireFractionDigits = fals
   }
   return { value, ch };
 }
+
+// Consume the given keyword at the current stream position.
+// Ensures the keyword is not part of a larger identifier by checking
+// preceding and following characters.
+// Returns the end position on success or null on failure.
+export function consumeKeyword(stream, keyword, { checkPrev = true } = {}) {
+  const startPos = stream.getPosition();
+
+  if (checkPrev) {
+    const prevIndex = startPos.index - 1;
+    const prevChar = prevIndex >= 0 ? stream.input[prevIndex] : null;
+    if (prevChar && /[A-Za-z0-9_$]/.test(prevChar)) return null;
+  }
+
+  for (const ch of keyword) {
+    if (stream.current() !== ch) {
+      stream.setPosition(startPos);
+      return null;
+    }
+    stream.advance();
+  }
+
+  const next = stream.current();
+  if (next && /[A-Za-z0-9_$]/.test(next)) {
+    stream.setPosition(startPos);
+    return null;
+  }
+
+  return stream.getPosition();
+}
