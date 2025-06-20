@@ -8,6 +8,7 @@ npm install
 # 2. Lint, test with coverage, and benchmark
 npm run lint
 npm test -- --coverage
+node .github/scripts/check-coverage.js
 npm run bench
 
 # 3. Display coverage summary
