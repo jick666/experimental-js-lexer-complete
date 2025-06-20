@@ -1,8 +1,5 @@
 // §4.2 NumberReader
-import { readDigits } from './utils.js';
-function isDigit(ch) {
-  return ch !== null && ch >= '0' && ch <= '9';
-}
+import { readDigits, isDigit } from './utils.js';
 
 export function NumberReader(stream, factory) {
   const startPos = stream.getPosition();

@@ -1,9 +1,9 @@
-import { readDigitsWithUnderscores } from './utils.js';
+import { readDigitsWithUnderscores, isDigit } from './utils.js';
 
 export function NumericSeparatorReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
-  if (ch === null || ch < '0' || ch > '9') return null;
+  if (!isDigit(ch)) return null;
 
   const result = readDigitsWithUnderscores(stream, startPos);
   if (!result) return null;
