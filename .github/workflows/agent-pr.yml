@@ -5,20 +5,23 @@ on:
     types: [opened, labeled]
 
 permissions:
-  issues:  write     # allow the job to add a comment
-  contents: read     # checkout still needs this
+  contents: read
+  issues:   write
+  projects: write     # so the card moves when the comment is added
 
 jobs:
   launch:
     if: contains(github.event.issue.labels.*.name, 'reader')
     runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: Automation
     steps:
-      - uses: actions/github-script@v6
+      - uses: actions/github-script@v7
         with:
-          github-token: ${{ github.token }}   # default GITHUB_TOKEN
+          github-token: ${{ github.token }}
           script: |
             const issue = context.payload.issue;
-            await github.issues.createComment({
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo:  context.repo.repo,
               issue_number: issue.number,
