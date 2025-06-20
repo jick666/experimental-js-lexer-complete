@@ -1,4 +1,4 @@
-import { readDigits } from './utils.js';
+import { readDigits, isDigit } from './utils.js';
 
 export function DecimalLiteralReader(stream, factory) {
   const startPos = stream.getPosition();
@@ -8,7 +8,7 @@ export function DecimalLiteralReader(stream, factory) {
   if (ch === '0' && (stream.peek() === 'd' || stream.peek() === 'D')) {
     // ensure digits after prefix
     const firstDigit = stream.peek(2);
-    if (firstDigit === null || firstDigit < '0' || firstDigit > '9') return null;
+    if (!isDigit(firstDigit)) return null;
 
     let value = '0' + stream.peek();
     stream.advance(); // 0
@@ -31,7 +31,7 @@ export function DecimalLiteralReader(stream, factory) {
   }
 
   // suffix form 123.45m or 123m
-  if (ch !== null && ch >= '0' && ch <= '9') {
+  if (isDigit(ch)) {
     let value = readDigits(stream);
     ch = stream.current();
     if (ch === '.') {

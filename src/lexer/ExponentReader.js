@@ -1,8 +1,8 @@
-import { readDigits } from './utils.js';
+import { readDigits, isDigit } from './utils.js';
 
 export function ExponentReader(stream, factory) {
   const startPos = stream.getPosition();
-  if (stream.current() === null || stream.current() < '0' || stream.current() > '9') return null;
+  if (!isDigit(stream.current())) return null;
 
   let value = readDigits(stream);
   let ch = stream.current();
