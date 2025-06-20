@@ -27,4 +27,5 @@ Helper scripts used by workflows and local development are in `scripts/`:
 - `check-drift.js` – open issues for spec/implementation drift.
 - `compare-benchmark.js` – fail CI on benchmark regressions.
 - `generate-tests.js` – placeholder for test generation from the spec.
+- `check-coverage.js` – ensure test coverage meets the required threshold.
 

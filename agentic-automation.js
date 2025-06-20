@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { execSync } from 'child_process';
 import { Octokit }    from '@octokit/rest';
+import { checkCoverage } from './src/utils/checkCoverage.js';
 
 const dryRun = process.argv.includes('--dry-run');
 const TASK_ID = process.env.TASK_ID || 'task';
@@ -36,6 +37,7 @@ function rebaseMain() {
 function runChecks() {
   run('npm run lint');
   run('npm test');
+  checkCoverage(90);
 }
 
 async function openPr() {
