@@ -1,4 +1,4 @@
-import { IdentifierReader, IdentifierReaderClass } from './IdentifierReader.js';
+import { IdentifierReaderClass } from './IdentifierReader.js';
 import { BinaryReader } from './BinaryReader.js';
 import { OctalReader } from './OctalReader.js';
 import { HexReader } from './HexReader.js';
