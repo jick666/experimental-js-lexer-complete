@@ -3,23 +3,21 @@ name: Spec-Code Drift Check
 on:
   schedule:
     - cron: '0 2 * * *'   # daily 02:00 UTC
+  workflow_dispatch:
 
 permissions:
-  issues:  write
   contents: read
+  issues:   write
+  projects: write     # drop newly-opened drift issue into “Todo”
 
 jobs:
   drift:
     runs-on: ubuntu-latest
     env:
-      GITHUB_REPOSITORY: ${{ github.repository }}
-
+      PROJECT_NAME:     Automation
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - run: npm install
+        with: { node-version: 20 }
+      - run: npm ci
       - run: node .github/scripts/check-drift.js
