@@ -16,41 +16,30 @@ function isIdentifierPart(ch) {
 import matchProperty from 'unicode-match-property-ecmascript';
 import matchPropertyValue from 'unicode-match-property-value-ecmascript';
 
-export function RegexOrDivideReader(stream, factory) {
-  const startPos = stream.getPosition();
-  if (stream.current() !== '/') return null;
+const WS = new Set([' ', '\n', '\t', '\r', '\v', '\f']);
+const regexStarters = new Set([
+  '(', '{', '[', '=', ':', ',', ';', '!', '?', '+', '-', '*', '%', '&', '|',
+  '^', '~', '<', '>'
+]);
 
-  // Always treat '/=' as the divide-assign operator, not a regex literal
-  if (stream.peek() === '=') {
-    stream.advance(); // consume '/'
-    stream.advance(); // consume '='
-    return factory('OPERATOR', '/=', startPos, stream.getPosition());
-  }
+function readDivide(stream, factory, startPos) {
+  stream.advance(); // consume '/'
+  return factory('OPERATOR', '/', startPos, stream.getPosition());
+}
 
-  // Look backwards for the last non-whitespace character to guess context
+function isRegexContext(stream, startPos) {
   let i = startPos.index - 1;
   let prev = null;
-  const WS = new Set([' ', '\n', '\t', '\r', '\v', '\f']);
   while (i >= 0) {
     const ch = stream.input[i];
     if (WS.has(ch)) { i--; continue; }
     prev = ch;
     break;
   }
+  return prev === null || regexStarters.has(prev);
+}
 
-  const regexStarters = new Set([
-    '(', '{', '[', '=', ':', ',', ';', '!', '?', '+', '-', '*', '%', '&', '|',
-    '^', '~', '<', '>'
-  ]);
-  const isRegexContext = prev === null || regexStarters.has(prev);
-
-  if (!isRegexContext) {
-    // It's a plain divide operator
-    stream.advance(); // consume '/'
-    return factory('OPERATOR', '/', startPos, stream.getPosition());
-  }
-
-  // Parse a regex literal `/pattern/flags`
+function readRegexLiteral(stream, factory, startPos) {
   stream.advance(); // consume opening '/'
 
   let body = '';
@@ -64,9 +53,9 @@ export function RegexOrDivideReader(stream, factory) {
         if ((next === 'p' || next === 'P') && stream.peek(2) === '{') {
           const sign = next;
           body += '\\' + sign + '{';
-          stream.advance(); // consume '\\'
-          stream.advance(); // consume 'p' or 'P'
-          stream.advance(); // consume '{'
+          stream.advance();
+          stream.advance();
+          stream.advance();
           let prop = '';
           while (!stream.eof() && stream.current() !== '}') {
             const c = stream.current();
@@ -128,9 +117,9 @@ export function RegexOrDivideReader(stream, factory) {
         } else if (ch === '/') {
           break;
         } else if (
-          ch === '('
-          && stream.peek() === '?'
-          && stream.peek(2) === '<'
+          ch === '(' &&
+          stream.peek() === '?' &&
+          stream.peek(2) === '<'
         ) {
           body += ch; // '('
           stream.advance();
@@ -176,14 +165,12 @@ export function RegexOrDivideReader(stream, factory) {
   }
 
   if (charClassDepth !== 0 || stream.current() !== '/') {
-    // Unterminated regex or character class
     const endPos = stream.getPosition();
     return factory('INVALID_REGEX', `/${body}`, startPos, endPos);
   }
 
   stream.advance(); // consume closing '/'
 
-  // Collect flags
   let flags = '';
   while (!stream.eof()) {
     const ch = stream.current();
@@ -195,4 +182,22 @@ export function RegexOrDivideReader(stream, factory) {
 
   const endPos = stream.getPosition();
   return factory('REGEX', `/${body}/${flags}`, startPos, endPos);
+}
+
+
+export function RegexOrDivideReader(stream, factory) {
+  const startPos = stream.getPosition();
+  if (stream.current() !== '/') return null;
+
+  if (stream.peek() === '=') {
+    stream.advance();
+    stream.advance();
+    return factory('OPERATOR', '/=', startPos, stream.getPosition());
+  }
+
+  if (!isRegexContext(stream, startPos)) {
+    return readDivide(stream, factory, startPos);
+  }
+
+  return readRegexLiteral(stream, factory, startPos);
 }
