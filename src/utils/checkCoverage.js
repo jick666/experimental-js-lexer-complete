@@ -1,6 +1,9 @@
 import fs from 'fs';
 
 export function checkCoverage(threshold = 90, reportPath = 'coverage/clover.xml') {
+  if (!fs.existsSync(reportPath)) {
+    throw new Error(`Coverage report not found: ${reportPath}`);
+  }
   const xml = fs.readFileSync(reportPath, 'utf8');
   const metrics = xml.match(/<metrics[^>]+>/);
   if (!metrics) throw new Error('Metrics not found in coverage report');
