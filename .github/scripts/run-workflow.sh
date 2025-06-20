@@ -3,7 +3,7 @@ set -euo pipefail
 
 # 1. Ensure correct Node version and install deps
 node -v     # confirm Node >=18
-npm install
+npm run install
 
 # 2. Lint, test with coverage, and benchmark
 npm run lint
