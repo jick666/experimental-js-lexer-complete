@@ -45,12 +45,17 @@ jobs:
     env:
       GITHUB_TOKEN:       ${{ secrets.GITHUB_TOKEN }}
       GITHUB_REPOSITORY:  ${{ github.repository }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Run automation
-        run: node agentic-automation.js
+      steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - uses: actions/setup-node@v3
+          with:
+            node-version: '18'
+            cache: 'npm'
+        - run: npm ci
+        - name: Run automation
+          run: node agentic-automation.js
 
   conflict-agent:
     needs: codegen-agent
