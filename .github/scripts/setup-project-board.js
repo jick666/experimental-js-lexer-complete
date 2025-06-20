@@ -15,10 +15,11 @@ import { Octokit } from '@octokit/rest';
 
 const repoFull   = process.env.GITHUB_REPOSITORY;
 const boardName  = process.env.PROJECT_NAME || 'Experimental Lexer';
-const token      = process.env.GITHUB_TOKEN;               // Actions token only
+// Prefer the default GITHUB_TOKEN but allow a custom PAT via TOKEN
+const token      = process.env.GITHUB_TOKEN || process.env.TOKEN;
 
 if (!repoFull || !token) {
-  console.warn('setup-project-board: missing GITHUB_REPOSITORY or GITHUB_TOKEN – skipping.');
+  console.warn('setup-project-board: missing GITHUB_REPOSITORY or token – skipping.');
   process.exit(0);
 }
 

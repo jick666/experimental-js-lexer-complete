@@ -6,7 +6,7 @@
  * Env:
  *   • GITHUB_REPOSITORY  owner/repo         (always present in Actions)
  *   • TOKEN              PAT-classic with project:write scope
- *   • PROJECT_NAME       optional – defaults to "Automation"
+ *   • PROJECT_NAME       optional – defaults to "Experimental Lexer"
  */
 
 import process from 'node:process';
@@ -14,7 +14,7 @@ import { graphql } from '@octokit/graphql';
 
 const repoFull  = process.env.GITHUB_REPOSITORY;
 const token     = process.env.TOKEN;
-const boardName = process.env.PROJECT_NAME || 'Automation';
+const boardName = process.env.PROJECT_NAME || 'Experimental Lexer';
 
 if (!repoFull || !token) {
   console.warn('setup-project-v2: missing GITHUB_REPOSITORY or TOKEN – skipping.');
