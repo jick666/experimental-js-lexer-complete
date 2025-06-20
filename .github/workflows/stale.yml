@@ -2,23 +2,32 @@ name: Mark Stale Issues and PRs
 on:
   schedule:
     - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents:  read
+  issues:    write
+  pull-requests: write
+  projects:  write    # so stale items move to “Done”
 
 jobs:
   stale:
     runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: Automation
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/stale@v5
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ github.token }}
           days-before-stale: 30
           days-before-close: 7
           stale-issue-message: >
             This issue has been automatically marked as stale due to inactivity.
-            Please update if still relevant.
+            Please update if it is still relevant.
           stale-pr-message: >
             This pull request has been automatically marked as stale due to
-            inactivity. Please update if still relevant.
+            inactivity. Please update if it is still relevant.
           stale-issue-label: stale
           close-issue-label: stale
           exempt-issue-labels: reader,token,ci
