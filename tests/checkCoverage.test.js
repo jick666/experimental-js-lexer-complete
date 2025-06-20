@@ -25,4 +25,8 @@ describe('checkCoverage', () => {
     fs.writeFileSync(file, xml);
     expect(() => checkCoverage(90, file)).toThrow('Coverage 85% below threshold 90%');
   });
+
+  test('throws when report file missing', () => {
+    expect(() => checkCoverage(90, file)).toThrow(`Coverage report not found: ${file}`);
+  });
 });
