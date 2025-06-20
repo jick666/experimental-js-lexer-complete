@@ -1,24 +1,7 @@
 import { TSDecoratorReader } from '../common/TSDecoratorReader.js';
+import { createTypeAnnotationReader } from '../common/TypeAnnotationReader.js';
 
-export function TSTypeAnnotationReader(stream, factory) {
-  const start = stream.getPosition();
-  if (stream.current() !== ':') return null;
-  let value = ':';
-  stream.advance();
-  // Consume whitespace after colon
-  while (stream.current() && /\s/.test(stream.current())) {
-    value += stream.current();
-    stream.advance();
-  }
-  // Simple identifier or generic form
-  while (stream.current() && /[A-Za-z0-9_<>,\s]/.test(stream.current())) {
-    value += stream.current();
-    stream.advance();
-    // stop at line break
-    if (/\n/.test(stream.current())) break;
-  }
-  return factory('TYPE_ANNOTATION', value.trimEnd(), start, stream.getPosition());
-}
+export const TSTypeAnnotationReader = createTypeAnnotationReader();
 
 export function TSGenericParameterReader(stream, factory) {
   const start = stream.getPosition();
