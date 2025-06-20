@@ -158,3 +158,9 @@
 - [x] Emit `ERROR_TOKEN` placeholders for invalid sequences.
 - [x] Ensure recovery mode resumes lexing after errors without crashing.
 - [x] Provide documentation and examples of recovery behavior.
+
+## 44. Test task
+Add // TODO(Codex): demo comment at the top of src/lexer/TokenReader.js
+and commit.
+
+## 45. Remove all functionality regarding the issues board and agents using it to collaberate. 
