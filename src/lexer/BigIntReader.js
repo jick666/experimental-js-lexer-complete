@@ -1,9 +1,9 @@
-import { readDigitsWithUnderscores } from './utils.js';
+import { readDigitsWithUnderscores, isDigit } from './utils.js';
 
 export function BigIntReader(stream, factory) {
   const startPos = stream.getPosition();
   let ch = stream.current();
-  if (ch === null || ch < '0' || ch > '9') return null;
+  if (!isDigit(ch)) return null;
 
   // verify there is a trailing 'n' so this is really a bigint
   let idx = stream.index;
