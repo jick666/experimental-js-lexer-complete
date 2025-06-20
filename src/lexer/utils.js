@@ -35,3 +35,20 @@ export function readDigits(stream) {
   }
   return value;
 }
+
+export function readNumberLiteral(stream, startPos, requireFractionDigits = false) {
+  let value = readDigits(stream);
+  let ch = stream.current();
+  if (ch === '.') {
+    value += '.';
+    stream.advance();
+    const digits = readDigits(stream);
+    if (digits.length === 0 && requireFractionDigits) {
+      stream.setPosition(startPos);
+      return null;
+    }
+    value += digits;
+    ch = stream.current();
+  }
+  return { value, ch };
+}
