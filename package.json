@@ -16,7 +16,8 @@
     "publish:extension": "npm --prefix extension install && npm --prefix extension run publish",
     "workflow": "bash .github/scripts/run-workflow.sh",
     "next-task": "node .github/scripts/next-task.cjs",
-    "repo-info": "node .github/scripts/repo-info.cjs"
+    "repo-info": "node .github/scripts/repo-info.cjs",
+    "setup-board": "node .github/scripts/setup-project-board.js"
   },
   "keywords": [
     "lexer",

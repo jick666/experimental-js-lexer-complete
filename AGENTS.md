@@ -14,7 +14,8 @@ This repository is optimized for iterative development by Codex agents.
 2. Review `docs/TASK_BREAKDOWN.md` for historical context if needed.
 3. Consult `docs/LEXER_SPEC.md` and other docs for background.
 4. Implement code changes in `src/` and update or add tests under `tests/`.
-5. Before every commit, run:
+5. Ensure an issue board exists by running `npm run setup-board` once.
+6. Before every commit, run:
 
    npm run lint && npm test -- --coverage
 Ensure test coverage stays above 90%.
@@ -22,7 +23,7 @@ Ensure test coverage stays above 90%.
 
 
 npm run workflow   # requires GitHub creds; otherwise just lint & tests run
-Commit Guidelines
+7. Commit Guidelines
 Use Conventional Commits (feat, fix, docs, style, refactor, perf, test, chore).
 
 Keep commits focused and small.
