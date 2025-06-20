@@ -14,7 +14,7 @@ import process from 'node:process';
 import { Octokit } from '@octokit/rest';
 
 const repoFull   = process.env.GITHUB_REPOSITORY;
-const boardName  = process.env.PROJECT_NAME || 'Automation';
+const boardName  = process.env.PROJECT_NAME || 'Experimental Lexer';
 const token      = process.env.GITHUB_TOKEN;               // Actions token only
 
 if (!repoFull || !token) {
