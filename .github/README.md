@@ -25,6 +25,7 @@ Helper scripts used by workflows and local development are in `scripts/`:
 - `next-task.cjs` – print the next unchecked todo item.
 - `repo-info.cjs` – display repository info and open tasks.
 - `check-drift.js` – open issues for spec/implementation drift.
+- `setup-project-board.js` – create a classic project board with standard columns.
 - `compare-benchmark.js` – fail CI on benchmark regressions.
 - `generate-tests.js` – placeholder for test generation from the spec.
 - `check-coverage.js` – ensure test coverage meets the required threshold.
