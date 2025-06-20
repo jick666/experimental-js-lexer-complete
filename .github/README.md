@@ -20,7 +20,7 @@ GitHub Actions workflows live in the `workflows/` folder:
 
 Helper scripts used by workflows and local development are in `scripts/`:
 
-- `prepare-husky.cjs` – installs Husky git hooks.
+ - `prepare-husky.cjs` – installs Husky git hooks using `npx husky` (the `install` subcommand is deprecated).
 - `run-workflow.sh` – run lint, tests, and benchmarks locally.
 - `next-task.cjs` – print the next unchecked todo item.
 - `repo-info.cjs` – display repository info and open tasks.
