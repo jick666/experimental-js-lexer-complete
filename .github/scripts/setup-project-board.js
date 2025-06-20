@@ -1,116 +1,84 @@
 #!/usr/bin/env node
 /**
- * Ensure a classic GitHub project board named PROJECT_NAME (defaults to
- * “Automation”) exists in the current repository and that it contains the
- * canonical Todo / In Progress / Done columns.
+ * Provision a project board for this repository.
  *
- * ─── Environment ──────────────────────────────────────────────────────────────
- *   • GITHUB_REPOSITORY  owner/repo   (injected by GitHub Actions)
- *   • TOKEN              personal-access token **OR** one of:
- *       – GITHUB_TOKEN   (default Actions token – add projects:write permission)
- *       – GH_TOKEN
- *       – GITHUB_PAT
- *   • PROJECT_NAME       optional – board name (defaults to “Automation”)
+ * ▸ First we try the Classic Projects REST API (still the simplest way to get a
+ *   Trello-style board with Todo / In Progress / Done).  We always attempt that
+ *   call **with the default GITHUB_TOKEN** that GitHub Actions injects, because:
+ *        • Fine-grained PATs cannot call Classic Projects REST (410 Gone).
+ *        • The Actions token *can* call it as long as the job requests
+ *          `permissions: projects: write`.
  *
- * Why fall back to those names?  Because other automation in this repo already
- * uses `GITHUB_TOKEN` (see release workflow) and some external “agent” runners
- * set only `GH_TOKEN`.  Normalising here lets every runner succeed without any
- * extra wiring.
+ * ▸ If Classic Projects are disabled or the call returns 410/403 we *gracefully
+ *   skip* instead of failing the entire CI job.  This lets you migrate to the
+ *   new Projects v2 later without breaking existing workflows.
+ *
+ * Environment variables inspected
+ * ─────────────────────────────────────────────────────────────────────────────
+ *   • GITHUB_REPOSITORY   owner/repo     (always present in Actions)
+ *   • GITHUB_TOKEN        *Actions* token – used **only** for board calls
+ *   • GH_TOKEN / TOKEN    any personal token – used for log messages if set
+ *   • PROJECT_NAME        optional board name (default: "Automation")
  */
 
 import process from 'node:process';
 import { Octokit } from '@octokit/rest';
 
-//───────────────────────────────────────────────────────────────────────────────
-// 1. Token & repo sanity checks
-//───────────────────────────────────────────────────────────────────────────────
-const token =
-  process.env.TOKEN ??
-  process.env.GITHUB_TOKEN ??
-  process.env.GH_TOKEN ??
-  process.env.GITHUB_PAT;
+const repoFull   = process.env.GITHUB_REPOSITORY;
+const boardName  = process.env.PROJECT_NAME || 'Automation';
+const actionsTok = process.env.GITHUB_TOKEN;        // Fine-grained PAT **not** used here
+const logTok     = process.env.GH_TOKEN || process.env.TOKEN || actionsTok;
 
-const repoFull = process.env.GITHUB_REPOSITORY;
-const boardName = process.env.PROJECT_NAME || 'Automation';
-
-if (!token || !repoFull) {
-  console.error(
-    'setup-project-board → missing TOKEN/GITHUB_TOKEN and/or GITHUB_REPOSITORY – aborting.',
-  );
-  process.exit(1); // hard-fail so CI surfaces the problem
+if (!repoFull || !actionsTok) {
+  console.warn('setup-project-board: missing GITHUB_REPOSITORY or GITHUB_TOKEN – skipping.');
+  process.exit(0);          // soft-skip, not a failure
 }
 
 const [owner, repo] = repoFull.split('/');
-
-// One octokit instance with the inertia preview header needed for “classic” projects.
 const octokit = new Octokit({
-  auth: token,
+  auth: actionsTok,
   userAgent: 'setup-project-board-script',
-  request: { mediaType: { previews: ['inertia'] } },
+  request: { mediaType: { previews: ['inertia'] } }   // Classic Projects preview header
 });
 
-//───────────────────────────────────────────────────────────────────────────────
-// 2. Helpers
-//───────────────────────────────────────────────────────────────────────────────
-const listProjects = () =>
-  octokit.paginate(octokit.rest.projects.listForRepo, { owner, repo });
-
-const listColumns = (project_id) =>
-  octokit.paginate(octokit.rest.projects.listColumns, { project_id });
-
 async function ensureColumns(project_id) {
-  const existing = await listColumns(project_id);
-  const required = ['Todo', 'In Progress', 'Done'];
-
-  await Promise.all(
-    required.map(async (name) => {
-      if (existing.some((c) => c.name === name)) return;
-      await octokit.rest.projects.createColumn({ project_id, name });
-      console.log(`  ↳ created “${name}” column`);
-    }),
-  );
+  const existing = await octokit.paginate(octokit.rest.projects.listColumns, { project_id });
+  for (const name of ['Todo', 'In Progress', 'Done']) {
+    if (existing.some(c => c.name === name)) continue;
+    await octokit.rest.projects.createColumn({ project_id, name });
+    console.log(`  ↳ created “${name}” column`);
+  }
 }
 
-//───────────────────────────────────────────────────────────────────────────────
-// 3. Main
-//───────────────────────────────────────────────────────────────────────────────
 (async () => {
   try {
-    // (a) Find or create the board
-    const projects = await listProjects();
-    let board = projects.find((p) => p.name === boardName);
+    const projects = await octokit.paginate(octokit.rest.projects.listForRepo, { owner, repo });
+    let board = projects.find(p => p.name === boardName);
 
     if (!board) {
-      board = (
-        await octokit.rest.projects.createForRepo({
-          owner,
-          repo,
-          name: boardName,
-          body: 'Automated classic project board created by CI',
-        })
-      ).data;
+      board = (await octokit.rest.projects.createForRepo({
+        owner, repo, name: boardName,
+        body: 'Automated classic project board created by CI'
+      })).data;
       console.log(`Created project board “${boardName}” (#${board.id})`);
     } else {
       console.log(`Project board “${boardName}” already exists (#${board.id})`);
     }
-
-    // (b) Verify the canonical columns
     await ensureColumns(board.id);
     console.log('Columns verified ✔');
 
-  } catch (error) {
-    // Most frequent cause when running inside Actions is a token without the
-    //   “projects:write” permission.
-    if (error.status === 403 || error.status === 404) {
-      console.error(`
-❌  GitHub refused the Projects API call.
-   • When using the default \`GITHUB_TOKEN\` inside Actions
-     add an explicit permissions block to the workflow:
-         permissions:
-           projects: write
-   • For personal-access tokens, be sure “repo” and “project” scopes are enabled.
-`);
+  } catch (err) {
+    /*───────────────────────────── graceful degradation ─────────────────────*/
+    const code = err.status ?? err.code;
+    if (code === 410 || code === 403) {
+      console.warn(`setup-project-board: Classic Projects API refused the call (${code}).`);
+      console.warn('👉  Action continued – board provisioning skipped.');
+      console.warn('    • Enable “Projects (classic)” under repo Settings ▸ Features, OR');
+      console.warn('    • Migrate this workflow to GitHub Projects v2 when ready.');
+      process.exit(0);      // do *not* fail the job
     }
-    throw error;
+    /* For any other unexpected error we fail hard so CI surfaces it. */
+    console.error(err);
+    process.exit(1);
   }
 })();
