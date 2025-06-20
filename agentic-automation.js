@@ -54,14 +54,33 @@ async function openPr(octokitInst) {
   const title   = execSync('git log -1 --pretty=%s').toString().trim();
   const body    = execSync('git log -1 --pretty=%B').toString().trim();
 
-  const pr = await octokit.rest.pulls.create({
+  // Check for an existing PR from this branch
+  const { data: existing } = await octokit.rest.pulls.list({
     owner,
     repo,
-    head: branch,
-    base: 'main',
-    title: `[agent] ${title}`,
-    body,
+    head: `${owner}:${branch}`,
+    state: 'open',
   });
+
+  let pr;
+  if (existing.length > 0) {
+    pr = await octokit.rest.pulls.update({
+      owner,
+      repo,
+      pull_number: existing[0].number,
+      title: `[agent] ${title}`,
+      body,
+    });
+  } else {
+    pr = await octokit.rest.pulls.create({
+      owner,
+      repo,
+      head: branch,
+      base: 'main',
+      title: `[agent] ${title}`,
+      body,
+    });
+  }
 
   try {
     await octokit.rest.issues.addLabels({
