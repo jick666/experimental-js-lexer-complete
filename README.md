@@ -18,6 +18,13 @@ Print an overview of available scripts and open tasks:
 
 
 npm run repo-info
+Issue Board
+Set up a project board with standard columns:
+
+```
+npm run setup-board
+```
+
 Agent Workflow
 Automated agents coordinate through GitHub branches. A typical session:
 
