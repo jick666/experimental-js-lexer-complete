@@ -2,6 +2,7 @@
 import { execSync } from 'child_process';
 import { Octokit }    from '@octokit/rest';
 import { checkCoverage } from './src/utils/checkCoverage.js';
+import { fileURLToPath } from 'url';
 
 const dryRun = process.argv.includes('--dry-run');
 const TASK_ID = process.env.TASK_ID || 'task';
@@ -40,7 +41,7 @@ function runChecks() {
   checkCoverage(90);
 }
 
-async function openPr() {
+async function openPr(octokitInst) {
   const repoFull = process.env.GITHUB_REPOSITORY;
   const token    = process.env.GITHUB_TOKEN;
   if (!repoFull || !token) {
@@ -49,11 +50,11 @@ async function openPr() {
   }
 
   const [owner, repo] = repoFull.split('/');
-  const octokit = new Octokit({ auth: token });
+  const octokit = octokitInst || new Octokit({ auth: token });
   const title   = execSync('git log -1 --pretty=%s').toString().trim();
   const body    = execSync('git log -1 --pretty=%B').toString().trim();
 
-  await octokit.rest.pulls.create({
+  const pr = await octokit.rest.pulls.create({
     owner,
     repo,
     head: branch,
@@ -61,18 +62,35 @@ async function openPr() {
     title: `[agent] ${title}`,
     body,
   });
+
+  try {
+    await octokit.rest.issues.addLabels({
+      owner,
+      repo,
+      issue_number: pr.data.number,
+      labels: ['reader'],
+    });
+  } catch (err) {
+    console.warn(`⚠️  Failed to label PR: ${err.message}`);
+  }
 }
 
-(async () => {
-  console.log(`agentic automation start${dryRun ? ' (dry-run)' : ''}`);
-  syncMain();
-  run(`git checkout -B ${branch}`);
-  rebaseMain();
-  // ← your code edits happen here
-  runChecks();
-  rebaseMain();
-  runChecks();
-  run('git push --set-upstream origin HEAD');
-  await openPr();
-  console.log('automation finished');
-})();
+export { openPr };
+
+const isMain = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isMain) {
+  (async () => {
+    console.log(`agentic automation start${dryRun ? ' (dry-run)' : ''}`);
+    syncMain();
+    run(`git checkout -B ${branch}`);
+    rebaseMain();
+    // ← your code edits happen here
+    runChecks();
+    rebaseMain();
+    runChecks();
+    run('git push --set-upstream origin HEAD');
+    await openPr();
+    console.log('automation finished');
+  })();
+}
