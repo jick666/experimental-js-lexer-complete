@@ -31,6 +31,7 @@ export class LexerEngine {
     this.stateStack = ['default'];
     this.buffer = [];
     this.disableJsx = false;
+    this.triviaReaders = [HTMLCommentReader, SourceMappingURLReader, CommentReader];
 
     // Mapping of mode -> reader list. Order determines priority.
     const shared = [...baseReaders];
@@ -74,6 +75,21 @@ export class LexerEngine {
   }
 
   /**
+   * Run trivia readers (comments and source mappings) and return a token if any
+   * matches.
+   * @param {Function} factory
+   * @returns {Token|null}
+   */
+  _readTrivia(factory) {
+    const { stream, triviaReaders } = this;
+    for (const Reader of triviaReaders) {
+      const tok = Reader(stream, factory, this);
+      if (tok) return tok;
+    }
+    return null;
+  }
+
+  /**
    * Internal method that reads the next token directly from the stream.
    * @returns {Token|null}
    */
@@ -83,21 +99,11 @@ export class LexerEngine {
       new Token(type, value, start, end, stream.sourceURL);
 
     while (!stream.eof()) {
-      // 0. Emit comments
-      const htmlComment = HTMLCommentReader(stream, factory, this);
-      if (htmlComment) {
-        this.lastToken = htmlComment;
-        return htmlComment;
-      }
-      const sourceMap = SourceMappingURLReader(stream, factory, this);
-      if (sourceMap) {
-        this.lastToken = sourceMap;
-        return sourceMap;
-      }
-      const comment = CommentReader(stream, factory, this);
-      if (comment) {
-        this.lastToken = comment;
-        return comment;
+      // 0. Emit comments and other trivia
+      const trivia = this._readTrivia(factory);
+      if (trivia) {
+        this.lastToken = trivia;
+        return trivia;
       }
 
       // 1. Mode switching for JSX
