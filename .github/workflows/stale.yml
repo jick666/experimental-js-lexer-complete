@@ -14,7 +14,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: Automation
+      PROJECT_NAME: Experimental Lexer
     steps:
       - uses: actions/checkout@v4
       - uses: actions/stale@v5

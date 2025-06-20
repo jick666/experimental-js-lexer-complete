@@ -21,7 +21,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: Automation      # classic board name for helper scripts
+      PROJECT_NAME: Experimental Lexer      # classic board name for helper scripts
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -37,7 +37,7 @@ jobs:
     if: ${{ github.event_name == 'issues' || github.event_name == 'issue_comment' }}
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: Automation
+      PROJECT_NAME: Experimental Lexer
     steps:
       - run: |
           node .github/scripts/close-todo.js
@@ -49,7 +49,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: Automation
+      PROJECT_NAME: Experimental Lexer
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
@@ -67,7 +67,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: Automation
+      PROJECT_NAME: Experimental Lexer
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }

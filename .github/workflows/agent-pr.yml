@@ -14,7 +14,7 @@ jobs:
     if: contains(github.event.issue.labels.*.name, 'reader')
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: Automation
+      PROJECT_NAME: Experimental Lexer
     steps:
       - uses: actions/github-script@v7
         with:
