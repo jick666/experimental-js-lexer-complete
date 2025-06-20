@@ -10,6 +10,7 @@ import { baseReaders } from './defaultReaders.js';
 import { Token } from './Token.js';
 import { LexerError } from './LexerError.js';
 import { JavaScriptGrammar } from '../grammar/JavaScriptGrammar.js';
+import { runReader } from './TokenReader.js';
 
 /**
  * LexerEngine orchestrates all token readers to produce a stream of Tokens.
@@ -83,7 +84,7 @@ export class LexerEngine {
   _readTrivia(factory) {
     const { stream, triviaReaders } = this;
     for (const Reader of triviaReaders) {
-      const tok = Reader(stream, factory, this);
+      const tok = runReader(Reader, stream, factory, this);
       if (tok) return tok;
     }
     return null;
@@ -120,7 +121,7 @@ export class LexerEngine {
 
       // 2. Try each reader in sequence
       for (const Reader of readers) {
-        const result = Reader(stream, factory, this);
+        const result = runReader(Reader, stream, factory, this);
         if (result) {
           if (result instanceof LexerError) {
             if (this.errorRecovery) {
